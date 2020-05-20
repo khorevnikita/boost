@@ -38,28 +38,11 @@
                 <div id="app" class="mt-5">
                     <product-order :product="{{$product}}" :options="{{$product->options}}"></product-order>
                 </div>
-                {{--<h4 class="text-center">{{$product->price}} Е</h4>
-                <button class="btn btn-primary btn-block">Add to cart</button>
-
-
-                @if($product->options->count()>0)
-                    <h4>Options</h4>
-                    @foreach($product->options as $option)
-                        <div class="form-check">
-                            <input name="options[]" value="{{$option->id}}" type="checkbox" class="form-check-input" id="opt{{$option->id}}">
-                            <label class="form-check-label" for="opt{{$option->id}}">{{$option->title}}</label>
-                        </div>
-                    @endforeach
-                @endif--}}
             </div>
         </div>
 
     </div>
 @endsection
 <script>
-    import ProductOrder from "../js/components/ProductOrder";
 
-    export default {
-        components: {ProductOrder}
-    }
 </script>

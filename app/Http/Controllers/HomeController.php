@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,10 @@ class HomeController extends Controller
         $product = Product::findOrFail($product_id);
         if ($product->category->game_id != $game_id) {
             abort(404);
+        }
+        $order = Order::findTheLast();
+        if ($order->products()->find($product->id)) {
+            $product->in_order = true;
         }
         return view("product", compact('product'));
     }

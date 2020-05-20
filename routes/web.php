@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get("/check", function () {
-    $r = \Illuminate\Support\Facades\DB::table("mobile_users")->get();
-    dd($r);
-});
-
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@home');
 
@@ -34,5 +29,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::resource("images", "Admin\ImageController");
 });
 
+Route::get("order","OrderController@show");
+
 Route::get("{game_id}", "HomeController@game");
 Route::get("{game_id}/{product_id}", "HomeController@product");
+

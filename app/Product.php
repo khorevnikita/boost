@@ -21,6 +21,16 @@ class Product extends Model
         return $this->belongsToMany(Option::class);
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+
     public function getBannerAttribute()
     {
         $img = $this->images()->first();

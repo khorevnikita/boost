@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a role="button" class="nav-link">
+                        <a href="{{url("/order")}}" role="button" class="nav-link">
                             <img src="/images/icons/shop.svg" class="img-fluid">
                         </a>
                     </li>

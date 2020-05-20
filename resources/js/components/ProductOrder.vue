@@ -9,7 +9,10 @@
             </label>
         </div>
         <div class="mt-5">
-            <button class="btn btn-primary btn-block" @click="addToOrder()">Add to cart</button>
+            <button class="btn btn-block" v-bind:class="{'btn-primary':!added,'btn-success':added}" @click="addToOrder()">
+                <span v-if="!added">Add to cart</span>
+                <span v-else>Already in cart</span>
+            </button>
         </div>
     </div>
 </template>
@@ -21,6 +24,7 @@
         data() {
             return {
                 selected_options: [],
+                added: this.product.in_order,
             }
         },
         computed: {
@@ -38,12 +42,10 @@
             }
         },
         created() {
-            console.log(this.product);
-            console.log(this.options)
         },
         methods: {
             toggleOption(option) {
-                let index = this.selected_options.indexOf(option)
+                let index = this.selected_options.indexOf(option);
                 if (index > -1) {
                     this.selected_options.splice(index, 1)
                 } else {
@@ -51,9 +53,9 @@
                 }
             },
             addToOrder() {
-                axios.post("/orders/", {product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
+                axios.post("/api/orders", {product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
                     if (r.data.status === "success") {
-                        alert("ADD")
+                        this.added = true;
                     }
                 })
             }
