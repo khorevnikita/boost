@@ -61,3 +61,19 @@ $(".js-remove-item-from-order").click(function () {
         window.location.reload();
     });
 });
+
+$("#order-form").submit(function (e) {
+    e.preventDefault();
+
+    var data = {};
+    for (var v of $(this).serializeArray()) {
+        data[v['name']] = v['value']
+    }
+    axios.post($(this).attr("action"), data).then(r => {
+        console.log(r);
+        if (r.data.status === 'success') {
+            alert("Redirect to payment system...")
+        }
+    });
+    return false;
+});

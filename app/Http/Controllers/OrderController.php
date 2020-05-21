@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Game;
 use App\Order;
 use App\OrderProduct;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -29,7 +31,7 @@ class OrderController extends Controller
     {
         $order = Order::findTheLast();
         $commonPrice = 0;
-        if($order && $order->products->count() > 0) {
+        if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
                 $commonPrice = $commonPrice + $product->price;
                 $orderProduct = $product->orderProducts()->where("order_id", $order->id)->with("options")->first();
@@ -43,7 +45,8 @@ class OrderController extends Controller
                 }
             }
         }
-        return view("order", compact('order', 'commonPrice'));
+        $user = Auth::user();
+        return view("order", compact('order', 'commonPrice', 'user'));
     }
 
     public function store(Request $request)
@@ -55,7 +58,7 @@ class OrderController extends Controller
             $order->user_id = $user->id ?? null;
             $hash = md5(now());
             $order->hash = $hash;
-            $order->status = 0;
+            $order->status = "new";
             $order->save();
             Cache::put('order_hash', $hash);
         }
@@ -73,6 +76,49 @@ class OrderController extends Controller
             'status' => "success",
             'data' => $request->all(),
         ]);
+    }
+
+
+    public function form($id, Request $request)
+    {
+        $request->validate([
+            'name' => "required|string|max:255",
+            'surname' => "required|string|max:255",
+            'phone' => "required|string|max:255",
+            'email' => "required|email|max:255",
+        ]);
+
+        $order = Order::findOrFail($id);
+        if ($order->hash !== Cache::get('order_hash')) {
+            abort(403);
+        }
+        $user = User::where("email", $request->email)->first();
+        $is_new = false;
+        if (!$user) {
+            $password = Str::random(8);
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = bcrypt($password);
+            $user->save();
+            $is_new = true;
+            # email here about registration
+        }
+
+        $order->user_id = $user->id;
+        $order->status = "formed";
+        $order->save();
+        return response([
+            'status' => "success",
+            'data' => [
+                'is_new' => $is_new,
+            ]
+        ]);
+        return view("order_formed", compact('order', 'is_new'));
+
     }
 
     public function destroy(Request $request)

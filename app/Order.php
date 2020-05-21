@@ -33,6 +33,6 @@ class Order extends Model
         if (!$hash) {
             return null;
         }
-        return self::where("hash", $hash)->first();
+        return self::where('status', 'new')->where("hash", $hash)->first();
     }
 }
