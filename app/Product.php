@@ -35,7 +35,7 @@ class Product extends Model
     {
         $img = $this->images()->first();
         if (!$img) {
-            return null;
+            return url("/images/no-banner.jpg");
         }
         return $img->url;
     }

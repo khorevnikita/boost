@@ -7,6 +7,7 @@ use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
@@ -47,7 +48,14 @@ class HomeController extends Controller
     {
         $game = Game::with("categories")->findOrFail($game_id);
         #$products = Product::whereIn("category_id", $game->categories()->pluck("id"))->get();
-        return view("game", compact('game', 'products'));
+        $recentlyViewed = Cache::get("recently_viewed");
+        if (!$recentlyViewed) {
+            $recentlyViewed = [];
+        }
+        $recentlyViewed = array_values(array_unique($recentlyViewed));
+        $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
+
+        return view("game", compact('game', 'products','recentlyViewedItems'));
     }
 
     public function product($game_id, $product_id)
@@ -60,6 +68,18 @@ class HomeController extends Controller
         if ($order && $order->products()->find($product->id)) {
             $product->in_order = true;
         }
-        return view("product", compact('product'));
+
+        $recentlyViewed = Cache::get("recently_viewed");
+        if (!$recentlyViewed) {
+            $recentlyViewed = [];
+        }
+
+        $recentlyViewed[] = $product->id;
+        $recentlyViewed = array_values(array_unique($recentlyViewed));
+        Cache::forget("recently_viewed");
+        Cache::put("recently_viewed", $recentlyViewed, 60 * 60);
+        $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
+
+        return view("product", compact('product', 'recentlyViewedItems'));
     }
 }
