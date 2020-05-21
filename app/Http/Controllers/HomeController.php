@@ -45,8 +45,8 @@ class HomeController extends Controller
 
     public function game($game_id)
     {
-        $game = Game::findOrFail($game_id);
-        $products = Product::whereIn("category_id", $game->categories()->pluck("id"))->get();
+        $game = Game::with("categories")->findOrFail($game_id);
+        #$products = Product::whereIn("category_id", $game->categories()->pluck("id"))->get();
         return view("game", compact('game', 'products'));
     }
 
@@ -57,7 +57,7 @@ class HomeController extends Controller
             abort(404);
         }
         $order = Order::findTheLast();
-        if ($order->products()->find($product->id)) {
+        if ($order && $order->products()->find($product->id)) {
             $product->in_order = true;
         }
         return view("product", compact('product'));

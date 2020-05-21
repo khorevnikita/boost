@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mt-5">
                 @if(!$order)
                     <div class="alert alert-primary"> You have no active orders</div>
                 @else
@@ -14,7 +14,13 @@
                                 @foreach($order->products as $k=>$product)
                                     <a class="list-group-item list-group-item-action @if(!$k) active @endif" id="list-home-list" data-toggle="list" href="#list-{{$k}}" role="tab"
                                        aria-controls="home">
-                                        {{$product->title}} <span class="float-right">{{$product->price}}<img style="width: 15px" src="/images/icons/euro.svg"></span>
+                                        {{$product->title}}
+                                        <span class="float-right">
+                                            {{$product->price}}<img style="width: 15px" src="/images/icons/euro.svg">
+                                            <button data-type="product" data-product="{{$product->id}}" type="button" class="btn btn-link text-danger js-remove-item-from-order">
+                                                <img src="/images/icons/cancel.svg">
+                                            </button>
+                                        </span>
                                     </a>
                                 @endforeach
                             </div>
@@ -29,13 +35,16 @@
                                                 <li>
                                                     {{$option->title}}
                                                     <span class="float-right">{{$option->price}}
-
                                                         @if($option->type=="abs")
                                                             <img style="width: 15px" src="/images/icons/euro.svg">
                                                         @else
                                                             %
                                                         @endif
+                                                        <button data-type="option" data-product="{{$product->id}}" data-option="{{$option->id}}" type="button" class="btn btn-link text-danger js-remove-item-from-order">
+                                                            <img src="/images/icons/cancel.svg">
+                                                        </button>
                                                     </span>
+                                                    <div style="clear: both"></div>
                                                 </li>
                                             @endforeach
                                         </ol>

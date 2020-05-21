@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post("orders","OrderController@store");
+Route::put("orders","OrderController@destroy");
+Route::get("products","ProductController@index");
