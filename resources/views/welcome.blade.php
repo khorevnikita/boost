@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+
+    </style>
     <div class="container">
-        <div class="text-center bg-dark pt-5 pb-5 text-white">
-            <h2>Welcome to our Awesome Site!</h2>
+        <div class="text-center pt-5 pb-5 text-white banner">
+            <h2>Boost your skill. Team up with PROes. <br> Be invincible and enjoy the game every moment.
+            </h2>
         </div>
         <div class="text-center pt-5 pb-5">
             <h4>Safe Boost and Carry Services in Your Favorite Games</h4>
@@ -18,11 +22,11 @@
         @foreach($games as $game)
             @if($game->topDeals()->count())
                 <h4 class="mt-5">{{$game->title}} top deals
-                <a style="text-decoration: none;    color: black;    font-size: 14px;" class="float-right" href="{{url("/$game->id")}}">all {{$game->title}} deals &rAarr;</a>
+                    <a style="text-decoration: none;    color: black;    font-size: 14px;" class="float-right" href="{{url("/$game->id")}}">all {{$game->title}} deals &rAarr;</a>
                 </h4>
                 <div class="row">
                     @foreach($game->topDeals() as $product)
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-6 mt-4">
                             <a href="{{url("/".$product->category->game_id."/$product->id")}}">
                                 <div style="background-image: url('{{$product->banner}}')" class="product-item">
                                     <span style="margin: 10px" class="badge badge-secondary">{{$product->category->title}}</span>

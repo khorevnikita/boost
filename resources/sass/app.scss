@@ -45,9 +45,10 @@
 
 .product-item {
     height: 200px;
-    background-size: cover;
+    background-size: contain;
     background-position: center center;
     position: relative;
+    background-repeat: no-repeat;
 }
 
 .product-item-footer {
@@ -59,4 +60,9 @@
     color: #fff;
 }
 
-
+.banner {
+    background-image: url(/images/banner.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}

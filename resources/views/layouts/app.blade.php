@@ -22,7 +22,7 @@
 <body>
 <div id="app" class="container-fluid">
     <div class="row">
-        <nav class="col-md-1 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-1 d-none d-md-block bg-dark sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">

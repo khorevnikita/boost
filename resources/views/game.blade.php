@@ -19,7 +19,7 @@
             <h4 class="mt-4">Recently viewed items</h4>
             <div class="row mt-5">
                 @foreach($recentlyViewedItems as $item)
-                    <div class="col-4">
+                    <div class="col-4 ">
                         <a style="text-decoration: none" href="{{url("/".$item->category->game_id."/$item->id")}}" class=" media text-muted">
                             <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">
                             <div class="media-body">

@@ -29,7 +29,7 @@
             </div>
         </form>
         <div class="row mt-5">
-            <div v-for="product in products" class="col-12 col-sm-6">
+            <div v-for="product in products" class="col-12 col-sm-6 mt-4">
                 <a :href="'/'+product.category.game_id + '/' + product.id">
                     <div class="product-item" v-bind:style="{'background-image':'url(' + product.banner + ')'}">
                         <span style="margin: 10px" class="badge badge-secondary">{{product.category.title}}</span>
