@@ -9,14 +9,14 @@
                         <a href="{{url("/admin/games/create")}}" class="btn btn-primary float-right">
                             Add a game
                         </a>
-                        Games list
+                        <p> Game list</p>
                     </div>
 
                     <div class="card-body">
                         @if($games->count()>0)
-                            <ul>
+                            <ul class="list-group list-group-item-action ">
                                 @foreach($games as $game)
-                                    <li>
+                                    <li class="list-group-item">
                                         <a href="{{url("/admin/games/$game->id/edit")}}">{{$game->title}}</a>
                                     </li>
                                 @endforeach

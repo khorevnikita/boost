@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         {{$game->title}}
@@ -40,11 +40,12 @@
                                 <button class="btn btn-primary">Save</button>
                             </div>
                         </form>
+                        <hr>
                         <h4>Categories</h4>
                         @if($game->categories->count()>0)
-                            <ul>
+                            <ul class="list-group list-group-item-action ">
                                 @foreach($game->categories as $category)
-                                    <li>
+                                    <li class="list-group-item">
                                         <a href="{{url("/admin/categories/$category->id/edit")}}">{{$category->title}}</a>
                                     </li>
                                 @endforeach
@@ -52,7 +53,7 @@
                         @else
                             <div class="alert alert-primary">{{$game->title}} has no categories. Create the first</div>
                         @endif
-                        <a class="btn btn-primary" href="{{url("/admin/categories/create?game_id=$game->id")}}">Add a category</a>
+                        <a class="btn btn-primary mt-3" href="{{url("/admin/categories/create?game_id=$game->id")}}">Add a category</a>
 
                         <hr>
                         <div class="form-group">

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         {{$category->game->title}} - <strong>{{$category->title}}</strong>
@@ -26,12 +26,12 @@
                                 <button class="btn btn-primary">Save</button>
                             </div>
                         </form>
-
+                        <hr>
                         <h4>Products of the category</h4>
                         @if($category->products->count()>0)
-                            <ul>
+                            <ul class="list-group list-group-item-action ">
                                 @foreach($category->products as $product)
-                                    <li>
+                                    <li class="list-group-item">
                                         <a href="{{url("/admin/products/$product->id/edit")}}">
                                             {{$product->title}}
                                         </a>
@@ -41,7 +41,7 @@
                         @else
                             <div class="alert alert-primary">No products in the category. Create the first</div>
                         @endif
-                        <a class="btn btn-primary" href="{{url("admin/products/create?category_id=$category->id")}}">Add a product</a>
+                        <a class="btn btn-primary mt-3" href="{{url("admin/products/create?category_id=$category->id")}}">Add a product</a>
 
                         <hr>
                         <div class="form-group">

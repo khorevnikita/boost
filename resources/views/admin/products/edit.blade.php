@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         {{$product->title}}
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            @php $productOpts = $product->options()->pluck("options.id")->toArray(); @endphp
+                            {{--@php $productOpts = $product->options()->pluck("options.id")->toArray(); @endphp
                             @foreach($options as $opt)
                                 <div class="form-check">
                                     <input name="options[]" value="{{$opt->id}}" @if(in_array($opt->id,$productOpts)) checked @endif type="checkbox" class="form-check-input"
@@ -58,7 +58,25 @@
                                     <label class="form-check-label" for="opt{{$opt->id}}">{{$opt->title}}</label>
                                 </div>
                             @endforeach
-
+--}}
+                            @php $productOpts = $product->options()->pluck("options.title","options.id")->toArray(); @endphp
+                            <div class="form-group">
+                                <label for="options">Options</label>
+                                <input id="options" class="form-control" placeholder="Choose options">
+                                <p class="mt-1" id="selected-options">
+                                    <span class="badge badge-info text-white p-2 mr-2 mt-1 example-badge">
+                                        <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
+                                            <input type="hidden" name="options[]">
+                                    </span>
+                                    @foreach($productOpts as $id=>$opt)
+                                        <span class="badge badge-info text-white p-2 mr-2 mt-1">
+                                            {{$opt}}&nbsp;
+                                            <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
+                                            <input type="hidden" name="options[]" value="{{$id}}">
+                                        </span>
+                                    @endforeach
+                                </p>
+                            </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
@@ -118,7 +136,7 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#short_description').summernote({
                 height: 200,
                 toolbar: [
@@ -143,6 +161,29 @@
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
+            });
+            var availableTags = [
+                    @foreach($options as $opt)
+                {
+                    value: "{{$opt->id}}", label: "{{$opt->title}}"
+                },
+                @endforeach
+            ];
+            $(".js-remove-item").click(function () {
+                $(this).parent().remove()
+            })
+            $("#options").autocomplete({
+                source: availableTags,
+                select: function (event, ui) {
+                    let item = $(".example-badge").clone(true, true).removeClass("example-badge");
+                    item.html(ui.item.label + item.html());
+                    item.find("input").val(ui.item.value);
+                    $("#selected-options").append(item);
+                    $("#options").val("");
+                    $(".js-remove-item").click(function () {
+                        $(this).parent().remove()
+                    })
+                }
             });
         });
     </script>

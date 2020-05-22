@@ -14,9 +14,9 @@
 
                     <div class="card-body">
                         @if($options->count()>0)
-                            <ul>
+                            <ul class="list-group">
                                 @foreach($options as $option)
-                                    <li>
+                                    <li class="list-group-item list-group-item-action">
                                         <a href="{{url("/admin/options/$option->id/edit")}}">{{$option->title}}</a>
                                     </li>
                                 @endforeach

@@ -8,6 +8,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import 'jquery-ui/ui/widgets/autocomplete.js';
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -47,16 +50,8 @@ $(".js-menu-toggle").click(function () {
     }
 });
 
-/*$(".js-toggle-category").click(function () {
-    $(".js-category-list").toggleClass('d-none');
-});
-$(".js-sort-by").change(function () {
-    $(this).parents("form").submit();
-});*/
-
 $(".js-remove-item-from-order").click(function () {
     let data = $(this).data();
-    console.log(data);
     axios.put("/api/orders", data).then(r => {
         window.location.reload();
     });
@@ -70,7 +65,6 @@ $("#order-form").submit(function (e) {
         data[v['name']] = v['value']
     }
     axios.post($(this).attr("action"), data).then(r => {
-        console.log(r);
         if (r.data.status === 'success') {
             alert("Redirect to payment system...")
         }

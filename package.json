@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "jquery-ui": "^1.12.1",
     "vue-avatar-cropper": "^1.0.6"
   }
 }

@@ -1,3 +1,5 @@
+@import '~jquery-ui/themes/base/all.css';
+
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 // Variables
@@ -65,4 +67,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.example-badge{
+    display: none;
 }

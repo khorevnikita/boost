@@ -95,7 +95,7 @@ class ProductController extends Controller
         $product->save();
 
         $product->options()->detach();
-        $product->options()->attach($request->options);
+        $product->options()->attach(array_filter($request->options));
         return redirect("/admin/products");
     }
 
