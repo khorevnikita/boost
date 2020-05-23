@@ -2,7 +2,7 @@
     <div>
         <form>
             <div class="row">
-                <div class="col-6">
+                <div class="col-5">
                     <div class="input-group mb-2 mr-sm-2">
                         <input type="text" class="form-control" id="search" v-model="search.q" placeholder="Search">
                         <div class="input-group-append">
