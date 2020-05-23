@@ -49,16 +49,7 @@
                                     <label class="form-check-label" for="is_new">New</label>
                                 </div>
                             </div>
-
-                            {{--@php $productOpts = $product->options()->pluck("options.id")->toArray(); @endphp
-                            @foreach($options as $opt)
-                                <div class="form-check">
-                                    <input name="options[]" value="{{$opt->id}}" @if(in_array($opt->id,$productOpts)) checked @endif type="checkbox" class="form-check-input"
-                                           id="opt{{$opt->id}}">
-                                    <label class="form-check-label" for="opt{{$opt->id}}">{{$opt->title}}</label>
-                                </div>
-                            @endforeach
---}}
+                            <hr>
                             @php $productOpts = $product->options()->pluck("options.title","options.id")->toArray(); @endphp
                             <div class="form-group">
                                 <label for="options">Options</label>
@@ -73,6 +64,24 @@
                                             {{$opt}}&nbsp;
                                             <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
                                             <input type="hidden" name="options[]" value="{{$id}}">
+                                        </span>
+                                    @endforeach
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="crosses">Crosses</label>
+                                <input id="crosses" class="form-control" placeholder="Choose crosses">
+                                <p class="mt-1" id="selected-crosses">
+                                    <span class="badge badge-info text-white p-2 mr-2 mt-1 example-badge">
+                                        <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
+                                            <input type="hidden" name="crosses[]">
+                                    </span>
+                                    @foreach($product->crosses as $id=>$cross)
+                                        <span class="badge badge-info text-white p-2 mr-2 mt-1">
+                                            {{$cross->title}}&nbsp;
+                                            <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
+                                            <input type="hidden" name="crosses[]" value="{{$cross->id}}">
                                         </span>
                                     @endforeach
                                 </p>
@@ -109,17 +118,6 @@
                         @else
                             <div class="alert alert-primary">No images with product. Attach the first</div>
                         @endif
-                        {{--<form action="{{url("/admin/images")}}" method="post" enctype="multipart/form-data" class="mt-3">
-                            @csrf
-                            <div class="form-group">
-                                <label>Choose file to attach</label>
-                                <input type="file" name="file">
-                            </div>
-                            <input type="hidden" name="product_id" value="{{$product->id}}">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Attach</button>
-                            </div>
-                        </form>--}}
                         <button class="btn btn-outline-primary mt-3" id="pick-avatar">Upload image</button>
                         <image-cropper
                             @uploaded="reload()"
@@ -171,15 +169,83 @@
             ];
             $(".js-remove-item").click(function () {
                 $(this).parent().remove()
-            })
+            });
             $("#options").autocomplete({
-                source: availableTags,
+               // source: availableTags,
+                source: function (request, response) {
+                    // организуем кроссдоменный запрос
+                    $.ajax({
+                        url: "/api/options",
+                        //  dataType: "jsonp",
+                        // параметры запроса, передаваемые на сервер (последний - подстрока для поиска):
+                        data: {
+                            q: request.term
+                        },
+                        // обработка успешного выполнения запроса
+                        success: function (data) {
+                            console.log(data);
+                            response($.map(data.options, function (item) {
+                                return {
+                                    label: item.title,
+                                    value: item.id
+                                }
+                            }));
+
+                        }
+                    });
+                },
                 select: function (event, ui) {
-                    let item = $(".example-badge").clone(true, true).removeClass("example-badge");
+                    let item = $("#selected-options").find(".example-badge").clone(true, true).removeClass("example-badge");
                     item.html(ui.item.label + item.html());
                     item.find("input").val(ui.item.value);
                     $("#selected-options").append(item);
                     $("#options").val("");
+                    $(".js-remove-item").click(function () {
+                        $(this).parent().remove()
+                    })
+                }
+            });
+
+            $("#crosses").autocomplete({
+                source: function (request, response) {
+                    // организуем кроссдоменный запрос
+                    $.ajax({
+                        url: "/api/products",
+                        //  dataType: "jsonp",
+                        // параметры запроса, передаваемые на сервер (последний - подстрока для поиска):
+                        data: {
+                            featureClass: "P",
+                            style: "full",
+                            maxRows: 12,
+                            q: request.term,
+                            game_id: "{{$product->category->game_id}}"
+                        },
+                        open: function() {
+                            $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                        },
+                        close: function() {
+                            $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                        },
+                        // обработка успешного выполнения запроса
+                        success: function (data) {
+                            console.log(data);
+                            //return data.products;
+                            // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
+                            response($.map(data.products, function (item) {
+                                return {
+                                    label: item.title,
+                                    value: item.id
+                                }
+                            }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    let item = $("#selected-crosses").find(".example-badge").clone(true, true).removeClass("example-badge");
+                    item.html(ui.item.label + item.html());
+                    item.find("input").val(ui.item.value);
+                    $("#selected-crosses").append(item);
+                    $("#crosses").val("");
                     $(".js-remove-item").click(function () {
                         $(this).parent().remove()
                     })

@@ -36,6 +36,11 @@ class Product extends Model
         return $this->hasMany(Assessment::class);
     }
 
+    public function crosses()
+    {
+        return $this->belongsToMany(Product::class, 'crosses', 'original_product_id', 'remote_product_id');
+    }
+
     public function getBannerAttribute()
     {
         $img = $this->images()->first();
@@ -49,5 +54,10 @@ class Product extends Model
     {
         $orderProduct = $this->orderProducts()->where("order_id", $order->id)->with("options")->first();
         return $orderProduct->options;
+    }
+
+    public function getRatingAttribute()
+    {
+        return $this->assessments->avg("value");
     }
 }

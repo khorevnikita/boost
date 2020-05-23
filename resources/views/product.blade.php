@@ -36,22 +36,7 @@
                 @endif
 
                 <div class="text-center">
-                    @for($e=0;$e<$product->rating;$e++)
-                        <a class="text-warning js-vote" data-value="{{$e+1}}" href="#" role="button">
-                            <svg class="bi bi-star-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </a>
-                    @endfor
-                    @for($e=($product->rating);$e<5;$e++)
-                        <a class="text-muted js-vote" data-value="{{$e+1}}" href="#" role="button">
-                            <svg class="bi bi-star" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                            </svg>
-                        </a>
-                    @endfor
+                    @include('particles.product_rating', ['product' => $product,'vote'=>true,])
                 </div>
 
                 <div id="app" class="mt-5">
@@ -60,18 +45,45 @@
             </div>
         </div>
         <div style="clear: both"></div>
+        @if($crosses)
+            <h4 class="mt-4">You may be interested in:</h4>
+            <div class="row row-eq-height mt-5">
+                @foreach($crosses as $cross)
+                    <div class="col-4">
+                        <div style="cursor: pointer" data-href="{{url("/".$cross->category->game_id."/$cross->id")}}" class="media text-muted more-item">
+                            <div>
+                                <img style="width: 110px" src="{{$cross->banner}}" class="mr-3" alt="...">
+                                <div class="text-center">
+                                    @include('particles.product_rating', ['product' => $cross,'vote'=>false])
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="mt-0">{{$cross->title}}</p>
+                                <p>{{$cross->price}} <img style="width: 15px" src="/images/icons/euro.svg"/></p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
         @if($recentlyViewedItems)
             <h4 class="mt-4">Recently viewed items</h4>
-            <div class="row mt-5">
+            <div class="row row-eq-height mt-5">
                 @foreach($recentlyViewedItems as $item)
                     <div class="col-4">
-                        <a style="text-decoration: none" href="{{url("/".$item->category->game_id."/$item->id")}}" class=" media text-muted">
-                            <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">
+                        <div style="cursor: pointer" data-href="{{url("/".$item->category->game_id."/$item->id")}}" class="media text-muted more-item">
+                            <div>
+                                <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">
+                                <div class="text-center">
+                                    @include('particles.product_rating', ['product' => $item,'vote'=>false])
+                                </div>
+                            </div>
                             <div class="media-body">
                                 <p class="mt-0">{{$item->title}}</p>
                                 <p>{{$item->price}} <img style="width: 15px" src="/images/icons/euro.svg"/></p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -85,6 +97,9 @@
                 }).catch(err => {
                     alert("To vote you need to log in")
                 });
+            });
+            $(".more-item").click(function () {
+                window.location.href = $(this).data("href")
             })
         </script>
     @endpush

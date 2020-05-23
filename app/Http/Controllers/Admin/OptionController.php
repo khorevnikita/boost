@@ -19,6 +19,15 @@ class OptionController extends Controller
         return view("admin.options.index", compact('options'));
     }
 
+    public function indexJson(Request $request)
+    {
+        $options = Option::where("title", "like", "%$request->q%")->take(10)->get();
+        return response([
+            'status' => "success",
+            'options' => $options,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

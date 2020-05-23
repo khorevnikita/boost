@@ -89,7 +89,9 @@ class HomeController extends Controller
         Cache::put("recently_viewed", $recentlyViewed, 60 * 60);
         $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
 
-        $product->rating = $product->assessments->avg("value");
-        return view("product", compact('product', 'recentlyViewedItems'));
+      #  $product->rating = $product->assessments->avg("value");
+
+        $crosses = $product->crosses;
+        return view("product", compact('product', 'recentlyViewedItems','crosses'));
     }
 }
