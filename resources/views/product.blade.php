@@ -82,6 +82,8 @@
             $(".js-vote").click(function () {
                 axios.post("/assessments", {value: $(this).data("value"), product_id: '{{$product->id}}'}).then(r => {
                     alert("Success")
+                }).catch(err => {
+                    alert("To vote you need to log in")
                 });
             })
         </script>
