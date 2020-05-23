@@ -39,4 +39,10 @@ class Product extends Model
         }
         return $img->url;
     }
+
+    public function selectedOptions($order)
+    {
+        $orderProduct = $this->orderProducts()->where("order_id", $order->id)->with("options")->first();
+        return $orderProduct->options;
+    }
 }

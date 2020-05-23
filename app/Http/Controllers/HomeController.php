@@ -37,11 +37,20 @@ class HomeController extends Controller
     public function home()
     {
         $user = Auth::user();
-        if ($user && $user->role !== "user") {
+        if (!$user) {
+            return redirect(url("login"));
+        }
+        if ($user->role !== "user") {
             return redirect("admin");
         }
 
-        return "home";
+        $orders = $user->orders->where("status", "!=", "new")->sortByDesc("id");
+        foreach ($orders as $order) {
+            foreach ($order->products as $product) {
+                $product->selected_options = $product->selectedOptions($order);
+            }
+        }
+        return view("home", compact('user', 'orders'));
     }
 
     public function game($game_id)
@@ -55,7 +64,7 @@ class HomeController extends Controller
         $recentlyViewed = array_values(array_unique($recentlyViewed));
         $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
 
-        return view("game", compact('game', 'products','recentlyViewedItems'));
+        return view("game", compact('game', 'products', 'recentlyViewedItems'));
     }
 
     public function product($game_id, $product_id)

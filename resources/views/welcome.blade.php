@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-
-    </style>
     <div class="container">
         <div class="text-center pt-5 pb-5 text-white banner">
             <h2>Boost your skill. Team up with PROes. <br> Be invincible and enjoy the game every moment.

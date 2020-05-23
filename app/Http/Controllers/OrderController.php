@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
 use App\User;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
@@ -30,19 +32,9 @@ class OrderController extends Controller
     public function show()
     {
         $order = Order::findTheLast();
-        $commonPrice = 0;
         if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
-                $commonPrice = $commonPrice + $product->price;
-                $orderProduct = $product->orderProducts()->where("order_id", $order->id)->with("options")->first();
-                $product->selected_options = $orderProduct->options;
-                foreach ($product->selected_options as $option) {
-                    if ($option->type == "abs") {
-                        $commonPrice = $commonPrice + $option->price;
-                    } else {
-                        $commonPrice = $product->price * $option->price / 100;
-                    }
-                }
+                $product->selected_options = $product->selectedOptions($order);
             }
         }
         $user = Auth::user();
@@ -71,6 +63,10 @@ class OrderController extends Controller
         $orderProductItem = OrderProduct::where("order_id", $order->id)->where("product_id", $request->product_id)->first();
         $orderProductItem->options()->detach();
         $orderProductItem->options()->attach($request->options);
+
+        # calc amount
+        $order->amount = $order->commonPrice();
+        $order->save();
 
         return response([
             'status' => "success",
@@ -103,22 +99,25 @@ class OrderController extends Controller
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->password = bcrypt($password);
+            $user->confirmation_token = Str::random();
             $user->save();
             $is_new = true;
             # email here about registration
+            Mail::to($user)->send(new RegisterMail($user, $password));
         }
 
         $order->user_id = $user->id;
         $order->status = "formed";
         $order->save();
+
+        $user->bonus = ($user->bonus ?: 0) + $order->bonus();
+        $user->save();
         return response([
             'status' => "success",
             'data' => [
                 'is_new' => $is_new,
             ]
         ]);
-        return view("order_formed", compact('order', 'is_new'));
-
     }
 
     public function destroy(Request $request)

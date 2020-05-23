@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        @if(0)
-            <img src="{{$game->banner_url}}" class="img-fluid">
-        @endif
+    <div class="container">
         <div class="text-center bg-dark pt-5 pb-5 text-white">
             <h2>{{$game->title}}</h2>
         </div>
