@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -20,7 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app" class="container-fluid">
+<div id="app" class="container">
     <div class="row">
         <nav class="col-md-1 d-none d-md-block bg-dark sidebar">
             <div class="sidebar-sticky">
@@ -59,12 +56,12 @@
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Games:</strong></li>
                         @foreach($games as $game)
-                        <li class="list-group-item">
-                            <a href="{{url("/$game->id")}}" class="text-muted">
-                                <strong>{{$game->title}}</strong>
-                                <img src="/images/icons/left_arrow.svg" class="img-fluid">
-                            </a>
-                        </li>
+                            <li class="list-group-item">
+                                <a href="{{url("/$game->id")}}" class="text-muted">
+                                    <strong>{{$game->title}}</strong>
+                                    <img src="/images/icons/left_arrow.svg" class="img-fluid">
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -75,5 +72,8 @@
         </main>
     </div>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+@stack("scripts")
 </body>
 </html>

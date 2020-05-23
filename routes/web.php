@@ -34,3 +34,4 @@ Route::get("confirm-email/{token}",'Auth\ConfirmPasswordController@confirm');
 Route::get("{game_id}", "HomeController@game");
 Route::get("{game_id}/{product_id}", "HomeController@product");
 
+Route::resource("assessments", "AssessmentController");

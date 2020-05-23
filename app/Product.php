@@ -31,6 +31,11 @@ class Product extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
+    }
+
     public function getBannerAttribute()
     {
         $img = $this->images()->first();

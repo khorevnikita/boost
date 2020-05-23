@@ -44,6 +44,11 @@ class User extends Authenticatable
 
     public function activeOrder()
     {
-        return $this->orders()->where("status","=","new")->first();
+        return $this->orders()->where("status", "=", "new")->first();
+    }
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
     }
 }
