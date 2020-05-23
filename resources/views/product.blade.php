@@ -45,7 +45,7 @@
             </div>
         </div>
         <div style="clear: both"></div>
-        @if($crosses)
+        @if($crosses->count()>0)
             <h4 class="mt-4">You may be interested in:</h4>
             <div class="row row-eq-height mt-5">
                 @foreach($crosses as $cross)
@@ -67,7 +67,7 @@
             </div>
         @endif
 
-        @if($recentlyViewedItems)
+        @if($recentlyViewedItems->count()>0)
             <h4 class="mt-4">Recently viewed items</h4>
             <div class="row row-eq-height mt-5">
                 @foreach($recentlyViewedItems as $item)
