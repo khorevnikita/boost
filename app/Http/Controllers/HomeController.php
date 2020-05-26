@@ -56,7 +56,7 @@ class HomeController extends Controller
     public function game($game_id)
     {
         $game = Game::with("categories")->findOrFail($game_id);
-        #$products = Product::whereIn("category_id", $game->categories()->pluck("id"))->get();
+
         $recentlyViewed = Cache::get("recently_viewed");
         if (!$recentlyViewed) {
             $recentlyViewed = [];
@@ -89,9 +89,9 @@ class HomeController extends Controller
         Cache::put("recently_viewed", $recentlyViewed, 60 * 60);
         $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
 
-      #  $product->rating = $product->assessments->avg("value");
-
+        #  $product->rating = $product->assessments->avg("value");
+        #  dd($_COOKIE);
         $crosses = $product->crosses;
-        return view("product", compact('product', 'recentlyViewedItems','crosses'));
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses'));
     }
 }

@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 
 class Order extends Model
 {
@@ -24,12 +23,15 @@ class Order extends Model
         } else {
             $order = self::findByHash();
         }
+
         return $order;
     }
 
     public static function findByHash()
     {
-        $hash = Cache::get('order_hash');
+
+        $hash = $_COOKIE["order_hash_" . config("app.cookie_key")] ?? "";
+
         if (!$hash) {
             return null;
         }

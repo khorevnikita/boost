@@ -41,8 +41,6 @@
                 return summ;
             }
         },
-        created() {
-        },
         methods: {
             toggleOption(option) {
                 let index = this.selected_options.indexOf(option);
@@ -53,9 +51,10 @@
                 }
             },
             addToOrder() {
-                axios.post("/api/orders", {product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
+                axios.post("/api/orders", {order_hash: localStorage.getItem('order_hash'), product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
                     if (r.data.status === "success") {
                         this.added = true;
+                        localStorage.setItem("order_hash", r.data.hash);
                     }
                 })
             }

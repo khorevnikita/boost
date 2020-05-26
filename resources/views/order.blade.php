@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <link rel="stylesheet" href="https://paymentpage.ecommpay.com/shared/merchant.css"/>
-    <script type="text/javascript" src="https://paymentpage.ecommpay.com/shared/merchant.js"></script>
-    <div class="container">
+ <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
                 @if(!$order)

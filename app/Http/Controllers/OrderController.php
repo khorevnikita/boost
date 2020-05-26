@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -29,8 +30,9 @@ class OrderController extends Controller
         View::share("games", $games);
     }
 
-    public function show()
+    public function show(Request $request)
     {
+
         $order = Order::findTheLast();
         if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
@@ -45,6 +47,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $order = Order::findTheLast($user);
+
         if (!$order) {
             $order = new Order();
             $order->user_id = $user->id ?? null;
@@ -52,7 +55,8 @@ class OrderController extends Controller
             $order->hash = $hash;
             $order->status = "new";
             $order->save();
-            Cache::put('order_hash', $hash);
+           # dd(config("app.cookie_key"));
+            setcookie("order_hash_" . config("app.cookie_key"), $hash, time() + 3600, '/');
         }
 
         # attach product
@@ -71,6 +75,7 @@ class OrderController extends Controller
         return response([
             'status' => "success",
             'data' => $request->all(),
+            'hash' => $order->hash
         ]);
     }
 
@@ -85,7 +90,7 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        if ($order->hash !== Cache::get('order_hash')) {
+        if ($order->hash !== $_COOKIE["order_hash_".config("app.cookie_key")]) {
             abort(403);
         }
         $user = User::where("email", $request->email)->first();
@@ -122,7 +127,7 @@ class OrderController extends Controller
 
     public function destroy(Request $request)
     {
-        $order = Order::findTheLast();
+        $order = Order::findTheLast($request->order_hash);
         if (!$order) {
             return response([
                 'status' => "error",
@@ -138,6 +143,9 @@ class OrderController extends Controller
                 $orderProduct->options()->detach($request->option);
             }
         }
+
+        $order->amount = $order->commonPrice();
+        $order->save();
         if ($order->products()->count() == 0) {
             $order->delete();
         }

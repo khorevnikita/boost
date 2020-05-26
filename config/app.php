@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'cookie_key' => env("COOKIE_KEY", ''),
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
