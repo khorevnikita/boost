@@ -27,12 +27,14 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::resource("users", "Admin\UserController");
     Route::resource("options", "Admin\OptionController");
     Route::resource("images", "Admin\ImageController");
+    Route::resource("orders", "Admin\OrderController");
+    Route::post("orders/{id}", "Admin\OrderController@destroy");
 });
 
-Route::get("order","OrderController@show");
-Route::get("order/success","OrderController@success");
-Route::get("order/decline","OrderController@decline");
-Route::get("confirm-email/{token}",'Auth\ConfirmPasswordController@confirm');
+Route::get("order", "OrderController@show");
+Route::get("order/success", "OrderController@success");
+Route::get("order/decline", "OrderController@decline");
+Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');
 Route::get("{game_id}", "HomeController@game");
 Route::get("{game_id}/{product_id}", "HomeController@product");
 

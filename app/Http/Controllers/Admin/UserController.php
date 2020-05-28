@@ -75,6 +75,8 @@ class UserController extends Controller
         $user->surname = $request->surname;
         $user->email = $request->email;
         $user->role = $request->role;
+        $user->bonus = $request->bonus;
+        $user->phone = $request->phone;
         $user->save();
 
         return redirect("admin/users/$user->id/edit");

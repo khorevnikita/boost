@@ -9,8 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" ></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,7 +19,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+
+
 </head>
 <body>
 <div id="app">
@@ -48,6 +48,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url("/admin/users")}}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url("/admin/orders")}}">Orders</a>
                     </li>
                 </ul>
 
@@ -91,5 +94,9 @@
         @yield('content')
     </main>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" ></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+@stack("scripts")
 </body>
 </html>

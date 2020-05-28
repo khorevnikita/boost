@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -50,7 +51,7 @@ class Order extends Model
                     if ($option->type == "abs") {
                         $commonPrice = $commonPrice + $option->price;
                     } else {
-                        $commonPrice = $product->price * $option->price / 100;
+                        $commonPrice = $commonPrice + $product->price * $option->price / 100;
                     }
                 }
             }
@@ -62,4 +63,18 @@ class Order extends Model
     {
         return $this->amount * config("marketing.bonus_value") / 100;
     }
+
+    public function getCreatedAtAttribute($v)
+    {
+        return Carbon::parse($v)->format("H:i d.m.Y");
+    }
+
+    public function getPayedAtAttribute($v)
+    {
+        if (!$v) {
+            return null;
+        }
+        return Carbon::parse($v)->format("H:i d.m.Y");
+    }
+
 }

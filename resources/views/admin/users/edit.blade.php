@@ -24,8 +24,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" name="email" value="{{$user->email}}">
+                                <input id="email" type="email" class="form-control" name="phone" value="{{$user->phone}}">
                             </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input id="phone" type="text" class="form-control" name="email" value="{{$user->email}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bonus">Bonus</label>
+                                <input id="bonus" type="email" class="form-control" name="bonus" value="{{$user->bonus}}">
+                            </div>
+
                             <div class="form-group">
                                 <label for="role">Role</label>
                                 <select class="form-control" name="role" id="role">

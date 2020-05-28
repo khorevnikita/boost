@@ -192,7 +192,44 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        Log::info(json_encode($request->all()));
-        Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
+        if ($request->project_id != config("services.ecommpay.id")) {
+            return response([
+                'status' => "error",
+                'code' => "403",
+                'msg' => "app_id is wrong"
+            ]);
+        }
+
+        $order = Order::find($request->payment['id']);
+        if (!$order) {
+            return response([
+                'status' => "error",
+                'code' => "404",
+                'msg' => "order not found"
+            ]);
+        }
+
+        if ($order->amount * 100 != $request->payment['sum']['amount']) {
+            return response([
+                'status' => "error",
+                'code' => "500",
+                'msg' => "amount is wrong"
+            ]);
+        }
+
+        $order->status = "payed";
+        $order->save();
+
+        # notify user
+        if ($order->user) {
+            Mail::to($order->user->email)->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
+
+        }
+        # notify admin
+        Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
+
+        return response([
+            'status' => "success",
+        ]);
     }
 }
