@@ -24,3 +24,4 @@ Route::post("orders/{id}/form", "OrderController@form");
 Route::get("products", "ProductController@index");
 Route::post("products/{id}/vote", "ProductController@vote");
 Route::get("options","Admin\OptionController@indexJson");
+Route::post("order/callback","OrderController@callback");

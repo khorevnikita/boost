@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use App\Mail\InfoMail;
 use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
 use App\User;
+use ecommpay\Gate;
+use ecommpay\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -55,7 +59,7 @@ class OrderController extends Controller
             $order->hash = $hash;
             $order->status = "new";
             $order->save();
-           # dd(config("app.cookie_key"));
+            # dd(config("app.cookie_key"));
             setcookie("order_hash_" . config("app.cookie_key"), $hash, time() + 3600, '/');
         }
 
@@ -90,7 +94,7 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        if ($order->hash !== $_COOKIE["order_hash_".config("app.cookie_key")]) {
+        if ($order->hash !== $_COOKIE["order_hash_" . config("app.cookie_key")]) {
             abort(403);
         }
         $user = User::where("email", $request->email)->first();
@@ -115,12 +119,33 @@ class OrderController extends Controller
         $order->status = "formed";
         $order->save();
 
-        $user->bonus = ($user->bonus ?: 0) + $order->bonus();
-        $user->save();
+        /*$user->bonus = ($user->bonus ?: 0) + $order->bonus();
+        $user->save();*/
+
+        /* Заявка на оплату */
+        $payment = new Payment(config("services.ecommpay.id"));
+        // Идентификатор проекта
+
+        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+
+        $payment->setPaymentId($order->id);
+        // Идентификатор платежа, уникальный в рамках проекта
+
+        $payment->setPaymentDescription("Тест");
+        // Описание платежа. Не обязательный, но полезный параметр
+
+        $gate = new Gate(config("services.ecommpay.secret"));
+        // Секретный ключ проекта, полученный от ECommPay при интеграции
+
+        /* Запрос для вызова платёжной формы */
+        $url = $gate->getPurchasePaymentPageUrl($payment);
+
         return response([
             'status' => "success",
             'data' => [
                 'is_new' => $is_new,
+                'url' => $url,
             ]
         ]);
     }
@@ -153,5 +178,21 @@ class OrderController extends Controller
         return response([
             'status' => "success"
         ]);
+    }
+
+    public function success(Request $request)
+    {
+        return view("order_success");
+    }
+
+    public function decline(Request $request)
+    {
+        return view("order_decline");
+    }
+
+    public function callback(Request $request)
+    {
+        Log::info(json_encode($request->all()));
+        Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
     }
 }

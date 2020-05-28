@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'ecommpay' => [
+        'id' => env('ECOMMPAY_ID'),
+        'secret' => env('ECOMMPAY_SECRET')
+    ]
+
 ];
