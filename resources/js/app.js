@@ -66,7 +66,8 @@ $("#order-form").submit(function (e) {
     }
     axios.post($(this).attr("action"), data).then(r => {
         if (r.data.status === 'success') {
-            window.open(r.data.data.url, '_blank');
+            window.location.href = r.data.data.url;
+            //window.open(r.data.data.url, '_blank');
         }
     });
     return false;
