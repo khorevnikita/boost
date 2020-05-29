@@ -32,6 +32,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
 });
 
 Route::get("order", "OrderController@show");
+Route::get("order/{id}/pay", "OrderController@pay");
 Route::get("order/success", "OrderController@success");
 Route::get("order/decline", "OrderController@decline");
 Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');

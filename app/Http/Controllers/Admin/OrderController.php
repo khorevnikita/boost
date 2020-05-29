@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
+use App\User;
+use ecommpay\Gate;
+use ecommpay\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -28,7 +34,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.orders.create");
     }
 
     /**
@@ -39,7 +45,52 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::where("email", $request->email)->first();
+        if (!$user) {
+            $password = Str::random(8);
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = bcrypt($password);
+            $user->confirmation_token = Str::random();
+            $user->save();
+            $is_new = true;
+            # email here about registration
+            Mail::to($user)->send(new RegisterMail($user, $password));
+        }
+        $order = new Order();
+        $order->amount = $request->amount;
+        $order->status = "new";
+        $order->hash = md5(now());
+        $order->user_id = $user->id;
+        $order->save();
+
+        /* Заявка на оплату */
+        $payment = new Payment(config("services.ecommpay.id"));
+        // Идентификатор проекта
+
+        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+
+        $payment->setPaymentId($order->id);
+        // Идентификатор платежа, уникальный в рамках проекта
+
+        $payment->setPaymentDescription("Тест");
+        // Описание платежа. Не обязательный, но полезный параметр
+
+        $gate = new Gate(config("services.ecommpay.secret"));
+        // Секретный ключ проекта, полученный от ECommPay при интеграции
+
+        /* Запрос для вызова платёжной формы */
+        $url = $gate->getPurchasePaymentPageUrl($payment);
+
+        return response()->json([
+            'status' => "success",
+            'url' => $url
+        ]);
     }
 
     /**

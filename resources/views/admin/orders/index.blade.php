@@ -7,6 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         Orders
+                        <a class="float-right btn btn-primary" href="{{url("admin/orders/create")}}">Create an order</a>
                     </div>
 
                     <div class="card-body">

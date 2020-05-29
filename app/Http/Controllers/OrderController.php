@@ -182,12 +182,16 @@ class OrderController extends Controller
 
     public function success(Request $request)
     {
-        return view("order_success");
+        $hash = $_COOKIE["order_hash_" . config("app.cookie_key")] ?? "";
+        $order = Order::where("status", "payed")->where("hash", $hash)->orderBy("id", "desc")->first();
+        return view("order_success", compact('order'));
     }
 
     public function decline(Request $request)
     {
-        return view("order_decline");
+        $hash = $_COOKIE["order_hash_" . config("app.cookie_key")] ?? "";
+        $order = Order::where("status", "declined")->where("hash", $hash)->orderBy("id", "desc")->first();
+        return view("order_decline", compact('order'));
     }
 
     public function callback(Request $request)
@@ -245,5 +249,30 @@ class OrderController extends Controller
         return response([
             'status' => "success",
         ]);
+    }
+
+    public function pay($order_id)
+    {
+        $order = Order::findOrFail($order_id);
+        /* Заявка на оплату */
+        $payment = new Payment(config("services.ecommpay.id"));
+        // Идентификатор проекта
+
+        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+
+        $payment->setPaymentId($order->id);
+        // Идентификатор платежа, уникальный в рамках проекта
+
+        $payment->setPaymentDescription("Тест");
+        // Описание платежа. Не обязательный, но полезный параметр
+
+        $gate = new Gate(config("services.ecommpay.secret"));
+        // Секретный ключ проекта, полученный от ECommPay при интеграции
+
+        /* Запрос для вызова платёжной формы */
+        $url = $gate->getPurchasePaymentPageUrl($payment);
+
+        return redirect($url);
     }
 }
