@@ -192,7 +192,10 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
+        # dd($request->all());
         if ($request->project_id != config("services.ecommpay.id")) {
+            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
+
             return response([
                 'status' => "error",
                 'code' => "403",
@@ -202,6 +205,7 @@ class OrderController extends Controller
 
         $order = Order::find($request->payment['id']);
         if (!$order) {
+            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order not found: " . json_encode($request->all())));
             return response([
                 'status' => "error",
                 'code' => "404",
@@ -210,23 +214,33 @@ class OrderController extends Controller
         }
 
         if ($order->amount * 100 != $request->payment['sum']['amount']) {
+            $order->status = "declined";
+            $order->save();
+            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order declined due to wrong amount"));
+            Mail::to($order->user->email)->send(new InfoMail("Order declined due to wrong amount"));
             return response([
                 'status' => "error",
                 'code' => "500",
                 'msg' => "amount is wrong"
             ]);
         }
+        if ($request->payment['status'] == "success") {
+            $order->status = "payed";
+            $order->save();
 
-        $order->status = "payed";
-        $order->save();
+            # notify user
+            if ($order->user) {
+                Mail::to($order->user->email)->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
 
-        # notify user
-        if ($order->user) {
-            Mail::to($order->user->email)->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
-
+            }
+            # notify admin
+            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
+        } else {
+            $order->status = "declined";
+            $order->save();
+            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order $order->amount EUR declined by payment system"));
+            Mail::to($order->user->email)->send(new InfoMail("Order $order->amount EUR declined by payment system"));
         }
-        # notify admin
-        Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
 
         return response([
             'status' => "success",
