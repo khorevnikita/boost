@@ -41,6 +41,11 @@ class Product extends Model
         return $this->belongsToMany(Product::class, 'crosses', 'original_product_id', 'remote_product_id');
     }
 
+    public function calculator()
+    {
+        return $this->hasOne(Calculator::class);
+    }
+
     public function getBannerAttribute()
     {
         $img = $this->images()->first();

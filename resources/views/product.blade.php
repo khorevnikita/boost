@@ -10,6 +10,25 @@
                 <div class="pt-5 pb-5">
                     {!! $product->short_description !!}
                 </div>
+                @if($product->calculator)
+                    <div class="calculator row mb-5">
+                        <div class="col-12">
+                            <h4>{{$product->calculator->name}}</h4>
+                        </div>
+                        <div class="col">
+                            <label>{{$product->calculator->min_title}}</label>
+                            <input value="{{$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
+                        </div>
+                        <div class="col text-center"><p>{{$product->calculator->description}}</p></div>
+                        <div class="col">
+                            <label>{{$product->calculator->max_title}}</label>
+                            <input value="{{$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div id="slider-range"></div>
+                        </div>
+                    </div>
+                @endif
                 <div>
                     {!! $product->description !!}
                 </div>
@@ -40,7 +59,7 @@
                 </div>
 
                 <div id="app" class="mt-5">
-                    <product-order :product="{{$product}}" :options="{{$product->options}}"></product-order>
+                    <product-order :calculator="{{$product->calculator}}" :product="{{$product}}" :options="{{$product->options}}"></product-order>
                 </div>
             </div>
         </div>
@@ -93,14 +112,25 @@
         <script>
             $(".js-vote").click(function () {
                 axios.post("/assessments", {value: $(this).data("value"), product_id: '{{$product->id}}'}).then(r => {
-                    alert("Success")
+                    /*Swal.fire({
+                        title: 'Success!',
+                        text: 'Succes',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    });*/
                 }).catch(err => {
-                    alert("To vote you need to log in")
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'To vote you need to log in',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    });
+                    //alert("To vote you need to log in")
                 });
             });
             $(".more-item").click(function () {
                 window.location.href = $(this).data("href")
-            })
+            });
         </script>
     @endpush
 @endsection

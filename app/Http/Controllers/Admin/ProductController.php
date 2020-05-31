@@ -73,7 +73,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $options = Option::all();
-        return view("admin.products.edit", compact('product', 'options'));
+        $calculator = $product->calculator;
+        return view("admin.products.edit", compact('product', 'options','calculator'));
     }
 
     /**

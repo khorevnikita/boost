@@ -29,6 +29,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::resource("images", "Admin\ImageController");
     Route::resource("orders", "Admin\OrderController");
     Route::post("orders/{id}", "Admin\OrderController@destroy");
+    Route::resource("calculator", "Admin\CalculatorController");
 });
 
 Route::get("order", "OrderController@show");

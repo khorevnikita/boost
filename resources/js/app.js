@@ -9,7 +9,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import 'jquery-ui/ui/widgets/autocomplete.js';
+import 'jquery-ui/ui/widgets/slider.js';
 
+window.Swal = require('sweetalert2');
 
 /**
  * The following block of code may be used to automatically register your
@@ -72,3 +74,4 @@ $("#order-form").submit(function (e) {
     });
     return false;
 });
+
