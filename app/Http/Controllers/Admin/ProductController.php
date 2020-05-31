@@ -100,7 +100,7 @@ class ProductController extends Controller
 
         $product->crosses()->detach();
         $product->crosses()->attach(array_filter($request->crosses));
-        return redirect("/admin/products");
+        return back();
     }
 
     /**

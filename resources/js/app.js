@@ -75,3 +75,21 @@ $("#order-form").submit(function (e) {
     return false;
 });
 
+$(".js-logout").click(function (e) {
+    e.preventDefault();
+    return Swal.fire({
+        title: 'Are you sure?',
+        text: "You are trying to logout. Continue?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, forget me'
+    }).then((result) => {
+        if (result.value) {
+            $("#logout-form").submit();
+        } else {
+            return false;
+        }
+    })
+});
