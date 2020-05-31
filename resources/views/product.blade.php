@@ -2,38 +2,11 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-sm-8">
-                <div class="text-center bg-dark pt-5 pb-5 text-white">
-                    <h2>{{$product->title}}</h2>
-                </div>
-                <div class="pt-5 pb-5">
-                    {!! $product->short_description !!}
-                </div>
-                @if($product->calculator)
-                    <div class="calculator row mb-5">
-                        <div class="col-12">
-                            <h4>{{$product->calculator->name}}</h4>
-                        </div>
-                        <div class="col">
-                            <label>{{$product->calculator->min_title}}</label>
-                            <input value="{{$product->pivot?$product->pivot->range->from:$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
-                        </div>
-                        <div class="col text-center"><p>{{$product->calculator->description}}</p></div>
-                        <div class="col">
-                            <label>{{$product->calculator->max_title}}</label>
-                            <input value="{{$product->pivot?$product->pivot->range->to:$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
-                        </div>
-                        <div class="col-12 mt-3">
-                            <div id="slider-range"></div>
-                        </div>
-                    </div>
-                @endif
-                <div>
-                    {!! $product->description !!}
-                </div>
-            </div>
-            <div class="col-12 col-sm-4">
+        <div class="text-center bg-dark pt-5 pb-5 text-white">
+            <h2>{{$product->title}}</h2>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-sm-4 order-sm-2">
                 @if($product->images->count() > 0)
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
@@ -62,13 +35,42 @@
                     <product-order @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>
                 </div>
             </div>
+            <div class="col-12 col-sm-8 order-sm-1">
+                @if($product->calculator)
+                    <div class="calculator row mt-3 ">
+                        <div class="col-12">
+                            <h4>{{$product->calculator->name}}</h4>
+                        </div>
+                        <div class="col">
+                            <label>{{$product->calculator->min_title}}</label>
+                            <input value="{{$product->pivot?$product->pivot->range->from:$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
+                        </div>
+                        <div class="col text-center"><p>{{$product->calculator->description}}</p></div>
+                        <div class="col">
+                            <label>{{$product->calculator->max_title}}</label>
+                            <input value="{{$product->pivot?$product->pivot->range->to:$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div id="slider-range"></div>
+                        </div>
+                    </div>
+                @endif
+                <div class="pt-5 pb-5">
+                    {!! $product->short_description !!}
+                </div>
+
+                <div>
+                    {!! $product->description !!}
+                </div>
+            </div>
+
         </div>
         <div style="clear: both"></div>
         @if($crosses->count()>0)
             <h4 class="mt-4">You may be interested in:</h4>
-            <div class="row row-eq-height mt-5">
+            <div class="row row-eq-height ">
                 @foreach($crosses as $cross)
-                    <div class="col-4">
+                    <div class="col-12 col-md-4 mt-4">
                         <div style="cursor: pointer" data-href="{{url("/".$cross->category->game_id."/$cross->id")}}" class="media text-muted more-item">
                             <div>
                                 <img style="width: 110px" src="{{$cross->banner}}" class="mr-3" alt="...">
@@ -88,9 +90,9 @@
 
         @if($recentlyViewedItems->count()>0)
             <h4 class="mt-4">Recently viewed items</h4>
-            <div class="row row-eq-height mt-5">
+            <div class="row row-eq-height">
                 @foreach($recentlyViewedItems as $item)
-                    <div class="col-4">
+                    <div class="col-12 col-md-4 mt-4">
                         <div style="cursor: pointer" data-href="{{url($item->url)}}" class="media text-muted more-item">
                             <div>
                                 <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">

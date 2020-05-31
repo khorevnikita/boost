@@ -17,7 +17,74 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app" class="container">
+<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
+    <div class="container">
+        <a href="{{url("/")}}" class="nav-link bg-dark d-md-none d-lg-none d-xl-none" style="border-radius: 25px">
+            <img class="img-fluid" src="/images/logo.png" style="width: 45px">
+        </a>
+        <button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav mr-auto d-md-none d-lg-none d-xl-none">
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Games <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        @foreach($games as $game)
+                        <a class="dropdown-item" href="{{url($game->rewrite)}}">
+                            {{$game->title}}
+                        </a>
+                        @endforeach
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a role="button" class="nav-link text-dark">
+                        Search
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url("/order")}}" role="button" class="nav-link text-dark">
+                        My cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url("register")}}" class="nav-link text-dark">
+                        Profile
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right Side Of Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
+
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       v-pre>
+                        EUR <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">
+                            EUR
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            USD
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="app" style="overflow: auto">
     <div class="row">
         <nav class="col-md-1 d-none d-md-block bg-dark sidebar">
             <div class="sidebar-sticky">
