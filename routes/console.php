@@ -164,6 +164,20 @@ Artisan::command('test', function () {
 });
 
 Artisan::command('rr', function () {
-$example = '{ "account": { "number": "541333******0019", "token": "59449efb2bcf5a69a690d1ec60dfe2ef3339d8fd28698680caf8d82c21333354", "type": "mastercard", "card_holder": "NIK KHO", "expiry_month": "04", "expiry_year": "2027" }, "project_id": 14571, "payment": { "id": "7", "type": "purchase", "status": "success", "date": "2020-05-28T12:30:18+0000", "method": "card", "sum": { "amount": 37100, "currency": "EUR" }, "description": "Тест" }, "operation": { "id": 66428000046911, "type": "sale", "status": "success", "date": "2020-05-28T12:30:18+0000", "created_date": "2020-05-28T12:30:11+0000", "request_id": "43b03a5cf893e7adc4ef55bd89fe829e11d1e50e-8fca9658f8527f82fbb1614f5b51561e2bbfd1df-00066429", "sum_initial": { "amount": 37100, "currency": "EUR" }, "sum_converted": { "amount": 2904196, "currency": "RUB" }, "code": "0", "message": "Success", "eci": "05", "provider": { "id": 6, "payment_id": "15906690175177", "auth_code": "563253", "endpoint_id": 6, "date": "2018-02-07T08:34:24+0000" } }, "signature": "6F/JH/VUOyjevC2Y//InOKIoK5GFbXWKkMZDPAenl1A/WwtHjTjEMNk0v3JeUiYnrd62PrmZKzDr4Cz3dT9kWw==" }';
-dd(json_decode($example,true));
+    $example = '{ "account": { "number": "541333******0019", "token": "59449efb2bcf5a69a690d1ec60dfe2ef3339d8fd28698680caf8d82c21333354", "type": "mastercard", "card_holder": "NIK KHO", "expiry_month": "04", "expiry_year": "2027" }, "project_id": 14571, "payment": { "id": "7", "type": "purchase", "status": "success", "date": "2020-05-28T12:30:18+0000", "method": "card", "sum": { "amount": 37100, "currency": "EUR" }, "description": "Тест" }, "operation": { "id": 66428000046911, "type": "sale", "status": "success", "date": "2020-05-28T12:30:18+0000", "created_date": "2020-05-28T12:30:11+0000", "request_id": "43b03a5cf893e7adc4ef55bd89fe829e11d1e50e-8fca9658f8527f82fbb1614f5b51561e2bbfd1df-00066429", "sum_initial": { "amount": 37100, "currency": "EUR" }, "sum_converted": { "amount": 2904196, "currency": "RUB" }, "code": "0", "message": "Success", "eci": "05", "provider": { "id": 6, "payment_id": "15906690175177", "auth_code": "563253", "endpoint_id": 6, "date": "2018-02-07T08:34:24+0000" } }, "signature": "6F/JH/VUOyjevC2Y//InOKIoK5GFbXWKkMZDPAenl1A/WwtHjTjEMNk0v3JeUiYnrd62PrmZKzDr4Cz3dT9kWw==" }';
+    dd(json_decode($example, true));
+});
+Artisan::command('reset_rewrite', function () {
+    $games = \App\Game::all();
+    foreach ($games as $game) {
+        $slug = \Illuminate\Support\Str::slug($game->title, '-');
+        $game->rewrite = $slug;
+        $game->save();
+    }
+
+    $products = \App\Product::all();
+    foreach ($products as $product) {
+        $product->rewrite = \Illuminate\Support\Str::slug($product->title, '-');
+        $product->save();
+    }
 });

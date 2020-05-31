@@ -11,7 +11,7 @@
             <h5>Choose game you want to get services in:</h5>
             <h4>
                 @foreach($games as $game)
-                    <a href="{{url("/$game->id")}}"><span class="badge badge-primary">{{$game->title}}</span></a>
+                    <a href="{{url($game->rewrite)}}"><span class="badge badge-primary">{{$game->title}}</span></a>
                 @endforeach
             </h4>
         </div>
@@ -31,7 +31,7 @@
                 <div class="row">
                     @foreach($game->topDeals() as $product)
                         <div class="col-12 col-sm-6 mt-4">
-                            <a href="{{url("/".$product->category->game_id."/$product->id")}}">
+                            <a href="{{url($product->url)}}">
                                 <div style="background-image: url('{{$product->banner}}')" class="product-item">
                                     <span style="margin: 10px" class="badge badge-secondary">{{$product->category->title}}</span>
                                     @if($product->is_hot)

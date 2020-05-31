@@ -57,7 +57,7 @@
                         <li class="list-group-item"><strong>Games:</strong></li>
                         @foreach($games as $game)
                             <li class="list-group-item">
-                                <a href="{{url("/$game->id")}}" class="text-muted">
+                                <a href="{{url($game->rewrite)}}" class="text-muted">
                                     <strong>{{$game->title}}</strong>
                                     <img src="/images/icons/left_arrow.svg" class="img-fluid">
                                 </a>

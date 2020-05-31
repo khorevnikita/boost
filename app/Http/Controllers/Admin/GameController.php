@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GameController extends Controller
 {
@@ -39,10 +40,20 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
+        $slug = Str::slug($request->title, "-");
+        $checkUnique = Game::where("rewrite", $slug)->first();
+
         $game = new Game();
         $game->title = $request->title;
         $game->description = $request->description;
+        $game->rewrite = $slug;
         $game->save();
+
+        if ($checkUnique) {
+            $slug = $slug . "-" . $game->id;
+            $game->rewrite = $slug;
+            $game->save();
+        }
 
         return redirect("/admin/games/$game->id/edit");
     }
@@ -80,8 +91,10 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
+        $checkUnique = Game::where("rewrite", $request->rewrite)->first();
         $game->title = $request->title;
         $game->description = $request->description;
+        $game->rewrite = $checkUnique ? $game->rewrite : $request->rewrite;
         $game->save();
 
         return back();

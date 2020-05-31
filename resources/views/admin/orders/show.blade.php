@@ -65,7 +65,7 @@
                                     <tr>
                                         <td>{{$k+1}}</td>
                                         <td>
-                                            <a href="{{url($product->category->game_id."/$product->id")}}">{{$product->title}} </a>
+                                            <a href="{{url($product->url)}}">{{$product->title}} </a>
                                             <span class="float-right"> {{$product->price}} <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
                                                                                                 xmlns="http://www.w3.org/2000/svg">
                             <g id="euro_symbol_24px">

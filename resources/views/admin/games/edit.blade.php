@@ -19,6 +19,11 @@
                                 <input id="title" type="text" class="form-control" name="title" value="{{$game->title}}">
                             </div>
                             <div class="form-group">
+                                <label for="rewrite">Rewrite name</label>
+                                <input id="rewrite" type="text" class="form-control" name="rewrite" value="{{$game->rewrite}}">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="description">Description</label>
                                 <input id="description" type="text" class="form-control" name="description" value="{{$game->description}}">
                             </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Option;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -58,6 +59,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $slug = Str::slug($request->title, "-");
+        $checkUnique = Product::where("rewrite", $slug)->first();
+
         $product = new Product();
         $product->title = $request->title;
         $product->short_description = $request->short_description;
@@ -66,7 +70,13 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->is_hot = $request->is_hot ? 1 : 0;
         $product->is_new = $request->is_new ? 1 : 0;
+        $product->rewrite = $slug;
         $product->save();
+
+        if ($checkUnique) {
+            $product->rewrite = $slug . "-" . $product->id;
+            $product->save();
+        }
 
         return redirect("admin/products");
     }
@@ -104,6 +114,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $checkUnique = Product::where("rewrite", $request->rewrite)->first();
+
         $product->title = $request->title;
         $product->short_description = $request->short_description;
         $product->description = $request->description;
@@ -111,6 +123,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->is_hot = $request->is_hot ? 1 : 0;
         $product->is_new = $request->is_new ? 1 : 0;
+
+        $product->rewrite = $checkUnique ? $product->rewrite : $request->rewrite;
         $product->save();
 
         $product->options()->detach();

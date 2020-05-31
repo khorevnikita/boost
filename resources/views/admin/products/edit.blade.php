@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         {{$product->title}}
-                        <a class="float-right" href="{{url($product->category->game_id."/$product->id")}}">Open card</a>
+                        <a class="float-right" href="{{url($product->url)}}">Open card</a>
                     </div>
 
                     <div class="card-body" id="app">
@@ -19,15 +19,11 @@
                                 <label for="title">Product title</label>
                                 <input id="title" type="text" class="form-control" name="title" value="{{$product->title}}">
                             </div>
-                            {{--<div class="form-group">
-                                <label for="short_description">Short description</label>
-                                <textarea id="short_description" type="text" class="form-control" name="short_description">{{$product->short_description}}</textarea>
-                            </div>
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea id="description" type="text" class="form-control" name="description">{{$product->description}}</textarea>
+                                <label for="rewrite">Rewrite name</label>
+                                <input id="rewrite" type="text" class="form-control" name="rewrite" value="{{$product->rewrite}}">
                             </div>
-                            --}}
+
                             <div class="form-group">
                                 <label for="short_description">Short description</label>
                                 <textarea id="short_description" name="short_description">{{$product->short_description}}</textarea>

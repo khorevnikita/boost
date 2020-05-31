@@ -54,9 +54,12 @@ class HomeController extends Controller
         return view("home", compact('user', 'orders'));
     }
 
-    public function game($game_id)
+    public function game($rewrite)
     {
-        $game = Game::with("categories")->findOrFail($game_id);
+        $game = Game::with("categories")->where("rewrite", $rewrite)->first();
+        if (!$game) {
+            abort(404);
+        }
 
         $recentlyViewed = Cache::get("recently_viewed");
         if (!$recentlyViewed) {
@@ -68,10 +71,14 @@ class HomeController extends Controller
         return view("game", compact('game', 'products', 'recentlyViewedItems'));
     }
 
-    public function product($game_id, $product_id)
+    public function product($game_slug, $product_slug)
     {
-        $product = Product::findOrFail($product_id);
-        if ($product->category->game_id != $game_id) {
+        $game = Game::where("rewrite",$game_slug)->first();
+        if(!$game){
+            abort(404);
+        }
+        $product = Product::where("rewrite",$product_slug)->whereIn("category_id",$game->categories()->pluck("categories.id"))->first();
+        if (!$product) {
             abort(404);
         }
         $order = Order::findTheLast();

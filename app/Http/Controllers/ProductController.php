@@ -39,6 +39,7 @@ class ProductController extends Controller
 
         $products = $products->with("category")->get()->map(function ($p) {
             $p->banner = $p->banner;
+            $p->url = $p->url;
             return $p;
         });
 

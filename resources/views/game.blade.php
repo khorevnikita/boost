@@ -17,7 +17,7 @@
             <div class="row row-eq-height mt-5">
                 @foreach($recentlyViewedItems as $item)
                     <div class="col-4">
-                        <div style="cursor: pointer" data-href="{{url("/".$item->category->game_id."/$item->id")}}" class="media text-muted more-item">
+                        <div style="cursor: pointer" data-href="{{url($item->url)}}" class="media text-muted more-item">
                             <div>
                                 <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">
                                 <div class="text-center">

@@ -65,4 +65,9 @@ class Product extends Model
     {
         return $this->assessments->avg("value");
     }
+
+    public function getUrlAttribute()
+    {
+        return $this->category->game->rewrite . "/" . $this->rewrite;
+    }
 }
