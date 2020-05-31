@@ -17,12 +17,12 @@
                         </div>
                         <div class="col">
                             <label>{{$product->calculator->min_title}}</label>
-                            <input value="{{$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
+                            <input value="{{$product->pivot?$product->pivot->range->from:$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
                         </div>
                         <div class="col text-center"><p>{{$product->calculator->description}}</p></div>
                         <div class="col">
                             <label>{{$product->calculator->max_title}}</label>
-                            <input value="{{$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
+                            <input value="{{$product->pivot?$product->pivot->range->to:$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
                         </div>
                         <div class="col-12 mt-3">
                             <div id="slider-range"></div>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div id="app" class="mt-5">
-                    <product-order :calculator="{{$product->calculator}}" :product="{{$product}}" :options="{{$product->options}}"></product-order>
+                    <product-order @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>
                 </div>
             </div>
         </div>
@@ -112,12 +112,12 @@
         <script>
             $(".js-vote").click(function () {
                 axios.post("/assessments", {value: $(this).data("value"), product_id: '{{$product->id}}'}).then(r => {
-                    /*Swal.fire({
-                        title: 'Success!',
-                        text: 'Succes',
+                    Swal.fire({
                         icon: 'success',
-                        confirmButtonText: 'Ok'
-                    });*/
+                        title: 'Thank you for voting',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }).catch(err => {
                     Swal.fire({
                         title: 'Error!',

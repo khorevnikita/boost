@@ -11,6 +11,14 @@ class OrderProduct extends Model
 
     public function options()
     {
-        return $this->belongsToMany(Option::class,'order_product_option');
+        return $this->belongsToMany(Option::class, 'order_product_option');
+    }
+
+    public function getRangeAttribute($v)
+    {
+        if (!$v) {
+            return null;
+        }
+        return json_decode($v);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Calculator;
 use App\Game;
 use App\Mail\InfoMail;
 use App\Mail\RegisterMail;
@@ -41,7 +42,7 @@ class OrderController extends Controller
         if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
                 $product->selected_options = $product->selectedOptions($order);
-            }
+;            }
         }
         $user = Auth::user();
         return view("order", compact('order', 'commonPrice', 'user'));
@@ -51,7 +52,6 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $order = Order::findTheLast($user);
-
         if (!$order) {
             $order = new Order();
             $order->user_id = $user->id ?? null;
@@ -65,7 +65,15 @@ class OrderController extends Controller
 
         # attach product
         $order->products()->detach($request->product_id);
-        $order->products()->attach($request->product_id);
+
+
+        $range = null;
+        $calc = Calculator::where("product_id", $request->product_id)->first();
+        if ($calc && $request->has("range")) {
+            $range = json_encode($request->range);
+        }
+        #dd($range);
+        $order->products()->attach($request->product_id, ['range' => $range]);
 
         # attach options
         $orderProductItem = OrderProduct::where("order_id", $order->id)->where("product_id", $request->product_id)->first();

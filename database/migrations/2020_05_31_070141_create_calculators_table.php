@@ -31,6 +31,10 @@ class CreateCalculatorsTable extends Migration
         Schema::table('calculators', function (Blueprint $table) {
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
+
+        Schema::table("order_product",function (Blueprint $table){
+           $table->json("range")->after("product_id")->nullable();
+        });
     }
 
     /**
@@ -40,6 +44,10 @@ class CreateCalculatorsTable extends Migration
      */
     public function down()
     {
+
+        Schema::table("order_product",function (Blueprint $table){
+            $table->dropColumn("range");
+        });
         Schema::dropIfExists('calculators');
     }
 }

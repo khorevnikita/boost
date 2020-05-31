@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
- <div class="container">
+    <div class="container">
         <div class="row">
             <div class="col-12 mt-5">
                 @if(!$order)
@@ -41,8 +41,8 @@
                             <div class="tab-content" id="nav-tabContent">
                                 @foreach($order->products as $key=>$product)
                                     <div class="tab-pane fade show  @if(!$key) active @endif" id="list-{{$key}}" role="tabpanel" aria-labelledby="list-home-list">
-                                        <h4>Options:</h4>
                                         @if($product->selected_options)
+                                            <h4>Options:</h4>
                                             <ol>
                                                 @foreach($product->selected_options as $option)
                                                     <li>
@@ -73,6 +73,11 @@
                                                     </li>
                                                 @endforeach
                                             </ol>
+                                        @endif
+                                        @if($product->pivot->range)
+                                            @php $range = json_decode($product->pivot->range) @endphp
+                                            <h4>{{$product->calculator->name}}</h4>
+                                            <p>{{$product->calculator->min_title}}: <strong>{{$range->from}}</strong> - {{$product->calculator->max_title}}: <strong>{{$range->to}}</strong></p>
                                         @endif
                                     </div>
                                 @endforeach

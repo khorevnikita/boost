@@ -2,7 +2,7 @@
     <div>
         <h2>${{common_price}}</h2>
         <div class="form-check mt-3" v-for="option in options">
-            <input @click="toggleOption(option)" type="checkbox" class="form-check-input" :id="'opt'+option.id">
+            <input :checked="selected_options.filter(so=>so.id===option.id)[0]" @click="toggleOption(option)" type="checkbox" class="form-check-input" :id="'opt'+option.id">
             <label class="form-check-label" :for="'opt'+option.id">
                 {{option.title}}
                 <span>+ <span v-if="option.type=='abs'">$</span><span v-else>%</span>{{option.price}}</span>
@@ -23,7 +23,7 @@
         props: ['product', 'options', 'calculator'],
         data() {
             return {
-                selected_options: [],
+                selected_options: this.product.selected_options ? this.product.selected_options : [],
                 added: this.product.in_order,
                 range: {from: null, to: null},
                 slider_price: 0,
@@ -68,13 +68,13 @@
             initSlider() {
                 let self = this;
                 var sliderElement = $("#slider-range");
-                if (sliderElement) {
+                if (sliderElement.length > 0) {
                     sliderElement.slider({
                         range: true,
                         step: this.calculator.step,
                         min: this.calculator.min_value,
                         max: this.calculator.max_value,
-                        values: [this.calculator.min_value, this.calculator.max_value],
+                        values: [this.product.pivot ? this.product.pivot.range.from : this.calculator.min_value, this.product.pivot ? this.product.pivot.range.to : this.calculator.max_value],
                         slide: function (event, ui) {
                             $("#slider-from").val(ui.values[0]);
                             $("#slider-to").val(ui.values[1]);
@@ -92,6 +92,7 @@
                         self.range.to = parseInt($(this).val());
                     });
 
+
                     this.range.from = parseInt($("#slider-from").val());
                     this.range.to = parseInt($("#slider-to").val());
                 }
@@ -105,10 +106,15 @@
                 }
             },
             addToOrder() {
-                axios.post("/api/orders", {order_hash: localStorage.getItem('order_hash'), product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
+                axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
                     if (r.data.status === "success") {
                         this.added = true;
-                        localStorage.setItem("order_hash", r.data.hash);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Item added to cart',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 })
             }

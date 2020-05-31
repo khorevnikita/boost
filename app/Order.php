@@ -14,7 +14,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot("range");
     }
 
     public static function findTheLast(User $user = null)
@@ -53,6 +53,9 @@ class Order extends Model
                     } else {
                         $commonPrice = $commonPrice + $product->price * $option->price / 100;
                     }
+                }
+                if ($product->pivot->range) {
+                    $commonPrice = $commonPrice + $product->calculator->calc(json_decode($product->pivot->range));
                 }
             }
         }

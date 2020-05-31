@@ -114,6 +114,9 @@ class OrderController extends Controller
                         }
                     }
                 }
+                if ($product->pivot->range) {
+                    $product->final_price = $product->final_price + $product->calculator->calc(json_decode($product->pivot->range));
+                }
             }
         }
         $user = $order->user;

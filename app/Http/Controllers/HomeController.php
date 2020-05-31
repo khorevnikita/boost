@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\Order;
+use App\OrderProduct;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,8 +75,13 @@ class HomeController extends Controller
             abort(404);
         }
         $order = Order::findTheLast();
-        if ($order && $order->products()->find($product->id)) {
-            $product->in_order = true;
+        if ($order) {
+            $orderProduct = OrderProduct::where("order_id", $order->id)->where("product_id", $product->id)->first();
+            if ($orderProduct) {
+                $product->in_order = true;
+                $product->selected_options = $product->selectedOptions($order);
+                $product->pivot = $orderProduct;
+            }
         }
 
         $recentlyViewed = Cache::get("recently_viewed");
