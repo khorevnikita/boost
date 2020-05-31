@@ -22,7 +22,23 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = Order::orderBy("id", "desc")->paginate(10);
+        $orders = Order::orderBy("id", "desc");
+
+        if ($request->status) {
+            $orders = $orders->where("status", $request->status);
+        }
+
+        if ($request->user) {
+            $search = $request->user;
+            $orders = $orders->whereHas("user", function ($q) use ($search) {
+                $q->where("surname", "like", "%$search%")
+                    ->orWhere("name", "like", "%$search%")
+                    ->orWhere("email", "like", "%$search")
+                    ->orWhere("phone", "like", "%$search%");
+            });
+        }
+
+        $orders = $orders->paginate(10);
 
         return view("admin.orders.index", compact('orders'));
     }

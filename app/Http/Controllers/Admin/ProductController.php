@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
+use App\Game;
 use App\Http\Controllers\Controller;
 use App\Option;
 use App\Product;
@@ -15,9 +16,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $products = Product::orderBy("id", "desc");
+        if ($request->id) {
+            $products = $products->where("id", $request->id);
+        }
+        if ($request->title) {
+            $products = $products->where("id", $request->id);
+        }
+        if ($request->category) {
+            $category = Category::where("title", "like", "%$request->category%")->pluck("id");
+            $products = $products->whereIn("category_id", $category);
+        }
+        if ($request->game) {
+            $game = Game::where("title", "like", "%$request->game%")->pluck("id");
+            $products = $products->whereHas("category", function ($q) use ($game) {
+                $q->whereIn("game_id", $game);
+            });
+        }
+        $products = $products->paginate(30);
         return view('admin.products.index', compact('products'));
     }
 
@@ -74,7 +92,7 @@ class ProductController extends Controller
     {
         $options = Option::all();
         $calculator = $product->calculator;
-        return view("admin.products.edit", compact('product', 'options','calculator'));
+        return view("admin.products.edit", compact('product', 'options', 'calculator'));
     }
 
     /**

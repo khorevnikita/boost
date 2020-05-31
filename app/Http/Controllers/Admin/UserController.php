@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -13,9 +14,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy("id", "desc")->get();
+        $users = User::orderBy("id", "desc");
+        if ($request->name) {
+            $search = $request->name;
+            $users = $users->where(function ($q) use ($search) {
+                $q->where(DB::raw("CONCAT(`name`,' ',`surname`)"), "like", "%$search%")->orWhere(DB::raw("CONCAT(`surname`,' ',`name`)"), "like", "%$search%");
+            });
+        }
+        if ($request->email) {
+            $users = $users->where("email", "LIKE", "%$request->email%");
+        }
+        if ($request->phone) {
+            $users = $users->where("phone", "LIKE", "%$request->phone%");
+        }
+        if ($request->role) {
+            $users = $users->where('role', $request->role);
+        }
+        $users = $users->paginate(30);
         return view("admin.users.index", compact('users'));
     }
 

@@ -11,21 +11,45 @@
                     </div>
 
                     <div class="card-body">
-                        @if($orders->count()>0)
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <td>ID</td>
-                                        <td>Created at</td>
-                                        <td>Payed at</td>
-                                        <td>Amount</td>
-                                        <td>Status</td>
-                                        <td>User</td>
-                                        <td></td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Created at</td>
+                                    <td>Payed at</td>
+                                    <td>Amount</td>
+                                    <td>Status</td>
+                                    <td>User</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <select name="status" class="form-control js-filter">
+                                            <option value="">All</option>
+                                            <option value="new" @if(Request::input("status")=="new") selected @endif>New</option>
+                                            <option value="formed" @if(Request::input("status")=="formed") selected @endif>Formed</option>
+                                            <option value="payed" @if(Request::input("status")=="payed") selected @endif>Payed</option>
+                                            <option value="declined" @if(Request::input("status")=="declined") selected @endif>Declined</option>
+                                            <option value="done" @if(Request::input("status")=="done") selected @endif>Done</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input name="user" type="text" class="form-control js-filter" value="{{Request::input("user")}}">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary js-search">Search</button>
+                                    </td>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+                                @if($orders->count()>0)
                                     @foreach($orders as $order)
                                         <tr>
                                             <td>{{$order->id}}</td>
@@ -47,16 +71,28 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="text-center">
-                                {{ $orders->links() }}
-                            </div>
-                        @endif
+
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center">
+                            {{ $orders->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @push("scripts")
+        <script>
+            $(".js-search").click(function () {
+                var search = "?";
+                for (var e of $(".js-filter")) {
+                    search = search + e.name + "=" + e.value + "&";
+                }
+                window.location.href = "/admin/orders" + search
+            })
+        </script>
+    @endpush
 @endsection

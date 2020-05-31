@@ -12,22 +12,64 @@
                         Product list
                     </div>
                     <div class="card-body">
-                        @if($products->count()>0)
-                            <ul class="list-group">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Title</td>
+                                    <td>Category</td>
+                                    <td>Game</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input class="form-control js-filter" name="id" value="{{Request::input("id")}}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control js-filter" name="title" value="{{Request::input("title")}}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control js-filter" name="category" value="{{Request::input("category")}}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control js-filter" name="game" value="{{Request::input("game")}}">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary js-search">Search</button>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 @foreach($products as $product)
-                                    <li class="list-group-item list-group-item-action">
-                                        <a href="{{url("/admin/products/$product->id/edit")}}">
-                                            {{$product->title}} ({{$product->category->game->title}} - {{$product->category->title}})
-                                        </a>
-                                    </li>
+                                    <tr>
+                                        <td>{{$product->id}}</td>
+                                        <td>{{$product->title}}</td>
+                                        <td>{{$product->category->title}}</td>
+                                        <td>{{$product->category->game->title}}</td>
+                                        <td>
+                                            <a href="{{url("/admin/products/$product->id/edit")}}">More</a>
+                                        </td>
+                                    </tr>
                                 @endforeach
-                            </ul>
-                        @else
-                            <div class="alert alert-primary">No products found. Create the first</div>
-                        @endif
+                                </tbody>
+                            </table>
+                            {{$products->withQueryString()->links()}}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @push("scripts")
+        <script>
+            $(".js-search").click(function () {
+                var search = "?";
+                for (var e of $(".js-filter")) {
+                    search = search + e.name + "=" + e.value + "&";
+                }
+                window.location.href = "/admin/products" + search
+            })
+        </script>
+    @endpush
 @endsection

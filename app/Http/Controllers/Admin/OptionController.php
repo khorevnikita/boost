@@ -13,9 +13,13 @@ class OptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $options = Option::all();
+        $options = Option::orderBy("id", "desc");
+        if ($request->title) {
+            $options  = $options->where("title","like","%$request->title%");
+        }
+        $options = $options->paginate(30);
         return view("admin.options.index", compact('options'));
     }
 
