@@ -2,6 +2,17 @@
 
 @section('content')
     <div class="container">
+        @auth
+            <form id="logout-form" action="{{url("logout")}}" method="post">
+                @csrf
+                <button type="submit" class="float-right mt-2 btn btn-link js-logout">
+                    <svg class="bi bi-x-circle-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                    </svg>
+                </button>
+            </form>
+        @endauth
         <div class="row">
             <div class="col">
                 <h4>My bonus:
@@ -15,6 +26,7 @@
                     </svg>
                     </span>
                 </h4>
+                <hr>
                 <h4>My orders</h4>
                 <div class="table-responsive">
                     <table class="table table-bordered">
