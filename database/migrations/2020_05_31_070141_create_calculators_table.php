@@ -46,7 +46,7 @@ class CreateCalculatorsTable extends Migration
     {
 
         Schema::table("order_product",function (Blueprint $table){
-           # $table->dropColumn("range");
+            $table->dropColumn("range");
         });
         Schema::dropIfExists('calculators');
     }
