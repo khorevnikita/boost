@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="step_price">Step price</label>
-                                    <input placeholder="1" id="step_price" type="number" name="step_price" class="form-control" value="{{$calculator->step_price??''}}">
+                                    <input placeholder="1" id="step_price" name="step_price" class="form-control" value="{{$calculator->step_price??''}}">
                                 </div>
                                 <div class="col js-start-value @if(!$calculator || $calculator->step_type=="abs") d-none @endif">
                                     <label>Start value</label>

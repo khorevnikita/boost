@@ -14,6 +14,7 @@ use ecommpay\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -41,8 +42,8 @@ class OrderController extends Controller
         $order = Order::findTheLast();
         if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
-                $product->selected_options = $product->selectedOptions($order);
-;            }
+                $product->selected_options = $product->selectedOptions($order);;
+            }
         }
         $user = Auth::user();
         return view("order", compact('order', 'commonPrice', 'user'));
@@ -65,7 +66,6 @@ class OrderController extends Controller
 
         # attach product
         $order->products()->detach($request->product_id);
-
 
         $range = null;
         $calc = Calculator::where("product_id", $request->product_id)->first();
@@ -127,14 +127,11 @@ class OrderController extends Controller
         $order->status = "formed";
         $order->save();
 
-        /*$user->bonus = ($user->bonus ?: 0) + $order->bonus();
-        $user->save();*/
-
         /* Заявка на оплату */
         $payment = new Payment(config("services.ecommpay.id"));
         // Идентификатор проекта
 
-        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency(strtoupper(Config::get("currency")));
         // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
 
         $payment->setPaymentId($order->id);
@@ -204,7 +201,6 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        # dd($request->all());
         if ($request->project_id != config("services.ecommpay.id")) {
             Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
 

@@ -32,15 +32,16 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto d-md-none d-lg-none d-xl-none">
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       v-pre>
                         Games <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         @foreach($games as $game)
-                        <a class="dropdown-item" href="{{url($game->rewrite)}}">
-                            {{$game->title}}
-                        </a>
+                            <a class="dropdown-item" href="{{url($game->rewrite)}}">
+                                {{$game->title}}
+                            </a>
                         @endforeach
                     </div>
                 </li>
@@ -68,14 +69,14 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                        v-pre>
-                        EUR <span class="caret"></span>
+                        {{strtoupper($currency)}} <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{url("currency/eur")}}">
                             EUR
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{url("currency/usd")}}">
                             USD
                         </a>
                     </div>

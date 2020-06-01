@@ -9,7 +9,7 @@
             <h4>{{$game->description}}</h4>
         </div>
 
-        <game-product-list :game="{{$game}}"></game-product-list>
+        <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
 
         <div style="clear: both"></div>
         @if($recentlyViewedItems->count()>0)
@@ -26,7 +26,14 @@
                             </div>
                             <div class="media-body">
                                 <p class="mt-0">{{$item->title}}</p>
-                                <p>{{$item->price}} <img style="width: 15px" src="/images/icons/euro.svg"/></p>
+                                <p>{{$item->price}}
+                                    @if($currency=="usd")
+                                        $
+                                    @else
+                                        <img style="width: 15px" src="/images/icons/euro.svg"/>
+                                    @endif
+                                </p>
+
                             </div>
                         </div>
                     </div>

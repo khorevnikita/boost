@@ -32,7 +32,7 @@
                 </div>
 
                 <div id="app" class="mt-5">
-                    <product-order @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>
+                    <product-order :currency="'{{$currency}}'" @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>
                 </div>
             </div>
             <div class="col-12 col-sm-8 order-sm-1">
@@ -80,7 +80,12 @@
                             </div>
                             <div class="media-body">
                                 <p class="mt-0">{{$cross->title}}</p>
-                                <p>{{$cross->price}} <img style="width: 15px" src="/images/icons/euro.svg"/></p>
+                                <p>{{$cross->price}}
+                                    @if($currency=="usd")
+                                        $
+                                    @else
+                                        <img style="width: 15px" src="/images/icons/euro.svg"/>
+                                    @endif</p>
                             </div>
                         </div>
                     </div>
@@ -102,7 +107,13 @@
                             </div>
                             <div class="media-body">
                                 <p class="mt-0">{{$item->title}}</p>
-                                <p>{{$item->price}} <img style="width: 15px" src="/images/icons/euro.svg"/></p>
+                                <p>{{$item->price}}
+                                    @if($currency=="usd")
+                                        $
+                                    @else
+                                        <img style="width: 15px" src="/images/icons/euro.svg"/>
+                                    @endif
+                                </p>
                             </div>
                         </div>
                     </div>

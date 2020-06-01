@@ -2,8 +2,10 @@
 
 namespace App;
 
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class Order extends Model
 {
@@ -44,14 +46,15 @@ class Order extends Model
         $commonPrice = 0;
         if ($this->products->count() > 0) {
             foreach ($this->products as $product) {
-                $commonPrice = $commonPrice + $product->price;
+                #dd($product->original_price);
+                $commonPrice = $commonPrice + $product->original_price;
                 $orderProduct = $product->orderProducts()->where("order_id", $this->id)->with("options")->first();
                 $product->selected_options = $orderProduct->options;
                 foreach ($product->selected_options as $option) {
                     if ($option->type == "abs") {
-                        $commonPrice = $commonPrice + $option->price;
+                        $commonPrice = $commonPrice + $option->original_price;
                     } else {
-                        $commonPrice = $commonPrice + $product->price * $option->price / 100;
+                        $commonPrice = $commonPrice + $product->original_price * $option->original_price / 100;
                     }
                 }
                 if ($product->pivot->range) {
@@ -78,6 +81,15 @@ class Order extends Model
             return null;
         }
         return Carbon::parse($v)->format("H:i d.m.Y");
+    }
+    public function getAmountAttribute($price)
+    {
+        $currency = Config::get("currency");
+        if ($currency=="usd") {
+            $exchangeRates = new ExchangeRate();
+            $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
+        }
+        return round($price, 2);
     }
 
 }

@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
-
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@home');
 
 Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::get("/", "Admin\HomeController@index");
@@ -31,15 +27,27 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::post("orders/{id}", "Admin\OrderController@destroy");
     Route::resource("calculator", "Admin\CalculatorController");
 });
+Route::group(['middleware' => ['currency']], function () {
 
-Route::get("order", "OrderController@show");
-Route::get("order/{id}/pay", "OrderController@pay");
-Route::get("order/success", "OrderController@success");
-Route::get("order/decline", "OrderController@decline");
-Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');
+    Auth::routes();
 
-Route::resource("assessments", "AssessmentController");
+    Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@home');
 
 
-Route::get("{game_slug}", "HomeController@game");
-Route::get("{game_slug}/{product_slug}", "HomeController@product");
+    Route::get("order", "OrderController@show");
+    Route::get("order/{id}/pay", "OrderController@pay");
+    Route::get("order/success", "OrderController@success");
+    Route::get("order/decline", "OrderController@decline");
+    Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');
+
+    Route::resource("assessments", "AssessmentController");
+
+    Route::get("currency/{code}", function ($code) {
+        setcookie("currency_" . config("app.cookie_key"), $code, null, '/');
+        return back();
+    });
+
+    Route::get("{game_slug}", "HomeController@game");
+    Route::get("{game_slug}/{product_slug}", "HomeController@product");
+});
