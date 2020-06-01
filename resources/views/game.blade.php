@@ -16,7 +16,7 @@
             <h4 class="mt-4">Recently viewed items</h4>
             <div class="row row-eq-height mt-5">
                 @foreach($recentlyViewedItems as $item)
-                    <div class="col-4">
+                    <div class="col-12 col-md-4 mt-4">
                         <div style="cursor: pointer" data-href="{{url($item->url)}}" class="media text-muted more-item">
                             <div>
                                 <img style="width: 110px" src="{{$item->banner}}" class="mr-3" alt="...">

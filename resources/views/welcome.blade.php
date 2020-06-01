@@ -28,6 +28,7 @@
                         </svg>
                     </a>
                 </h4>
+            <div style="clear:both"></div>
                 <div class="row">
                     @foreach($game->topDeals() as $product)
                         <div class="col-12 col-sm-6 mt-4">
