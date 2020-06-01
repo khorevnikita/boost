@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post("orders", "OrderController@store");
 Route::put("orders", "OrderController@destroy");
-Route::post("orders/{id}/form", "OrderController@form");
+Route::post("orders/{id}/form", "OrderController@form")->middleware('currency');
 Route::get("products", "ProductController@index");
 Route::post("products/{id}/vote", "ProductController@vote");
 Route::get("options","Admin\OptionController@indexJson");
