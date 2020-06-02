@@ -85,9 +85,9 @@
         </div>
     </div>
 </nav>
-<div id="app" style="overflow: auto">
-    <div class="row">
-        <nav class="col-md-1 d-none d-md-block bg-dark sidebar">
+<div id="app">
+    <div>
+        <nav class=" d-none d-md-block bg-dark sidebar sidebar-main">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -119,7 +119,7 @@
             </div>
         </nav>
         <div class="fixed-list" style="display: none">
-            <nav class="col-md-3 offset-1 d-none d-md-block bg-light sidebar">
+            <nav class="col-md-3 d-none d-md-block bg-light sidebar sidebar-games">
                 <div class="sidebar-sticky">
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Games:</strong></li>
@@ -135,7 +135,7 @@
                 </div>
             </nav>
         </div>
-        <main class="py-4 col-md-11 ml-sm-auto col-lg-11 pt-3 px-4">
+        <main>
             @yield('content')
         </main>
     </div>

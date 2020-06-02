@@ -1,10 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="text-center bg-dark pt-5 pb-5 text-white">
+    @if($game->actual_banner)
+        @include('particles.banner_item', ['banner' => $game->actual_banner])
+    @else
+        <div class="text-center bg-dark pt-5 pb-5 text-white banner">
             <h2>{{$game->title}}</h2>
         </div>
+    @endif
+    <div class="container">
+
         <div class="text-center pt-5 pb-5">
             <h4>{{$game->description}}</h4>
         </div>

@@ -10,7 +10,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
 
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -38,6 +37,9 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{url("/admin/banners")}}">Banners</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{url("/admin/games")}}">Games</a>
                     </li>
                     <li class="nav-item">
@@ -52,6 +54,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url("/admin/orders")}}">Orders</a>
                     </li>
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -95,7 +98,7 @@
     </main>
 </div>
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" ></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
 @stack("scripts")
 </body>

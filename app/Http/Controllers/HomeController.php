@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Banner;
 use App\Game;
 use App\Order;
 use App\OrderProduct;
@@ -32,7 +33,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+
+        $banner = Banner::whereNull("game_id")->where("published",1)->first();
+        return view('welcome',compact('banner'));
     }
 
     public function home()
@@ -51,6 +54,7 @@ class HomeController extends Controller
                 $product->selected_options = $product->selectedOptions($order);
             }
         }
+
         return view("home", compact('user', 'orders'));
     }
 

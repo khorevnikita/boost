@@ -12,6 +12,11 @@ class Game extends Model
         return $this->hasMany(Category::class);
     }
 
+    public function banners()
+    {
+        return $this->hasMany(Banner::class);
+    }
+
     public function topDeals()
     {
         $products = Product::whereIn("category_id", $this->categories()->pluck("id"))->orderBy("id", "desc")->take(4)->get();
@@ -24,5 +29,10 @@ class Game extends Model
             return null;
         }
         return Storage::disk("public")->url($this->banner);
+    }
+
+    public function getActualBannerAttribute()
+    {
+        return $this->banners()->where("published", 1)->first();
     }
 }

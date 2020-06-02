@@ -101,3 +101,35 @@
     max-width: 600px;
     margin: auto;
 }
+
+.sidebar-main {
+    width: 70px
+}
+
+.sidebar-games {
+    left: 70px
+}
+
+@media (min-width: 768px) {
+    main {
+        margin-left: 70px !important;
+    }
+}
+
+.custom-bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.custom-bg-image {
+    max-width: 50%;
+    display: inline;
+}
+
+.custom-bg-content {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}

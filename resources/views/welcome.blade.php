@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    @if($banner)
+        @include('particles.banner_item', ['banner' => $banner])
+    @else
         <div class="text-center pt-5 pb-5 text-white banner">
             <h2>Boost your skill. Team up with PROes. <br> Be invincible and enjoy the game every moment.
             </h2>
         </div>
+    @endif
+    <div class="container">
         <div class="text-center pt-5 pb-5">
             <h4>Safe Boost and Carry Services in Your Favorite Games</h4>
             <h5>Choose game you want to get services in:</h5>

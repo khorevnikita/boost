@@ -48,7 +48,6 @@ class ImageController extends Controller
             $image->save();
         }
         return response(['status'=>"success"]);
-        return back();
     }
 
     /**

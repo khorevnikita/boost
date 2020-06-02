@@ -26,6 +26,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::resource("orders", "Admin\OrderController");
     Route::post("orders/{id}", "Admin\OrderController@destroy");
     Route::resource("calculator", "Admin\CalculatorController");
+    Route::resource("banners", "Admin\BannerController");
 });
 Route::group(['middleware' => ['currency']], function () {
 
