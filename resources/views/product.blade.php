@@ -2,8 +2,11 @@
 
 @section('content')
     <div class="container">
-        <div class="text-center bg-dark pt-5 pb-5 text-white">
+        <div class="pt-5">
             <h2>{{$product->title}}</h2>
+        </div>
+        <div>
+            @include('particles.product_rating', ['product' => $product,'vote'=>true,])
         </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-4 order-sm-2">
@@ -27,9 +30,7 @@
                     </div>
                 @endif
 
-                <div class="text-center">
-                    @include('particles.product_rating', ['product' => $product,'vote'=>true,])
-                </div>
+
 
                 <div id="app" class="mt-5">
                     <product-order :currency="'{{$currency}}'" @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>

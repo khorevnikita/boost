@@ -24,6 +24,8 @@
                             <li>Name: <strong>{{$user->surname}} {{$user->name}}</strong></li>
                             <li>Email: <strong>{{$user->email}}</strong></li>
                             <li>Phone: <strong>{{$user->phone}}</strong></li>
+                            <li>Skype: <strong>{{$user->skype}}</strong></li>
+                            <li>Discord: <strong>{{$user->discord}}</strong></li>
                             <li>Bonus: <strong>{{$user->bonus}}</strong></li>
                             <li>Email verification:
                                 @if($user->email_verified_at)
@@ -47,6 +49,7 @@
                         <ul class="list-unstyled">
                             <li>Created at: <strong>{{$order->created_at}}</strong></li>
                             <li>Payed_at: <strong>{{$order->payed_at}}</strong></li>
+                            <li>Comment: <strong>{{$order->comment}}</strong></li>
                             <li>Status: <strong>{{$order->status}}</strong></li>
                             <li>Bonus: <strong>{{$user->bonus}}</strong></li>
                         </ul>

@@ -7,6 +7,8 @@ use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
 use App\User;
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
+use Carbon\Carbon;
 use ecommpay\Gate;
 use ecommpay\Payment;
 use Illuminate\Http\Request;
@@ -72,23 +74,34 @@ class OrderController extends Controller
             $user->phone = $request->phone;
             $user->password = bcrypt($password);
             $user->confirmation_token = Str::random();
+            $user->skype = $request->skype;
+            $user->discord = $request->discord;
             $user->save();
             $is_new = true;
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
         }
+
+        $amount = $request->amount;
+        $currency = strtoupper($request->currency);
+        if ($currency !== "EUR") {
+            $exchangeRates = new ExchangeRate();
+            $amount = $exchangeRates->convert($amount, $currency, 'EUR', Carbon::now());
+        }
+
         $order = new Order();
-        $order->amount = $request->amount;
+        $order->amount = round($amount, 2);
         $order->status = "new";
         $order->hash = md5(now());
         $order->user_id = $user->id;
+        $order->comment = $request->comment;
         $order->save();
 
         /* Заявка на оплату */
         $payment = new Payment(config("services.ecommpay.id"));
         // Идентификатор проекта
 
-        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+        $payment->setPaymentAmount($request->amount * 100)->setPaymentCurrency($currency);
         // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
 
         $payment->setPaymentId($order->id);

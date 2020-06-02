@@ -117,6 +117,8 @@ class OrderController extends Controller
             $user->phone = $request->phone;
             $user->password = bcrypt($password);
             $user->confirmation_token = Str::random();
+            $user->skype = $request->skype;
+            $user->discord = $request->discord;
             $user->save();
             $is_new = true;
             # email here about registration

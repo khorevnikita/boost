@@ -28,8 +28,28 @@
                                 <input id="phone" type="text" name="phone" value="" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label for="skype">Skype</label>
+                                <input id="skype" type="text" name="skype" value="" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="discord">Discord</label>
+                                <input id="discord" type="text" name="discord" value="" class="form-control">
+                            </div>
+                            <div class="form-group">
                                 <label for="amount">Amount</label>
                                 <input id="amount" type="text" name="amount" value="" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="currency">Currency</label>
+                                <select id="currency" type="text" name="currency" class="form-control">
+                                    <option value="eur" selected>EUR</option>
+                                    <option value="usd">USD</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="comment">Comment (Order name)</label>
+                                <textarea id="comment" name="comment" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Get link</button>

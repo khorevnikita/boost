@@ -109,6 +109,15 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col form-group">
+                                <input class=" form-control" name="skype" placeholder="Skype" value="{{$user->skype??""}}">
+                            </div>
+                            <div class="col form-group">
+                                <input class=" form-control" name="discord" placeholder="Discord" value="{{$user->discord??""}}">
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
                         <h4 class="mt-3">Common price: <span class="text-primary">{{$order->amount}}
                                 @if($currency=="usd") $ @else
