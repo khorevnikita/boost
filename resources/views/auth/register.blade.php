@@ -4,7 +4,7 @@
     <div class="container mb-3">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-header">{{ __('Register') }}</div>
 
                     <div class="card-body">
