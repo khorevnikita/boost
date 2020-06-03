@@ -14,6 +14,11 @@ class Calculator extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
+
 
     public function calc($range)
     {

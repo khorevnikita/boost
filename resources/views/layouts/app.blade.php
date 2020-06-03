@@ -138,6 +138,9 @@
         <main>
             @yield('content')
         </main>
+        <footer style="width: 100%;height: 200px" class="bg-white">
+
+        </footer>
     </div>
 </div>
 <!-- Scripts -->

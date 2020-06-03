@@ -84,84 +84,23 @@
                                 </p>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Save product</button>
                             </div>
                         </form>
                         <hr>
                         <h4>Calculator</h4>
-                        <form id="calc-form" method="post" @if(!$calculator) class="d-none"
-                              @endif action="{{url("admin/calculator/".($calculator->id??""))}}">
-                            @csrf
-                            @if($calculator)
-                                @method("PUT")
-                            @else
-                                <input type="hidden" name="product_id" value="{{$product->id}}">
-                            @endif
-
-                            <div class="form-group">
-                                <label for="name">Title</label>
-                                <input type="text" name="name" class="form-control" value="{{$calculator->name??''}}">
+                        <calculator-editor @if($calculator) :calculator="{{$calculator}}" @endif :product="{{$product}}"></calculator-editor>
+                        @if($calculator)
+                            <div class="form-group float-right">
+                                <form action="{{url(" admin/calculators/$calculator->id")}}" method="post">
+                                    @csrf
+                                    @method("DELETE")
+                                    <button onclick="return confirm('Are you sure you want to delete CALCULATOR?')" type="submit" class="btn btn-danger float-right">Delete
+                                        calculator
+                                    </button>
+                                </form>
                             </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea id="description" name="description" class="form-control">{{$calculator->description??''}}</textarea>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <label for="min_title">Min title</label>
-                                    <input id="min_title" type="text" name="min_title" class="form-control" value="{{$calculator->min_title??''}}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="min_value">Min value</label>
-                                    <input placeholder="0" id="min_value" type="number" name="min_value" class="form-control" value="{{$calculator->min_value??''}}">
-                                </div>
-
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <label for="max_title">Max title</label>
-                                    <input id="max_title" type="text" name="max_title" class="form-control" value="{{$calculator->max_title??''}}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="max_value">Max value</label>
-                                    <input id="max_value" type="number" name="max_value" class="form-control" value="{{$calculator->max_value??''}}">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col">
-                                    <label for="step">Step</label>
-                                    <input placeholder="1" id="step" type="number" name="step" class="form-control" value="{{$calculator->step??''}}">
-                                </div>
-                                <div class="col">
-                                    <label for="step_type">Step type</label>
-                                    <select onchange="$('.js-start-value').toggleClass('d-none')" id="step_type" name="step_type" class="form-control">
-                                        <option @if($calculator && $calculator->step_type=="abs") selected @endif value="abs">Absolute</option>
-                                        <option @if($calculator && $calculator->step_type=="percent") selected @endif value="percent">Percent</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="step_price">Step price</label>
-                                    <input placeholder="1" id="step_price" name="step_price" class="form-control" value="{{$calculator->step_price??''}}">
-                                </div>
-                                <div class="col js-start-value @if(!$calculator || $calculator->step_type=="abs") d-none @endif">
-                                    <label>Start value</label>
-                                    <input type="number" class="form-control" name="start_value" value="{{$calculator->start_value??''}}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit">Save</button>
-                            </div>
-
-                        </form>
-
-                        @if(!$calculator)
-                            <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" onclick="$('#calc-form').toggleClass('d-none')">
-                                    <label class="custom-control-label" for="customSwitch1"> Create calculator</label>
-                                </div>
-                            </div>
+                            <div style="clear:both"></div>
                         @endif
                         <hr>
 
@@ -169,7 +108,8 @@
                             <form action="{{url("admin/products/$product->id")}}" method="post">
                                 @csrf
                                 @method("DELETE")
-                                <button type="submit" class="btn btn-danger float-right">Delete product</button>
+                                <button onclick="return confirm('Are you sure you want to delete PRODUCT?')" type="submit" class="btn btn-danger float-right">Delete product
+                                </button>
                             </form>
                         </div>
                         <div style="clear:both"></div>
@@ -208,6 +148,18 @@
     </div>
     @push("scripts")
         <script>
+            $(".js-delete-step").click(function () {
+                $(this).parent().parent().remove()
+            });
+            $(".js-add-step").click(function () {
+                let rowItem = $(".step-row");
+                let clone = rowItem.clone();
+                rowItem.parent().append(clone)
+                $(".js-delete-step").click(function () {
+                    $(this).parent().parent().remove()
+                });
+            });
+
             document.addEventListener("DOMContentLoaded", function () {
                 $('#short_description').summernote({
                     height: 200,

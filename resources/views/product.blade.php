@@ -8,64 +8,16 @@
         <div>
             @include('particles.product_rating', ['product' => $product,'vote'=>true,])
         </div>
-        <div class="row mt-3">
-            <div class="col-12 col-sm-4 order-sm-2">
-                @if($product->images->count() > 0)
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach($product->images as $k=>$image)
-                                <div class="carousel-item @if(!$k) active @endif ">
-                                    <img class="d-block w-100" src="{{$image->url}}" alt="">
-                                </div>
-                            @endforeach
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                @endif
-
-
-
-                <div id="app" class="mt-5">
-                    <product-order :currency="'{{$currency}}'" @if($product->calculator) :calculator="{{$product->calculator}}" @endif :product="{{$product}}" :options="{{$product->options}}"></product-order>
-                </div>
-            </div>
-            <div class="col-12 col-sm-8 order-sm-1">
-                @if($product->calculator)
-                    <div class="calculator row mt-3 ">
-                        <div class="col-12">
-                            <h4>{{$product->calculator->name}}</h4>
-                        </div>
-                        <div class="col">
-                            <label>{{$product->calculator->min_title}}</label>
-                            <input value="{{$product->pivot?$product->pivot->range->from:$product->calculator->min_value}}" type="number" id="slider-from" class="form-control">
-                        </div>
-                        <div class="col text-center"><p>{{$product->calculator->description}}</p></div>
-                        <div class="col">
-                            <label>{{$product->calculator->max_title}}</label>
-                            <input value="{{$product->pivot?$product->pivot->range->to:$product->calculator->max_value}}" type="number" id="slider-to" class="form-control">
-                        </div>
-                        <div class="col-12 mt-3">
-                            <div id="slider-range"></div>
-                        </div>
-                    </div>
-                @endif
-                <div class="pt-5 pb-5">
-                    {!! $product->short_description !!}
-                </div>
-
-                <div>
-                    {!! $product->description !!}
-                </div>
-            </div>
-
+        <div id="app">
+            <product-order
+                @if($product->images) :images="{{$product->images}}" @endif
+                :currency="'{{$currency}}'"
+                @if($product->calculator) :calculator="{{$product->calculator()->with('steps')->first()}}" @endif
+                :product="{{$product}}"
+                :options="{{$product->options}}"
+            ></product-order>
         </div>
+
         <div style="clear: both"></div>
         @if($crosses->count()>0)
             <h4 class="mt-4">You may be interested in:</h4>

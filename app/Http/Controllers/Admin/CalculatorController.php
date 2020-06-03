@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Calculator;
 use App\Http\Controllers\Controller;
+use App\Step;
 use Illuminate\Http\Request;
 
 class CalculatorController extends Controller
@@ -37,13 +38,30 @@ class CalculatorController extends Controller
     public function store(Request $request)
     {
         $calc = new Calculator();
-        foreach ($request->except("_token") as $k => $value) {
+        foreach ($request->except("_token", 'steps') as $k => $value) {
             if ($value) {
                 $calc->{$k} = $value;
             }
         }
         $calc->save();
-        return back();
+        $calc->steps()->whereNotIn("id", collect($request->steps)->pluck("id"))->delete();
+
+        if ($request->steps) {
+            foreach ($request->steps as $step) {
+                if (isset($step['id'])) {
+                    $s = Step::find($step['id']);
+                } else {
+                    $s = new Step();
+                    $s->calculator_id = $calc->id;
+                }
+                $s->title = $step['title'];
+                $s->price = $step['price'];
+                $s->save();
+            }
+        }
+        return response([
+            'status' => "success"
+        ]);
     }
 
 
@@ -78,13 +96,30 @@ class CalculatorController extends Controller
      */
     public function update(Request $request, Calculator $calculator)
     {
-        foreach ($request->except("_token","_method") as $k => $value) {
+        foreach ($request->except("_token", "_method", 'steps') as $k => $value) {
             if ($value) {
                 $calculator->{$k} = $value;
             }
         }
         $calculator->save();
-        return back();
+        $calculator->steps()->whereNotIn("id", collect($request->steps)->pluck("id"))->delete();
+        if ($request->steps) {
+            foreach ($request->steps as $step) {
+                if (isset($step['id'])) {
+                    $s = Step::find($step['id']);
+                } else {
+                    $s = new Step();
+                    $s->calculator_id = $calculator->id;
+                }
+                $s->title = $step['title'];
+                $s->price = $step['price'];
+                $s->save();
+            }
+        }
+        return response([
+            'status' => "success"
+        ]);
+
     }
 
     /**
@@ -95,6 +130,7 @@ class CalculatorController extends Controller
      */
     public function destroy(Calculator $calculator)
     {
-        //
+        $calculator->delete();
+        return back();
     }
 }

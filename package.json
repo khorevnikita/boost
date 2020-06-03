@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "jquery-ui": "^1.12.1",
-    "vue-avatar-cropper": "^1.0.6"
+    "vue-avatar-cropper": "^1.0.6",
+    "vue-slider-component": "^3.1.5"
   }
 }
