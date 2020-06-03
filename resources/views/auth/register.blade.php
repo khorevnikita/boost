@@ -1,14 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mb-3">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">{{ __('Register') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register') }}">
+                        <p class="text-center text-muted">Use social media</p>
+                        <div class="row text-center">
+                            <div class="col">
+                                <a href="{{url("login/facebook")}}">
+                                    <img src="/images/icons/fb.png" style="width: 30px">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="{{url("login/google")}}">
+                                    <img src="/images/icons/google.png" style="width: 30px">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="{{url("login/steam")}}">
+                                    <img src="/images/icons/steam.png" style="width: 30px">
+                                </a>
+                            </div>
+                        </div>
+                        <p class="text-center text-muted mt-3">Or using Email account</p>
+                        <form class="mt-5" method="POST" action="{{ route('register') }}">
                             @csrf
 
                             <div class="form-group row">

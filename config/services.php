@@ -33,6 +33,26 @@ return [
     'ecommpay' => [
         'id' => env('ECOMMPAY_ID'),
         'secret' => env('ECOMMPAY_SECRET')
-    ]
+    ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('APP_URL').'/login/facebook/callback',
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('APP_URL')."/login/google/callback",
+    ],
+
+    'steam' => [
+        'client_id' => env('STEAM_CLIENT_ID'),
+        'client_secret' => env('STEAM_CLIENT_SECRET'),
+        'redirect' => env('APP_URL').'/login/steam/callback',
+        'api_key' => env('STEAM_API_KEY'),
+    ],
+
 
 ];

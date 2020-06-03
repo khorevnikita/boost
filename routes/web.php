@@ -32,9 +32,11 @@ Route::group(['middleware' => ['currency']], function () {
 
     Auth::routes();
 
+    Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider');
+    Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback');
+
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@home');
-
 
     Route::get("order", "OrderController@show");
     Route::get("order/{id}/pay", "OrderController@pay");
@@ -55,4 +57,5 @@ Route::group(['middleware' => ['currency']], function () {
 
     Route::get("{game_slug}", "HomeController@game");
     Route::get("{game_slug}/{product_slug}", "HomeController@product");
+
 });
