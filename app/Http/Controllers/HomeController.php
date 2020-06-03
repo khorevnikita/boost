@@ -111,4 +111,15 @@ class HomeController extends Controller
         $crosses = $product->crosses;
         return view("product", compact('product', 'recentlyViewedItems', 'crosses'));
     }
+
+    public function details(){
+        return view("details");
+    }
+    public function faq(){
+        return view("faq");
+    }
+    public function agreement(){
+        return view("agreement");
+    }
+
 }

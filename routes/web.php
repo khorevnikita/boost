@@ -44,6 +44,10 @@ Route::group(['middleware' => ['currency']], function () {
 
     Route::resource("assessments", "AssessmentController");
 
+    Route::get("details", "HomeController@details");
+    Route::get("faq", "HomeController@faq");
+    Route::get("agreement", "HomeController@agreement");
+
     Route::get("currency/{code}", function ($code) {
         setcookie("currency_" . config("app.cookie_key"), $code, null, '/');
         return back();

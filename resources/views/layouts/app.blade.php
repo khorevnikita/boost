@@ -137,10 +137,52 @@
         </div>
         <main>
             @yield('content')
-        </main>
-        <footer style="width: 100%;height: 200px" class="bg-white">
 
-        </footer>
+            <footer class="bg-white pt-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{url("agreement")}}">User agreement</a>
+                                </li>
+                                <li>
+                                    <a href="{{url("details")}}">Company details</a>
+                                </li>
+                                <li>
+                                    <a href="{{url("faq")}}">FAQ</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <p> Adress: <strong>143500, Russia, MO, Istra, Sovetskaya str. 13/2 306</strong></p>
+                                </li>
+                                <li>
+                                    <p>Name of the company: <strong>PE Bandrovskaya E.A.</strong></p>
+                                </li>
+                                <li>
+                                    <p>Telephone number: <strong>+7 903 238 25 48</strong></p>
+                                </li>
+                                <li>
+                                    <p>Company email: <strong>info@boostmytoon.com</strong></p>
+                                </li>
+                                <li>
+                                    <p>Discord: <strong>boostmytoon#3894</strong></p>
+                                </li>
+                                <li>
+                                    <p> Skype: <strong>live:boostmytoon</strong></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
     </div>
 </div>
 <!-- Scripts -->

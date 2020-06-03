@@ -198,38 +198,6 @@
             }
         },
         methods: {
-            /*initSlider() {
-                let self = this;
-                var sliderElement = $("#slider-range");
-                if (sliderElement.length > 0) {
-                    sliderElement.slider({
-                        range: true,
-                        step: this.calculator.step,
-                        min: this.calculator.min_value,
-                        max: this.calculator.max_value,
-                        values: [this.product.pivot ? this.product.pivot.range.from : this.calculator.min_value, this.product.pivot ? this.product.pivot.range.to : this.calculator.max_value],
-                        slide: function (event, ui) {
-                            $("#slider-from").val(ui.values[0]);
-                            $("#slider-to").val(ui.values[1]);
-                            self.range.from = ui.values[0];
-                            self.range.to = ui.values[1];
-
-                        }
-                    });
-                    $("#slider-from").change(function () {
-                        sliderElement.slider("values", 0, $(this).val());
-                        self.range.from = parseInt($(this).val());
-                    });
-                    $("#slider-to").change(function () {
-                        sliderElement.slider("values", 1, $(this).val());
-                        self.range.to = parseInt($(this).val());
-                    });
-
-
-                    this.range.from = parseInt($("#slider-from").val());
-                    this.range.to = parseInt($("#slider-to").val());
-                }
-            },*/
             toggleOption(option) {
                 let index = this.selected_options.indexOf(option);
                 if (index > -1) {
