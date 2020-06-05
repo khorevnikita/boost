@@ -54,6 +54,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url("/admin/orders")}}">Orders</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url("/admin/seo")}}">SEO</a>
+                    </li>
 
                 </ul>
 

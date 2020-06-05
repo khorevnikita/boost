@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class CurrencyMiddleware
@@ -24,6 +25,10 @@ class CurrencyMiddleware
         Config::set('currency', $currency);
 
         View::share("currency", $currency);
+
+        $seo = DB::table("seo")->first();
+        View::share("seo", $seo);
+
         return $next($request);
     }
 }

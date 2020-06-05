@@ -15,6 +15,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css?1') }}" rel="stylesheet">
+
+    @if($seo)
+        <title>@yield('page_title',$seo->title)</title>
+        <meta name="description" content="@yield('page_description',$seo->description)">
+        <meta property="og:image" content="@yield('page_og_image',Storage::disk("public")->url($seo->image))"/>
+        <meta name="Keywords" content="@yield('seo_keys',$seo->keys)">
+    @endif
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
