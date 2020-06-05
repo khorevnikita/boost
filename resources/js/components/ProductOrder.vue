@@ -15,7 +15,7 @@
                     <input v-model="range.to" type="text" class="form-control">
                 </div>
 
-                <div class="col-12 mt-3" v-if="calculator.steps && calculator.steps.length > 0">
+                <div class="col-12 mt-3 mb-3" v-if="calculator.steps && calculator.steps.length > 0">
                     <!-- MANUAL -->
                     <vue-slider ref="slider"
                                 v-model="slider_value"
@@ -29,7 +29,7 @@
                                 :enable-cross="false"
                     ></vue-slider>
                 </div>
-                <div class="col-12" v-else>
+                <div class="col-12 mt-3 mb-3" v-else>
                     <!-- AUTO -->
                     <vue-slider ref="slider"
                                 v-model="slider_value"

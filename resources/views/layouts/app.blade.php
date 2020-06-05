@@ -138,46 +138,17 @@
         <main>
             @yield('content')
 
-            <footer class="bg-white pt-5">
+            <footer class="bg-white pt-5 pb-5 mt-3">
                 <div class="container">
-                    <div class="row">
+                    <div class="row text-center">
                         <div class="col">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="{{url("agreement")}}">User agreement</a>
-                                </li>
-                                <li>
-                                    <a href="{{url("details")}}">Company details</a>
-                                </li>
-                                <li>
-                                    <a href="{{url("faq")}}">FAQ</a>
-                                </li>
-                            </ul>
+                            <a href="{{url("agreement")}}">User agreement</a>
                         </div>
                         <div class="col">
-
+                            <a href="{{url("details")}}">Company details</a>
                         </div>
                         <div class="col">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <p> Adress: <strong>143500, Russia, MO, Istra, Sovetskaya str. 13/2 306</strong></p>
-                                </li>
-                                <li>
-                                    <p>Name of the company: <strong>PE Bandrovskaya E.A.</strong></p>
-                                </li>
-                                <li>
-                                    <p>Telephone number: <strong>+7 903 238 25 48</strong></p>
-                                </li>
-                                <li>
-                                    <p>Company email: <strong>info@boostmytoon.com</strong></p>
-                                </li>
-                                <li>
-                                    <p>Discord: <strong>boostmytoon#3894</strong></p>
-                                </li>
-                                <li>
-                                    <p> Skype: <strong>live:boostmytoon</strong></p>
-                                </li>
-                            </ul>
+                            <a href="{{url("faq")}}">FAQ</a>
                         </div>
                     </div>
                 </div>

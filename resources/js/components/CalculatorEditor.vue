@@ -151,11 +151,15 @@
             save() {
                 if (!this.calc.id) {
                     axios.post("/admin/calculator", this.calc).then(r => {
-
+                        if (r.data.status === "success") {
+                            window.location.reload();
+                        }
                     })
                 } else {
                     axios.put("/admin/calculator/" + this.calc.id, this.calc).then(r => {
-
+                        if (r.data.status === "success") {
+                            window.location.reload();
+                        }
                     })
                 }
             }
