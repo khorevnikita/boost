@@ -1,7 +1,7 @@
 <template>
     <div class="row mt-3">
-        <div class="col-12 col-md-8" v-if="calculator">
-            <div class="row">
+        <div class="col-12 col-md-8" >
+            <div class="row" v-if="calculator">
                 <div class="col-12">
                     <h4>{{calculator.name}}</h4>
                 </div>

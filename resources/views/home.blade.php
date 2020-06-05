@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-3">
         @auth
             <form id="logout-form" action="{{url("logout")}}" method="post">
                 @csrf
