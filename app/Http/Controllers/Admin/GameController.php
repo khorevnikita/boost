@@ -6,6 +6,7 @@ use App\Game;
 use App\Http\Controllers\Controller;
 use App\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -40,6 +41,10 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $slug = Str::slug($request->title, "-");
         $checkUnique = Game::where("rewrite", $slug)->first();
 
@@ -77,6 +82,7 @@ class GameController extends Controller
      */
     public function edit(Game $game)
     {
+
         $categories = $game->categories;
         $game->categories = $categories;
         return view("admin.games.edit", compact("game"));
@@ -91,6 +97,10 @@ class GameController extends Controller
      */
     public function update(Request $request, Game $game)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $checkUnique = Game::where("rewrite", $request->rewrite)->first();
         $game->title = $request->title;
         $game->description = $request->description;
@@ -108,12 +118,20 @@ class GameController extends Controller
      */
     public function destroy(Game $game)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $game->delete();
         return redirect("/admin/games");
     }
 
     public function banner($game_id, Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $game = Game::findOrFail($game_id);
         if ($request->hasFile("file")) {
             if ($game->banner) {

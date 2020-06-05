@@ -24,23 +24,33 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" name="phone" value="{{$user->phone}}">
+                                <input id="email" type="email" class="form-control" name="email" value="{{$user->email}}">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
-                                <input id="phone" type="text" class="form-control" name="email" value="{{$user->email}}">
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{$user->phone}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Skype</label>
+                                <input id="email" type="text" class="form-control" name="skype" value="{{$user->skype}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Discord</label>
+                                <input id="phone" type="text" class="form-control" name="discord" value="{{$user->discord}}">
                             </div>
 
                             <div class="form-group">
                                 <label for="bonus">Bonus</label>
-                                <input id="bonus" type="email" class="form-control" name="bonus" value="{{$user->bonus}}">
+                                <input id="bonus" type="text" class="form-control" name="bonus" value="{{$user->bonus}}">
                             </div>
+
 
                             <div class="form-group">
                                 <label for="role">Role</label>
                                 <select class="form-control" name="role" id="role">
                                     <option @if($user->role == "user") selected @endif value="user">User</option>
-                                    <option @if($user->role == "manager") selected @endif value="manager">Manager</option>
+                                    <option @if($user->role == "content") selected @endif value="content">Content-managers</option>
+                                    <option @if($user->role == "sales") selected @endif value="sales">Sales-Manager</option>
                                     <option @if($user->role == "admin") selected @endif value="admin">Admin</option>
                                 </select>
                             </div>

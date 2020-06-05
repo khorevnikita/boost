@@ -88,6 +88,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-users')) {
+            abort(403);
+        }
         $user->name = $request->name;
         $user->surname = $request->surname;
         $user->email = $request->email;

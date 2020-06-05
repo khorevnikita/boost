@@ -9,33 +9,33 @@
                         Order #{{$order->id}}
                     </div>
                     <div class="card-body">
-
-                        <h4>User
-                            <a href="{{url("admin/users/$user->id/edit")}}">
-                                <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
-                                    <path fill-rule="evenodd"
-                                          d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
-                                </svg>
-                            </a>
-                        </h4>
-                        <ul class="list-unstyled">
-                            <li>Name: <strong>{{$user->surname}} {{$user->name}}</strong></li>
-                            <li>Email: <strong>{{$user->email}}</strong></li>
-                            <li>Phone: <strong>{{$user->phone}}</strong></li>
-                            <li>Skype: <strong>{{$user->skype}}</strong></li>
-                            <li>Discord: <strong>{{$user->discord}}</strong></li>
-                            <li>Bonus: <strong>{{$user->bonus}}</strong></li>
-                            <li>Email verification:
-                                @if($user->email_verified_at)
-                                    <strong class="text-success">Yes</strong>
-                                @else
-                                    <strong class="text-danger">No</strong>
-                                @endif
-                            </li>
-                        </ul>
-
+                        @if($order->user)
+                            <h4>User
+                                <a href="{{url("admin/users/$user->id/edit")}}">
+                                    <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                    </svg>
+                                </a>
+                            </h4>
+                            <ul class="list-unstyled">
+                                <li>Name: <strong>{{$user->surname}} {{$user->name}}</strong></li>
+                                <li>Email: <strong>{{$user->email}}</strong></li>
+                                <li>Phone: <strong>{{$user->phone}}</strong></li>
+                                <li>Skype: <strong>{{$user->skype}}</strong></li>
+                                <li>Discord: <strong>{{$user->discord}}</strong></li>
+                                <li>Bonus: <strong>{{$user->bonus}}</strong></li>
+                                <li>Email verification:
+                                    @if($user->email_verified_at)
+                                        <strong class="text-success">Yes</strong>
+                                    @else
+                                        <strong class="text-danger">No</strong>
+                                    @endif
+                                </li>
+                            </ul>
+                        @endif
                         <h4>Order
                             <a href="{{url("admin/orders/$order->id/edit")}}">
                                 <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +51,7 @@
                             <li>Payed_at: <strong>{{$order->payed_at}}</strong></li>
                             <li>Comment: <strong>{{$order->comment}}</strong></li>
                             <li>Status: <strong>{{$order->status}}</strong></li>
-                            <li>Bonus: <strong>{{$user->bonus}}</strong></li>
+                            <li>Bonus: <strong>{{$order->bonus()}}</strong></li>
                         </ul>
 
                         <h4>Products</h4>
@@ -109,7 +109,8 @@
                                             @if($product->pivot->range)
                                                 @php $range = json_decode($product->pivot->range) @endphp
                                                 <p class="m-0"><strong>{{$product->calculator->name}}</strong></p>
-                                                <p>{{$product->calculator->min_title}}: <strong>{{$range->from}}</strong> - {{$product->calculator->max_title}}: <strong>{{$range->to}}</strong></p>
+                                                <p>{{$product->calculator->min_title}}: <strong>{{$range->from}}</strong> - {{$product->calculator->max_title}}:
+                                                    <strong>{{$range->to}}</strong></p>
                                                 <hr>
                                                 <p>
                                                     {{$product->calculator->calc($range)}}

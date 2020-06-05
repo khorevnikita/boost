@@ -36,27 +36,35 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/banners")}}">Banners</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/games")}}">Games</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/products")}}">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/options")}}">Options</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/users")}}">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/orders")}}">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url("/admin/seo")}}">SEO</a>
-                    </li>
+                    @can("update-content")
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/banners")}}">Banners</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/games")}}">Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/products")}}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/options")}}">Options</a>
+                        </li>
+                    @endcan
+                    @can("update-users")
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/users")}}">Users</a>
+                        </li>
+                    @endcan
+                    @can("update-orders")
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/orders")}}">Orders</a>
+                        </li>
+                    @endcan
+                    @can("update-content")
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/seo")}}">SEO</a>
+                        </li>
+                    @endcan
 
                 </ul>
 

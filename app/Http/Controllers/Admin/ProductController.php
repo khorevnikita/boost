@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Option;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -59,6 +60,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $slug = Str::slug($request->title, "-");
         $checkUnique = Product::where("rewrite", $slug)->first();
 
@@ -114,6 +119,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $checkUnique = Product::where("rewrite", $request->rewrite)->first();
 
         $product->title = $request->title;
@@ -143,6 +152,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $product->delete();
         return redirect("/admin/products");
     }

@@ -6,6 +6,7 @@ use App\Banner;
 use App\Game;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
@@ -40,6 +41,10 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $b = new Banner();
         if ($request->game_id) {
             $b->game_id = $request->game_id;
@@ -102,6 +107,9 @@ class BannerController extends Controller
      */
     public function update(Request $request, Banner $banner)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
 
         if ($request->game_id) {
             $banner->game_id = $request->game_id;

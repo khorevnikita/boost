@@ -58,6 +58,8 @@ Route::group(['middleware' => ['currency']], function () {
         return back();
     });
 
+    Route::get("search", "HomeController@search");
+
     Route::get("{game_slug}", "HomeController@game");
     Route::get("{game_slug}/{product_slug}", "HomeController@product");
 

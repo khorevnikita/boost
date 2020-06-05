@@ -10,6 +10,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
@@ -34,8 +35,8 @@ class HomeController extends Controller
     public function index()
     {
 
-        $banner = Banner::whereNull("game_id")->where("published",1)->first();
-        return view('welcome',compact('banner'));
+        $banner = Banner::whereNull("game_id")->where("published", 1)->first();
+        return view('welcome', compact('banner'));
     }
 
     public function home()
@@ -77,11 +78,11 @@ class HomeController extends Controller
 
     public function product($game_slug, $product_slug)
     {
-        $game = Game::where("rewrite",$game_slug)->first();
-        if(!$game){
+        $game = Game::where("rewrite", $game_slug)->first();
+        if (!$game) {
             abort(404);
         }
-        $product = Product::where("rewrite",$product_slug)->whereIn("category_id",$game->categories()->pluck("categories.id"))->first();
+        $product = Product::where("rewrite", $product_slug)->whereIn("category_id", $game->categories()->pluck("categories.id"))->first();
         if (!$product) {
             abort(404);
         }
@@ -112,14 +113,32 @@ class HomeController extends Controller
         return view("product", compact('product', 'recentlyViewedItems', 'crosses'));
     }
 
-    public function details(){
+    public function details()
+    {
         return view("details");
     }
-    public function faq(){
+
+    public function faq()
+    {
         return view("faq");
     }
-    public function agreement(){
+
+    public function agreement()
+    {
         return view("agreement");
     }
 
+    public function search(Request $request)
+    {
+        $products = Product::where("title", "like", "%$request->q%");
+        $products = $products
+            ->leftJoin("assessments", "assessments.product_id", "=", "products.id")
+            ->select('products.*', DB::raw('AVG(assessments.value) as ratings_average'))
+            ->groupBy("products.id")
+            ->orderBy("ratings_average", "desc");
+
+        $products = $products->with("category")->paginate(10);
+
+        return view("search", compact('products'));
+    }
 }

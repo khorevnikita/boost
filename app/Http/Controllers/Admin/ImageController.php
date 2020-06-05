@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Image;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -37,6 +38,10 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $product = Product::find($request->product_id);
         if ($request->hasFile("file")) {
             $file = $request->file("file");
@@ -91,6 +96,10 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $image->delete();
         return back();
     }

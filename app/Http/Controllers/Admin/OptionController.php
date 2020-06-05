@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Option;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OptionController extends Controller
 {
@@ -50,6 +51,10 @@ class OptionController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $opt = new Option();
         $opt->title = $request->title;
         $opt->short_description = $request->short_description;
@@ -91,6 +96,10 @@ class OptionController extends Controller
      */
     public function update(Request $request, Option $option)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $option->title = $request->title;
         $option->short_description = $request->short_description;
         $option->price = $request->price;
@@ -108,6 +117,10 @@ class OptionController extends Controller
      */
     public function destroy(Option $option)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $option->delete();
         return redirect("/admin/options");
     }

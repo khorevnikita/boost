@@ -52,6 +52,10 @@ class OrderController extends Controller
      */
     public function create()
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
+
         return view("admin.orders.create");
     }
 
@@ -63,6 +67,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
         $user = User::where("email", $request->email)->first();
         if (!$user) {
             $password = Str::random(8);
@@ -130,6 +137,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
         if ($order->products->count() > 0) {
             foreach ($order->products as $product) {
                 $product->selected_options = $product->selectedOptions($order);
@@ -160,6 +170,9 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
         if ($order->products->count() > 0) {
             foreach ($order->products as $product) {
                 $product->selected_options = $product->selectedOptions($order);
@@ -177,6 +190,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
         $order->status = $request->status;
         $order->save();
 
@@ -191,6 +207,9 @@ class OrderController extends Controller
      */
     public function destroy($order_id, Request $request)
     {
+        if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
+            abort(403);
+        }
         $order = Order::find($order_id);
         if ($request->type == "product") {
             $order->products()->detach($request->product);

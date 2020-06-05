@@ -6,6 +6,7 @@ use App\Category;
 use App\Game;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -38,6 +39,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $category = new Category();
         $category->game_id = $request->game_id;
         $category->title = $request->title;
@@ -77,6 +82,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $category->title = $request->title;
         $category->description = $request->description;
         $category->save();
@@ -91,6 +100,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $game_id = $category->game_id;
         $category->delete();
         return redirect("admin/games/$game_id/edit");

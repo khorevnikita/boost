@@ -6,6 +6,7 @@ use App\Calculator;
 use App\Http\Controllers\Controller;
 use App\Step;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CalculatorController extends Controller
 {
@@ -37,6 +38,10 @@ class CalculatorController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
         $calc = new Calculator();
         foreach ($request->except("_token", 'steps') as $k => $value) {
             if ($value) {

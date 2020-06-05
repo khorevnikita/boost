@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class SeoController extends Controller
@@ -17,6 +18,12 @@ class SeoController extends Controller
 
     public function save(Request $request)
     {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
+        $checkRecord = DB::table("seo")->first();
+
         $data = [];
         if ($request->title) {
             $data['title'] = $request->title;
@@ -29,13 +36,15 @@ class SeoController extends Controller
         }
 
         if ($request->hasFile("image")) {
+            if ($checkRecord && $checkRecord->image) {
+                Storage::delete($checkRecord->image);
+            }
             $file = $request->file("image");
             $path = "/seo/" . $file->getClientOriginalName();
             Storage::disk('public')->put($path, file_get_contents($file), 'public');
             $data['image'] = $path;
         }
 
-        $checkRecord = DB::table("seo")->first();
         if ($checkRecord) {
             DB::table("seo")->where("id", 1)->update($data);
         } else {
