@@ -1,9 +1,10 @@
 <template>
     <div class="row mt-3">
         <div class="col-12 col-md-8">
-            <manual-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
-            <auto-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-else></auto-calculator>
-
+            <div v-if="calculator">
+                <manual-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
+                <auto-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-else></auto-calculator>
+            </div>
             <div class=" pb-5 mt-3" v-html="product.short_description"></div>
 
             <div v-html="product.description"></div>

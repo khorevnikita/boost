@@ -5,12 +5,12 @@
         </div>
         <div class="col">
             <label>{{calculator.min_title}}</label>
-            <input v-model="range.from" type="text" class="form-control">
+            <p>{{range.from}}</p>
         </div>
         <div class="col text-center"><p>{{calculator.description}}</p></div>
         <div class="col">
             <label>{{calculator.max_title}}</label>
-            <input v-model="range.to" type="text" class="form-control">
+            <p>{{range.to}}</p>
         </div>
 
         <div class="col-12 mt-3 mb-3">
