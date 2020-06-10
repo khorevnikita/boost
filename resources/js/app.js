@@ -61,7 +61,7 @@ $(".js-remove-item-from-order").click(function () {
 
 $("#order-form").submit(function (e) {
     e.preventDefault();
-
+    $(".text-danger").text("");
     var data = {};
     for (var v of $(this).serializeArray()) {
         data[v['name']] = v['value']
@@ -70,6 +70,12 @@ $("#order-form").submit(function (e) {
         if (r.data.status === 'success') {
             window.location.href = r.data.data.url;
             //window.open(r.data.data.url, '_blank');
+        }
+    }).catch(err => {
+        let errors = err.response.data.errors;
+        for (var key in errors) {
+            var msg = errors[key][0];
+            $("[data-key='" + key + "']").text(msg);
         }
     });
     return false;

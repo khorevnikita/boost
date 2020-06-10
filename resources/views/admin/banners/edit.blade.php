@@ -6,7 +6,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        Create a banner
+                        Edit banner
                     </div>
 
                     <div class="card-body">
@@ -30,10 +30,16 @@
                             <div class="form-group">
                                 <label for="action_title">Action title</label>
                                 <input id="action_title" name="action_title" class="form-control" value="{{$banner->action_title}}">
+                                @error('action_title')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="action_url">Action url</label>
                                 <input id="action_url" name="action_url" class="form-control" value="{{$banner->action_url}}">
+                                @error('action_url')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="game_id">Place</label>

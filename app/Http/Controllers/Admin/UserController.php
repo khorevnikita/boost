@@ -91,6 +91,9 @@ class UserController extends Controller
         if (\Illuminate\Support\Facades\Gate::denies('update-users')) {
             abort(403);
         }
+        $request->validate([
+            'email' => "required|email"
+        ]);
         $user->name = $request->name;
         $user->surname = $request->surname;
         $user->email = $request->email;

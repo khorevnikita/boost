@@ -18,23 +18,38 @@
                             <div class="form-group">
                                 <label for="title">Product title</label>
                                 <input id="title" type="text" class="form-control" name="title" value="{{$product->title}}">
+                                @error('title')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="rewrite">Rewrite name</label>
                                 <input id="rewrite" type="text" class="form-control" name="rewrite" value="{{$product->rewrite}}">
+                                @error('rewrite')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="short_description">Short description</label>
                                 <textarea id="short_description" name="short_description">{{$product->short_description}}</textarea>
+                                @error('short_description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description">{{$product->description}}</textarea>
+                                @error('description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input id="price" type="text" class="form-control" name="price" value="{{$product->price}}">
+                                @error('price')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <div class="form-check">

@@ -22,6 +22,7 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input id="email" type="email" name="email" value="" class="form-control">
+                                <p class="text-danger" data-key="email"></p>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>
@@ -38,6 +39,7 @@
                             <div class="form-group">
                                 <label for="amount">Amount</label>
                                 <input id="amount" type="text" name="amount" value="" class="form-control">
+                                <p class="text-danger" data-key="amount"></p>
                             </div>
                             <div class="form-group">
                                 <label for="currency">Currency</label>
@@ -54,7 +56,6 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Get link</button>
                             </div>
-
                         </form>
                         <p class="d-none text-primary js-link"></p>
                     </div>
@@ -65,6 +66,7 @@
     @push("scripts")
         <script>
             $("#get-link-form").submit(function (e) {
+                $(".text-danger").text("");
                 e.preventDefault();
                 var data = {};
                 for (var v of $(this).serializeArray()) {
@@ -74,6 +76,12 @@
                     if (r.data.status === 'success') {
                         $(".js-link").removeClass("d-none").text(r.data.url);
                         $("form").addClass("d-none")
+                    }
+                }).catch(err => {
+                    let errors = err.response.data.errors;
+                    for (var key in errors) {
+                        var msg = errors[key][0];
+                        $("[data-key='" + key + "']").text(msg);
                     }
                 });
                 return false;

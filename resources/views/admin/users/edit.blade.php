@@ -25,6 +25,9 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input id="email" type="email" class="form-control" name="email" value="{{$user->email}}">
+                                @error("email")
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone</label>

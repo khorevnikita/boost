@@ -42,7 +42,9 @@ class CategoryController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
-
+        $request->validate([
+            "title" => "required|max:255"
+        ]);
         $category = new Category();
         $category->game_id = $request->game_id;
         $category->title = $request->title;
@@ -85,7 +87,9 @@ class CategoryController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
-
+        $request->validate([
+            "title" => "required|max:255"
+        ]);
         $category->title = $request->title;
         $category->description = $request->description;
         $category->save();

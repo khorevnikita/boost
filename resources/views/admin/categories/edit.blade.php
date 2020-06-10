@@ -17,6 +17,9 @@
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input id="title" type="text" class="form-control" name="title" value="{{$category->title}}">
+                                @error("title")
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>

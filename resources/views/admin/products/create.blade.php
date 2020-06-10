@@ -15,18 +15,30 @@
                             <div class="form-group">
                                 <label for="title">Product title</label>
                                 <input id="title" type="text" class="form-control" name="title">
+                                @error('title')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="short_description">Short description</label>
                                 <textarea id="short_description" class="form-control" name="short_description" rows="3"></textarea>
+                                @error('short_description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea id="description" class="form-control" name="description" rows="3"></textarea>
+                                @error('description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input id="price" type="text" class="form-control" name="price">
+                                @error('price')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>
@@ -58,4 +70,36 @@
             </div>
         </div>
     </div>
+
+    @push("scripts")
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                $('#short_description').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+
+                $('#description').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+            });
+        </script>
+    @endpush
 @endsection

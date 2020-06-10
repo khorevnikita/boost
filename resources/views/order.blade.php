@@ -95,17 +95,21 @@
                         <div class="row">
                             <div class="col form-group">
                                 <input class=" form-control" name="surname" placeholder="Surname" value="{{$user->surname??""}}">
+                                <p class="text-danger" data-key="surname"></p>
                             </div>
                             <div class="col form-group">
                                 <input class=" form-control" name="name" placeholder="Name" value="{{$user->name??""}}">
+                                <p class="text-danger" data-key="name"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col form-group">
                                 <input class=" form-control" name="email" placeholder="E-mail" value="{{$user->email??""}}">
+                                <p class="text-danger" data-key="email"></p>
                             </div>
                             <div class="col form-group">
                                 <input class=" form-control" name="phone" placeholder="Phone" value="{{$user->phone??""}}">
+                                <p class="text-danger" data-key="phone"></p>
                             </div>
                         </div>
 

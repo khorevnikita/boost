@@ -70,6 +70,11 @@ class OrderController extends Controller
         if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
             abort(403);
         }
+
+        $request->validate([
+            "email" => "required|email",
+            "amount" => "required|numeric"
+        ]);
         $user = User::where("email", $request->email)->first();
         if (!$user) {
             $password = Str::random(8);

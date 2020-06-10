@@ -45,6 +45,12 @@ class BannerController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            "background" => "required|file",
+            "action_url"=>"required_with:action_title",
+            "action_title"=>"required_with:action_url",
+        ]);
+
         $b = new Banner();
         if ($request->game_id) {
             $b->game_id = $request->game_id;
@@ -110,6 +116,11 @@ class BannerController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
+
+        $request->validate([
+            "action_url"=>"required_with:action_title",
+            "action_title"=>"required_with:action_url",
+        ]);
 
         if ($request->game_id) {
             $banner->game_id = $request->game_id;

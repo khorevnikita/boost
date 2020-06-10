@@ -15,6 +15,9 @@
                             <div class="form-group">
                                 <label for="bg">Background</label>
                                 <input id="bg" type="file" name="background">
+                                @error('background')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="object_image">Object image</label>
@@ -22,15 +25,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="text">Text</label>
-                                <textarea id="text" name="text" class="form-control"></textarea>
+                                <textarea id="text" name="text" class="form-control">{{old("text")}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="action_title">Action title</label>
-                                <input id="action_title" name="action_title" class="form-control">
+                                <input id="action_title" name="action_title" class="form-control" value="{{old("action_title")}}">
+                                @error('action_title')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="action_url">Action url</label>
-                                <input id="action_url" name="action_url" class="form-control">
+                                <input id="action_url" name="action_url" class="form-control" value="{{old("action_url")}}">
+                                @error('action_url')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="game_id">Place</label>

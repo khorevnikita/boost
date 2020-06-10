@@ -45,6 +45,10 @@ class GameController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            "title" => "required|max:255"
+        ]);
+
         $slug = Str::slug($request->title, "-");
         $checkUnique = Game::where("rewrite", $slug)->first();
 
@@ -100,6 +104,9 @@ class GameController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
+        $request->validate([
+            "title" => "required|max:255"
+        ]);
 
         $checkUnique = Game::where("rewrite", $request->rewrite)->first();
         $game->title = $request->title;

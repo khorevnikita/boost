@@ -15,6 +15,9 @@
                             <div class="form-group">
                                 <label for="title">Option title</label>
                                 <input id="title" type="text" class="form-control" name="title">
+                                @error('title')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="short_description">Short description</label>
@@ -23,6 +26,9 @@
                             <div class="form-group">
                                 <label for="price">Price</label>
                                 <input id="price" type="text" class="form-control" name="price">
+                                @error('price')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="type">Price type</label>

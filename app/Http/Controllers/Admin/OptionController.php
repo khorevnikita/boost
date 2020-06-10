@@ -55,6 +55,11 @@ class OptionController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            "title" => "required|max:255",
+            "price" => "required|numeric",
+        ]);
+
         $opt = new Option();
         $opt->title = $request->title;
         $opt->short_description = $request->short_description;
@@ -99,6 +104,11 @@ class OptionController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
+
+        $request->validate([
+            "title" => "required|max:255",
+            "price" => "required|numeric",
+        ]);
 
         $option->title = $request->title;
         $option->short_description = $request->short_description;

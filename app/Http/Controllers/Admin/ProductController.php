@@ -64,6 +64,13 @@ class ProductController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            "title" => "required|max:255",
+            "short_description" => "required",
+            "description" => "required",
+            "price" => "required|numeric",
+        ]);
+
         $slug = Str::slug($request->title, "-");
         $checkUnique = Product::where("rewrite", $slug)->first();
 
@@ -122,6 +129,14 @@ class ProductController extends Controller
         if (Gate::denies('update-content')) {
             abort(403);
         }
+
+        $request->validate([
+            "title" => "required|max:255",
+            "rewrite" => "required|max:255",
+            "short_description" => "required",
+            "description" => "required",
+            "price" => "required|numeric",
+        ]);
 
         $checkUnique = Product::where("rewrite", $request->rewrite)->first();
 
