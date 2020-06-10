@@ -12,7 +12,7 @@
             <product-order
                 @if($product->images) :images="{{$product->images}}" @endif
                 :currency="'{{$currency}}'"
-                @if($product->calculator) :calculator="{{$product->calculator()->with('steps')->first()}}" @endif
+                @if($calculator) :calculator="{{$calculator}}" @endif
                 :product="{{$product}}"
                 :options="{{$product->options}}"
             ></product-order>

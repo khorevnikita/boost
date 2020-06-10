@@ -1,47 +1,9 @@
 <template>
     <div class="row mt-3">
-        <div class="col-12 col-md-8" >
-            <div class="row" v-if="calculator">
-                <div class="col-12">
-                    <h4>{{calculator.name}}</h4>
-                </div>
-                <div class="col">
-                    <label>{{calculator.min_title}}</label>
-                    <input v-model="range.from" type="text" class="form-control">
-                </div>
-                <div class="col text-center"><p>{{calculator.description}}</p></div>
-                <div class="col">
-                    <label>{{calculator.max_title}}</label>
-                    <input v-model="range.to" type="text" class="form-control">
-                </div>
+        <div class="col-12 col-md-8">
+            <manual-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
+            <auto-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-else></auto-calculator>
 
-                <div class="col-12 mt-3 mb-3" v-if="calculator.steps && calculator.steps.length > 0">
-                    <!-- MANUAL -->
-                    <vue-slider ref="slider"
-                                v-model="slider_value"
-                                :order="true"
-                                :min="0"
-                                :max="calc_marks_array.length-1"
-                                :step="calculator.step"
-                                :data="calc_marks_array"
-                                :marks="true"
-                                :adsorb="true"
-                                :enable-cross="false"
-                    ></vue-slider>
-                </div>
-                <div class="col-12 mt-3 mb-3" v-else>
-                    <!-- AUTO -->
-                    <vue-slider ref="slider"
-                                v-model="slider_value"
-                                :order="true"
-                                :min="calculator.min_value"
-                                :max="calculator.max_value"
-                                :step="calculator.step"
-                                :adsorb="true"
-                                :enable-cross="false"
-                    ></vue-slider>
-                </div>
-            </div>
             <div class=" pb-5 mt-3" v-html="product.short_description"></div>
 
             <div v-html="product.description"></div>
@@ -66,14 +28,14 @@
                 <h2>{{common_price}}
                     <span v-if="currency==='usd'">$</span>
                     <span v-else>
-               <svg width="24" height="24" viewBox="4 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="24" height="24" viewBox="4 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="euro_symbol_24px">
 <path id="icon/action/euro_symbol_24px"
       d="M15 18.5C12.49 18.5 10.32 17.08 9.24 15H15V13H8.58C8.53 12.67 8.5 12.34 8.5 12C8.5 11.66 8.53 11.33 8.58 11H15V9H9.24C10.32 6.92 12.5 5.5 15 5.5C16.61 5.5 18.09 6.09 19.23 7.07L21 5.3C19.41 3.87 17.3 3 15 3C11.08 3 7.76 5.51 6.52 9H3V11H6.06C6.02 11.33 6 11.66 6 12C6 12.34 6.02 12.67 6.06 13H3V15H6.52C7.76 18.49 11.08 21 15 21C17.31 21 19.41 20.13 21 18.7L19.22 16.93C18.09 17.91 16.62 18.5 15 18.5Z"
       fill="black" fill-opacity="1"/>
 </g>
 </svg>
-            </span>
+                    </span>
                 </h2>
                 <div class="form-check mt-3" v-for="option in options">
                     <input :checked="selected_options.filter(so=>so.id===option.id)[0]" @click="toggleOption(option)" type="checkbox" class="form-check-input"
@@ -81,22 +43,21 @@
                     <label class="form-check-label" :for="'opt'+option.id">
                         {{option.title}}
                         <span>
-                    +  {{option.price}}
-                    <span v-if="option.type=='abs'">
-                        <span v-if="currency==='usd'">$</span>
-                        <span v-else>
-                            <svg width="15" height="15" viewBox="4 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            +  {{option.price}}
+                            <span v-if="option.type=='abs'">
+                                <span v-if="currency==='usd'">$</span>
+                                <span v-else>
+                                    <svg width="15" height="15" viewBox="4 3 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="euro_symbol_24px">
 <path id="icon/action/euro_symbol_24px"
       d="M15 18.5C12.49 18.5 10.32 17.08 9.24 15H15V13H8.58C8.53 12.67 8.5 12.34 8.5 12C8.5 11.66 8.53 11.33 8.58 11H15V9H9.24C10.32 6.92 12.5 5.5 15 5.5C16.61 5.5 18.09 6.09 19.23 7.07L21 5.3C19.41 3.87 17.3 3 15 3C11.08 3 7.76 5.51 6.52 9H3V11H6.06C6.02 11.33 6 11.66 6 12C6 12.34 6.02 12.67 6.06 13H3V15H6.52C7.76 18.49 11.08 21 15 21C17.31 21 19.41 20.13 21 18.7L19.22 16.93C18.09 17.91 16.62 18.5 15 18.5Z"
       fill="black" fill-opacity="1"/>
 </g>
 </svg>
+                                </span>
+                            </span>
+                            <span v-else>%</span>
                         </span>
-                    </span>
-                    <span v-else>%</span>
-
-                </span>
                     </label>
                 </div>
 
@@ -112,76 +73,25 @@
 </template>
 
 <script>
-    import VueSlider from 'vue-slider-component'
-    import 'vue-slider-component/theme/default.css'
+
+    import AutoCalculator from "./AutoCalculator";
+    import ManualCalculator from "./ManualCalculator";
 
     export default {
         name: "ProductOrder",
         props: ['product', 'options', 'calculator', 'currency', 'images'],
         components: {
-            VueSlider
+            ManualCalculator,
+            AutoCalculator,
         },
         data() {
             return {
                 selected_options: this.product.selected_options ? this.product.selected_options : [],
                 added: this.product.in_order,
-                slider_value: [this.calculator ? this.calculator.min_value : 0, this.calculator ? this.calculator.max_value : 0],
-                range: {from: 0, to: 0},
                 slider_price: 0,
-                calc_marks_array: null,
             }
         },
-        created() {
-            if (this.calculator) {
-                if (this.calculator.steps && this.calculator.steps.length > 0) {
-                    this.calc_marks_array = [];
 
-                    for (var s of this.calculator.steps) {
-                        this.calc_marks_array.push(s.title);
-                    }
-                }
-            }
-        },
-        watch: {
-            slider_value: {
-                handler: function (value) {
-                    console.log(value);
-                    if (this.calculator.steps && this.calculator.steps.length > 0) {
-                        var from_step = this.calculator.steps.filter(s => s.title === value[0])[0];
-                        var to_step = this.calculator.steps.filter(s => s.title === value[1])[0];
-                        if (from_step) {
-                            this.range.from = from_step.price;
-                        }
-                        if (to_step) {
-                            this.range.to = to_step.price;
-                        }
-                    } else {
-                        this.range.from = value[0];
-                        this.range.to = value[1];
-                    }
-                    console.log(this.range);
-                },
-                deep: true
-            },
-            range: {
-                handler: function (range) {
-                    //
-                    this.slider_value = [parseInt(range.from), parseInt(range.to)];
-                    //
-                    let difference = range.to - range.from;
-                    if (this.calculator.step_type === "abs") {
-                        this.slider_price = difference * this.calculator.step_price;
-                    } else {
-                        let b1 = this.calculator.start_value ? this.calculator.start_value : 1;
-                        let q = (1 + this.calculator.step_price / 100);
-                        let min_price = b1 * (q ** this.range.from - 1) / (q - 1);
-                        let max_price = b1 * (q ** this.range.to - 1) / (q - 1);
-                        this.slider_price = Math.round(max_price - min_price);
-                    }
-                },
-                deep: true,
-            }
-        },
         computed: {
             common_price: function () {
                 var summ = this.product.price;

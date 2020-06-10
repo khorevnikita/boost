@@ -106,11 +106,16 @@ class HomeController extends Controller
         Cache::forget("recently_viewed");
         Cache::put("recently_viewed", $recentlyViewed, 60 * 60);
         $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
-
-        #  $product->rating = $product->assessments->avg("value");
-        #  dd($_COOKIE);
         $crosses = $product->crosses;
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses'));
+
+        $calculator = $product->calculator()->with('steps')->first();
+        if ($calculator && $calculator->steps->count() > 0) {
+            $steps = $calculator->steps->sortBy("price");
+            $calculator->min_value = $steps->first()->title;
+            $calculator->max_value = $steps->last()->title;
+        }
+        //dd($calculator->toArray());
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator'));
     }
 
     public function details()
