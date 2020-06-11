@@ -235,8 +235,6 @@
         </div>
     </div>
 </div>
-<input type="text" value="" id="discord-copy" style="position: absolute;right:0;opacity: 1;z-index: 0">
-<input type="text" value="" id="skype-copy" style="position: absolute;right:0;opacity: 1;z-index: 0">
 <script src="{{ asset('js/app.js') }}"></script>
 @stack("scripts")
 </body>
