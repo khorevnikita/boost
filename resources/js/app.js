@@ -68,8 +68,35 @@ $("#order-form").submit(function (e) {
     }
     axios.post($(this).attr("action"), data).then(r => {
         if (r.data.status === 'success') {
-            window.location.href = r.data.data.url;
+            //window.location.href = r.data.data.url;
             //window.open(r.data.data.url, '_blank');
+            let order = r.data.data.order;
+            var widget = new cp.CloudPayments();
+            widget.charge({ // options
+                    publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
+                    description: "Order #" + order.id, //назначение
+                    amount: 10, //сумма
+                    //amount: order.amount, //сумма
+                    currency: 'RUB', //валюта
+                    invoiceId: order.id, //номер заказа  (необязательно)
+                    accountId: order.user.email, //идентификатор плательщика (необязательно)
+                    skin: "mini", //дизайн виджета
+                    data: {
+                        myProp: 'myProp value' //произвольный набор параметров
+                    }
+                },
+                function (options) { // success
+                    axios.post("/api/orders/" + options.invoiceId + "/payed", {email: options.accountId}).then(r => {
+                        if (r.data.status === 'success') {
+                            window.location.href = "/order/success";
+                        }
+                    });
+                    console.log(options);
+                    //действие при успешной оплате
+                },
+                function (reason, options) { // fail
+                    //действие при неуспешной оплате
+                });
         }
     }).catch(err => {
         let errors = err.response.data.errors;

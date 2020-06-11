@@ -144,4 +144,7 @@
             </div>
         </div>
     </div>
+    @push("scripts")
+        <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
+    @endpush
 @endsection

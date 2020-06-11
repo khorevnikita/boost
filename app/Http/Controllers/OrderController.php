@@ -9,6 +9,8 @@ use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
 use App\User;
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
+use Carbon\Carbon;
 use ecommpay\Gate;
 use ecommpay\Payment;
 use Illuminate\Http\Request;
@@ -95,11 +97,11 @@ class OrderController extends Controller
     public function form($id, Request $request)
     {
         $request->validate([
-          #  'name' => "required|string|max:255",
-          #  'surname' => "required|string|max:255",
-          #  'phone' => "required|string|max:255",
+            #  'name' => "required|string|max:255",
+            #  'surname' => "required|string|max:255",
+            #  'phone' => "required|string|max:255",
             'email' => "required|email|max:255",
-            'contact' => "required|email|max:255",
+            'contact' => "required|string|max:255",
         ]);
 
         $order = Order::findOrFail($id);
@@ -127,10 +129,11 @@ class OrderController extends Controller
         }
 
         $order->user_id = $user->id;
-        $order->status = "formed";
+        # $order->status = "formed";
         $order->save();
 
-        /* Заявка на оплату */
+
+        /*
         $payment = new Payment(config("services.ecommpay.id"));
         // Идентификатор проекта
 
@@ -146,14 +149,22 @@ class OrderController extends Controller
         $gate = new Gate(config("services.ecommpay.secret"));
         // Секретный ключ проекта, полученный от ECommPay при интеграции
 
-        /* Запрос для вызова платёжной формы */
         $url = $gate->getPurchasePaymentPageUrl($payment);
-
+*/
+        $currency = "eur";
+        if (isset($_COOKIE["currency_" . config("app.cookie_key")]) && $_COOKIE["currency_" . config("app.cookie_key")] == "usd") {
+            $currency = "usd";
+        }
+        $exchangeRates = new ExchangeRate();
+        $price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
+        $order->amount = $price;
+        $order->user = $user;
         return response([
             'status' => "success",
             'data' => [
                 'is_new' => $is_new,
-                'url' => $url,
+                # 'url' => $url,
+                'order' => $order,
             ]
         ]);
     }
@@ -281,5 +292,23 @@ class OrderController extends Controller
         $url = $gate->getPurchasePaymentPageUrl($payment);
 
         return redirect($url);
+    }
+
+    public function payed($id, Request $request)
+    {
+        $order = Order::find($id);
+        if (!$order) {
+            abort(404);
+        }
+        if ($order->user->email != $request->email) {
+            abort(403);
+        }
+
+        $order->status = "payed";
+        $order->save();
+
+        return response([
+            'status' => "success"
+        ]);
     }
 }
