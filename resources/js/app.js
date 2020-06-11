@@ -102,8 +102,8 @@ $(".js-logout").click(function (e) {
 
 $(".js-copy").click(function () {
     let self = this;
-    let id = $(this).data("target") + "-copy";
-    var copyText = $("#" + id).text();
+    let key = $(this).data("target");
+    var copyText = $("[data-key='" + key + "']").text();
     console.log(copyText);
     navigator.clipboard.writeText(copyText).then(function () {
         $(self).text("Copied to clickboard!");
