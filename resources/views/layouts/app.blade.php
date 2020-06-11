@@ -152,10 +152,10 @@
                 </div>
             </nav>
         </div>
-        <main>
+        <main class="bg-white">
             @yield('content')
 
-            <footer class="bg-white pt-5 pb-5 mt-3">
+            <footer class=" pt-5 pb-5 mt-3" style="background-color: #f8fafc !important;">
                 <div class="container mt-3 mb-3">
                     <div class="row text-center">
                         <div class="col">
