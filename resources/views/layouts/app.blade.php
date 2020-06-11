@@ -198,22 +198,14 @@
                     <li class="p-3">
 
                         <strong>
-                            <a target="_blank" href="https://m.me/106316304455180">Facebook</a>
+                            <a style="text-decoration: none" class="text-dark" target="_blank" href="https://m.me/106316304455180">Facebook</a>
                         </strong>
                     </li>
                     <li class="p-3">
-                        Discord:
-                        <a role="button" class="js-copy" data-target="discord">
-                            <strong data-key="discord">boostmytoon#3894</strong>
-                            <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                      d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
-                                <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z"/>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="p-3">
-                        Skype:
+                        <strong>
+                            <a style="text-decoration: none" class="text-dark" target="_blank" href="skype:live:msgbooster">Skype</a>
+                        </strong>
+                        {{--Skype:
                         <a role="button" class="js-copy" data-target="skype">
                             <strong data-key="skype">live:boostmytoon</strong>
                             <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -221,9 +213,20 @@
                                       d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
                                 <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z"/>
                             </svg>
-                        </a>
+                        </a>--}}
 
                     </li>
+                    <li class="p-3">
+                        <a role="button" class="js-copy" data-target="discord">
+                            <strong data-key="discord">Discord boostmytoon#3894</strong>
+                            <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
+                                <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z"/>
+                            </svg>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
             <div class="modal-footer">
