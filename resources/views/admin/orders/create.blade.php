@@ -11,31 +11,31 @@
 
                     <div class="card-body">
                         <form id="get-link-form" action="{{url("admin/orders")}}">
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label for="name">Name</label>
                                 <input id="name" type="text" name="name" value="" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="surname">Surname</label>
                                 <input id="surname" type="text" name="surname" value="" class="form-control">
-                            </div>
+                            </div>--}}
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input id="email" type="email" name="email" value="" class="form-control">
                                 <p class="text-danger" data-key="email"></p>
                             </div>
-                            <div class="form-group">
+                           {{-- <div class="form-group">
                                 <label for="phone">Phone</label>
                                 <input id="phone" type="text" name="phone" value="" class="form-control">
-                            </div>
+                            </div>--}}
                             <div class="form-group">
-                                <label for="skype">Skype</label>
+                                <label for="skype">Skype or discord</label>
                                 <input id="skype" type="text" name="skype" value="" class="form-control">
                             </div>
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label for="discord">Discord</label>
                                 <input id="discord" type="text" name="discord" value="" class="form-control">
-                            </div>
+                            </div>--}}
                             <div class="form-group">
                                 <label for="amount">Amount</label>
                                 <input id="amount" type="text" name="amount" value="" class="form-control">

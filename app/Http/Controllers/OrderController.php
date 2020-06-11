@@ -294,6 +294,15 @@ class OrderController extends Controller
         return redirect($url);
     }
 
+    public function cloudPay($id)
+    {
+        $order = Order::findOrFail($id);
+        $exchangeR = new ExchangeRate();
+        $price = $exchangeR->convert($order->amount, "EUR", 'RUB', Carbon::now());
+        $order->amount = $price;
+        return view("order_pay", compact('order'));
+    }
+
     public function payed($id, Request $request)
     {
         $order = Order::find($id);

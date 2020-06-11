@@ -109,8 +109,8 @@ class OrderController extends Controller
         $order->comment = $request->comment;
         $order->save();
 
-        /* Заявка на оплату */
-        $payment = new Payment(config("services.ecommpay.id"));
+
+        /*$payment = new Payment(config("services.ecommpay.id"));
         // Идентификатор проекта
 
         $payment->setPaymentAmount($request->amount * 100)->setPaymentCurrency($currency);
@@ -125,12 +125,11 @@ class OrderController extends Controller
         $gate = new Gate(config("services.ecommpay.secret"));
         // Секретный ключ проекта, полученный от ECommPay при интеграции
 
-        /* Запрос для вызова платёжной формы */
-        $url = $gate->getPurchasePaymentPageUrl($payment);
+        $url = $gate->getPurchasePaymentPageUrl($payment);*/
 
         return response()->json([
             'status' => "success",
-            'url' => $url
+            'url' => url("order/$order->id/cloud-pay"),
         ]);
     }
 

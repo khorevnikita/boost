@@ -75,8 +75,8 @@ $("#order-form").submit(function (e) {
             widget.charge({ // options
                     publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
                     description: "Order #" + order.id, //назначение
-                    amount: 10, //сумма
-                    //amount: order.amount, //сумма
+                   // amount: 10, //сумма
+                    amount: order.amount, //сумма
                     currency: 'RUB', //валюта
                     invoiceId: order.id, //номер заказа  (необязательно)
                     accountId: order.user.email, //идентификатор плательщика (необязательно)
