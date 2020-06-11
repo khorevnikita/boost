@@ -106,7 +106,7 @@ $(".js-copy").click(function () {
 
     let self = this;
 
-    var copyText = document.getElementById($(this).data("target") + "-copy");
+    var copyText = document.getElementById($(this).data("target") + "-copy").text();
    // var text = "Example text to appear on clipboard";
     navigator.clipboard.writeText(copyText).then(function () {
         $(self).text("Copied to clickboard!");
