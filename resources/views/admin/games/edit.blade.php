@@ -28,7 +28,7 @@
 
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <input id="description" type="text" class="form-control" name="description" value="{{$game->description}}">
+                                <textarea id="description" class="form-control" name="description">{{$game->description}}</textarea>
                             </div>
                             <div class="form-group" id="app">
                                 @if($game->banner)
@@ -76,4 +76,23 @@
             </div>
         </div>
     </div>
+    @push("scripts")
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                $('#description').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+            });
+        </script>
+    @endpush
 @endsection

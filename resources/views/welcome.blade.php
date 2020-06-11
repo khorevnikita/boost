@@ -68,7 +68,15 @@
                         </div>
                     @endforeach
                 </div>
+
             @endif
         @endforeach
+
+
+        @if($page)
+            <div class="mt-5">
+                {!! $page->text !!}
+            </div>
+        @endif
     </div>
 @endsection

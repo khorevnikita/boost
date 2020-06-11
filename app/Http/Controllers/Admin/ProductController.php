@@ -25,7 +25,7 @@ class ProductController extends Controller
             $products = $products->where("id", $request->id);
         }
         if ($request->title) {
-            $products = $products->where("id", $request->id);
+            $products = $products->where("title", "like","%$request->title%");
         }
         if ($request->category) {
             $category = Category::where("title", "like", "%$request->category%")->pluck("id");

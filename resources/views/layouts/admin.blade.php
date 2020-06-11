@@ -38,6 +38,9 @@
                 <ul class="navbar-nav mr-auto">
                     @can("update-content")
                         <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/pages")}}">Pages</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{url("/admin/banners")}}">Banners</a>
                         </li>
                         <li class="nav-item">

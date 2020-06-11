@@ -9,14 +9,17 @@
         </div>
     @endif
     <div class="container">
+        <div class="mt-5">
+            <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
+        </div>
+        <div style="clear: both"></div>
+
 
         <div class="text-center pt-5 pb-5">
-            <h4>{{$game->description}}</h4>
+            <h4>{!! $game->description !!}</h4>
         </div>
 
-        <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
 
-        <div style="clear: both"></div>
         @if($recentlyViewedItems->count()>0)
             <h4 class="mt-4">Recently viewed items</h4>
             <div class="row row-eq-height mt-5">

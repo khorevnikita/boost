@@ -34,9 +34,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $banner = Banner::whereNull("game_id")->where("published", 1)->first();
-        return view('welcome', compact('banner'));
+        $page = DB::table("pages")->where("key", "=", "main")->first();
+        return view('welcome', compact('banner', 'page'));
     }
 
     public function home()
@@ -120,17 +120,29 @@ class HomeController extends Controller
 
     public function details()
     {
-        return view("details");
+        $page = DB::table("pages")->where("key", "details")->first();
+        if (!$page) {
+            abort(404);
+        }
+        return view("page",compact('page'));
     }
 
     public function faq()
     {
-        return view("faq");
+        $page = DB::table("pages")->where("key", "faq")->first();
+        if (!$page) {
+            abort(404);
+        }
+        return view("page",compact('page'));
     }
 
     public function agreement()
     {
-        return view("agreement");
+        $page = DB::table("pages")->where("key", "agreement")->first();
+        if (!$page) {
+            abort(404);
+        }
+        return view("page",compact('page'));
     }
 
     public function search(Request $request)

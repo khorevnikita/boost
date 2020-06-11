@@ -30,6 +30,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
 
     Route::get("seo", "Admin\SeoController@get");
     Route::post("seo", "Admin\SeoController@save");
+
+    Route::resource("pages", "Admin\PageController");
 });
 Route::group(['middleware' => ['currency']], function () {
 

@@ -43,7 +43,7 @@
                                         <input name="user" type="text" class="form-control js-filter" value="{{Request::input("user")}}">
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary js-search">Search</button>
+                                        <button class="btn btn-primary js-admin-search">Search</button>
                                     </td>
                                 </tr>
 
@@ -86,7 +86,7 @@
     </div>
     @push("scripts")
         <script>
-            $(".js-search").click(function () {
+            $(".js-admin-search").click(function () {
                 var search = "?";
                 for (var e of $(".js-filter")) {
                     search = search + e.name + "=" + e.value + "&";
