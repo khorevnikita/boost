@@ -101,13 +101,9 @@ $(".js-logout").click(function (e) {
 });
 
 $(".js-copy").click(function () {
-    //copy($(this).data("target"));
-    //$(this).text("Copied to clickboard!");
-
     let self = this;
-
-    var copyText = document.getElementById($(this).data("target") + "-copy").text();
-   // var text = "Example text to appear on clipboard";
+    let id = $(this).data("target") + "-copy";
+    var copyText = $("#"+id).text();
     navigator.clipboard.writeText(copyText).then(function () {
         $(self).text("Copied to clickboard!");
     }, function (err) {
