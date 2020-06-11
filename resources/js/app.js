@@ -101,28 +101,31 @@ $(".js-logout").click(function (e) {
 });
 
 $(".js-copy").click(function () {
-    copy($(this).data("target"))
+    //copy($(this).data("target"));
+    //$(this).text("Copied to clickboard!");
+
+    let self = this;
+
+    var copyText = document.getElementById($(this).data("target") + "-copy");
+   // var text = "Example text to appear on clipboard";
+    navigator.clipboard.writeText(copyText).then(function () {
+        $(self).text("Copied to clickboard!");
+    }, function (err) {
+        console.error('Async: Could not copy text: ', err);
+    });
 });
 
 function copy(target) {
-    console.log(target);
     /* Get the text field */
     var copyText = document.getElementById(target + "-copy");
     copyText.value = $("[data-key=" + target + "]").text();
-    console.log(copyText.value);
+
     /* Select the text field */
     copyText.select();
     copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
     /* Copy the text inside the text field */
     document.execCommand("copy");
-
-    /* Alert the copied text */
-    Swal.fire({
-        text: 'Copied to clickboard!',
-        icon: 'success',
-        timer: 2000
-    });
 }
 
 $(".js-search").click(function () {

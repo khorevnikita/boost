@@ -6,6 +6,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+#app {
+    margin-top: 65px;
+}
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -137,9 +141,20 @@
     align-items: center;
     justify-content: center;
 }
-.vue-slider-ltr .vue-slider-mark-label{
+
+.vue-slider-ltr .vue-slider-mark-label {
     white-space: inherit !important;
     font-size: 10px !important;
     width: 80px !important;
     text-align: center;
+}
+
+nav {
+    position: absolute;
+    width: 100%;
+    top: 0;
+
+    .nav-link {
+        padding: .8rem 1rem;
+    }
 }

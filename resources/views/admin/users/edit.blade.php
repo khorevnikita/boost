@@ -34,13 +34,13 @@
                                 <input id="phone" type="text" class="form-control" name="phone" value="{{$user->phone}}">
                             </div>
                             <div class="form-group">
-                                <label for="email">Skype</label>
-                                <input id="email" type="text" class="form-control" name="skype" value="{{$user->skype}}">
+                                <label for="skype">Skype or discord</label>
+                                <input id="skype" type="text" class="form-control" name="skype" value="{{$user->skype}}">
                             </div>
-                            <div class="form-group">
+                            {{--<div class="form-group">
                                 <label for="phone">Discord</label>
                                 <input id="phone" type="text" class="form-control" name="discord" value="{{$user->discord}}">
-                            </div>
+                            </div>--}}
 
                             <div class="form-group">
                                 <label for="bonus">Bonus</label>

@@ -92,7 +92,7 @@
                     </div>
                     <h4 class="mt-3">Contact form</h4>
                     <form id="order-form" action="{{url("/api/orders/$order->id/form")}}">
-                        <div class="row">
+                        {{--<div class="row">
                             <div class="col form-group">
                                 <input class=" form-control" name="surname" placeholder="Surname" value="{{$user->surname??""}}">
                                 <p class="text-danger" data-key="surname"></p>
@@ -101,26 +101,30 @@
                                 <input class=" form-control" name="name" placeholder="Name" value="{{$user->name??""}}">
                                 <p class="text-danger" data-key="name"></p>
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="row">
                             <div class="col form-group">
                                 <input class=" form-control" name="email" placeholder="E-mail" value="{{$user->email??""}}">
                                 <p class="text-danger" data-key="email"></p>
                             </div>
-                            <div class="col form-group">
+                            {{--<div class="col form-group">
                                 <input class=" form-control" name="phone" placeholder="Phone" value="{{$user->phone??""}}">
                                 <p class="text-danger" data-key="phone"></p>
+                            </div>--}}
+                            <div class="col form-group">
+                                <input class=" form-control" name="contact" placeholder="Skype or discord" value="{{$user->skype??""}}">
+                                <p class="text-danger" data-key="contact"></p>
                             </div>
                         </div>
 
-                        <div class="row">
+                        {{--<div class="row">
                             <div class="col form-group">
                                 <input class=" form-control" name="skype" placeholder="Skype" value="{{$user->skype??""}}">
                             </div>
                             <div class="col form-group">
                                 <input class=" form-control" name="discord" placeholder="Discord" value="{{$user->discord??""}}">
                             </div>
-                        </div>
+                        </div>--}}
 
                         <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
                         <h4 class="mt-3">Common price: <span class="text-primary">{{$order->amount}}

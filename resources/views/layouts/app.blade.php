@@ -24,7 +24,7 @@
     @endif
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm" style="position: absolute;width: 100%;">
     <div class="container">
         <a href="{{url("/")}}" class="nav-link bg-dark d-md-none d-lg-none d-xl-none" style="border-radius: 25px">
             <img class="img-fluid" src="/images/logo.png" style="width: 45px">
@@ -156,7 +156,7 @@
             @yield('content')
 
             <footer class="bg-white pt-5 pb-5 mt-3">
-                <div class="container">
+                <div class="container mt-3 mb-3">
                     <div class="row text-center">
                         <div class="col">
                             <a href="{{url("agreement")}}">User agreement</a>
@@ -189,15 +189,22 @@
             </div>
             <div class="modal-body">
                 <ul class="list-unstyled">
-                    <li>
+                    {{--<li>
                         Telephone number: <a class="text-dark" href="tel:79032382548"><strong>+7 903 238 25 48</strong></a>
                     </li>
                     <li>
                         Company email: <a class="text-dark" href="mailto:info@boostmytoon.com"><strong>info@boostmytoon.com</strong></a>
+                    </li>--}}
+                    <li class="p-3">
+
+                        <strong>
+                            <a target="_blank" href="https://m.me/106316304455180">Facebook</a>
+                        </strong>
                     </li>
-                    <li>
-                        Discord: <strong data-key="discord">boostmytoon#3894</strong>
+                    <li class="p-3">
+                        Discord:
                         <a role="button" class="js-copy" data-target="discord">
+                            <strong data-key="discord">boostmytoon#3894</strong>
                             <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                       d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
@@ -205,9 +212,10 @@
                             </svg>
                         </a>
                     </li>
-                    <li>
-                        Skype: <strong data-key="skype">live:boostmytoon</strong>
+                    <li class="p-3">
+                        Skype:
                         <a role="button" class="js-copy" data-target="skype">
+                            <strong data-key="skype">live:boostmytoon</strong>
                             <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                       d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
@@ -224,8 +232,8 @@
         </div>
     </div>
 </div>
-<input id="discord-copy" style="position: absolute;left:0;opacity: 0;z-index: 0">
-<input id="skype-copy" style="position: absolute;left:0;opacity: 0;z-index: 0">
+<input type="text" value="" id="discord-copy" style="position: absolute;right:0;opacity: 1;z-index: 0">
+<input type="text" value="" id="skype-copy" style="position: absolute;right:0;opacity: 1;z-index: 0">
 <script src="{{ asset('js/app.js') }}"></script>
 @stack("scripts")
 </body>

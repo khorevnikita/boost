@@ -95,10 +95,11 @@ class OrderController extends Controller
     public function form($id, Request $request)
     {
         $request->validate([
-            'name' => "required|string|max:255",
-            'surname' => "required|string|max:255",
-            'phone' => "required|string|max:255",
+          #  'name' => "required|string|max:255",
+          #  'surname' => "required|string|max:255",
+          #  'phone' => "required|string|max:255",
             'email' => "required|email|max:255",
+            'contact' => "required|email|max:255",
         ]);
 
         $order = Order::findOrFail($id);
@@ -117,7 +118,7 @@ class OrderController extends Controller
             $user->phone = $request->phone;
             $user->password = bcrypt($password);
             $user->confirmation_token = Str::random();
-            $user->skype = $request->skype;
+            $user->skype = $request->contact;
             $user->discord = $request->discord;
             $user->save();
             $is_new = true;
