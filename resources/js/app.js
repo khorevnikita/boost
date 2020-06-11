@@ -71,7 +71,7 @@ $("#order-form").submit(function (e) {
             //window.location.href = r.data.data.url;
             //window.open(r.data.data.url, '_blank');
             let order = r.data.data.order;
-            var widget = new cp.CloudPayments();
+            var widget = new cp.CloudPayments({language: "en-US"});
             widget.charge({ // options
                     publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
                     description: "Order #" + order.id, //назначение

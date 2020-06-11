@@ -60,6 +60,13 @@
                                 <button class="btn btn-primary">Save</button>
                             </div>
                         </form>
+                        <form action="{{url("admin/banners/$banner->id")}}" method="post">
+                            @csrf
+                            @method("DELETE")
+                            <div class="form-group">
+                                <button onclick="return confirm('Are you sure you want to delete the banner?')" class="btn btn-danger float-right">Delete</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

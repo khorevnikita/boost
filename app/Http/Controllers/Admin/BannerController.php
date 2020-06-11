@@ -47,8 +47,8 @@ class BannerController extends Controller
 
         $request->validate([
             "background" => "required|file",
-            "action_url"=>"required_with:action_title",
-            "action_title"=>"required_with:action_url",
+            "action_url" => "required_with:action_title",
+            "action_title" => "required_with:action_url",
         ]);
 
         $b = new Banner();
@@ -118,8 +118,8 @@ class BannerController extends Controller
         }
 
         $request->validate([
-            "action_url"=>"required_with:action_title",
-            "action_title"=>"required_with:action_url",
+            "action_url" => "required_with:action_title",
+            "action_title" => "required_with:action_url",
         ]);
 
         if ($request->game_id) {
@@ -165,6 +165,9 @@ class BannerController extends Controller
      */
     public function destroy(Banner $banner)
     {
-        //
+        Storage::disk('public')->delete($banner->original_background);
+        Storage::disk('public')->delete($banner->original_object_image);
+        $banner->delete();
+        return redirect("/admin/banners");
     }
 }
