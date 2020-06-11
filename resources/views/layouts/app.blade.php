@@ -24,7 +24,7 @@
     @endif
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm" style="position: absolute;width: 100%;">
+<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm nav-header" style="position: absolute;width: 100%;">
     <div class="container">
         <a href="{{url("/")}}" class="nav-link bg-dark d-md-none d-lg-none d-xl-none" style="border-radius: 25px">
             <img class="img-fluid" src="/images/logo.png" style="width: 45px">
