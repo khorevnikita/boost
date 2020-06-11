@@ -198,12 +198,32 @@
                     <li class="p-3">
 
                         <strong>
-                            <a style="text-decoration: none" class="text-dark" target="_blank" href="https://m.me/106316304455180">Facebook</a>
+                            <a style="text-decoration: none" class="text-dark" target="_blank" href="https://m.me/106316304455180">
+                                <img src="/images/icons/fb_messenger.svg">&nbsp;
+                                Facebook
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="arrow_forward_ios_24px">
+                                        <path id="icon/navigation/arrow_forward_ios_24px"
+                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="black"
+                                              fill-opacity="1"></path>
+                                    </g>
+                                </svg>
+                            </a>
                         </strong>
                     </li>
                     <li class="p-3">
                         <strong>
-                            <a style="text-decoration: none" class="text-dark" target="_blank" href="skype:live:msgbooster">Skype</a>
+                            <a style="text-decoration: none" class="text-dark" target="_blank" href="skype:live:msgbooster">
+                                <img src="/images/icons/skype.svg">&nbsp;
+                                Skype
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="arrow_forward_ios_24px">
+                                        <path id="icon/navigation/arrow_forward_ios_24px"
+                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="black"
+                                              fill-opacity="1"></path>
+                                    </g>
+                                </svg>
+                            </a>
                         </strong>
                         {{--Skype:
                         <a role="button" class="js-copy" data-target="skype">
@@ -218,7 +238,7 @@
                     </li>
                     <li class="p-3">
                         <a role="button" class="js-copy" data-target="discord">
-                            <strong>Discord <span data-key="discord">boostmytoon#3894</span></strong>
+                            <strong><img src="/images/icons/discord.svg">&nbsp; <span data-key="discord">boostmytoon#3894</span></strong>
                             <svg class="bi bi-files" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                       d="M3 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3z"/>
