@@ -67,7 +67,7 @@
                 this.range.from = from_step.title;
                 this.range.to = to_step.title;
                 this.slider_price = to_step.price - from_step.price;
-                this.$emit("change", this.slider_price);
+                this.$emit("change", {slider_price: this.slider_price,range:{from:from_step.price,to:to_step.price}});
             }
         }
     }

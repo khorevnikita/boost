@@ -2,8 +2,8 @@
     <div class="row mt-3">
         <div class="col-12 col-md-8">
             <div v-if="calculator">
-                <manual-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
-                <auto-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-else></auto-calculator>
+                <manual-calculator v-on:change="calcChanged" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
+                <auto-calculator v-on:change="calcChanged" :calculator="calculator" v-else></auto-calculator>
             </div>
             <div style="    word-break: break-word;" v-if="ww>=768" class=" pb-5 mt-3" v-html="product.short_description"></div>
             <div style="    word-break: break-word;" v-if="ww>=768" v-html="product.description"></div>
@@ -69,8 +69,8 @@
                 </div>
             </div>
         </div>
-        <div style="    word-break: break-word;" v-if="ww<768" class="col-12 pb-5 mt-3" v-html="product.short_description"></div>
-        <div style="    word-break: break-word;" v-if="ww<768" class="col-12" v-html="product.description"></div>
+        <div style="word-break: break-word;" v-if="ww<768" class="col-12 pb-5 mt-3" v-html="product.short_description"></div>
+        <div style="word-break: break-word;" v-if="ww<768" class="col-12" v-html="product.description"></div>
     </div>
 </template>
 
@@ -91,6 +91,7 @@
                 selected_options: this.product.selected_options ? this.product.selected_options : [],
                 added: this.product.in_order,
                 slider_price: 0,
+                range: null,
                 ww: window.innerWidth,
             }
         },
@@ -111,6 +112,10 @@
             }
         },
         methods: {
+            calcChanged(e) {
+                this.slider_price = e.slider_price;
+                this.range = e.range;
+            },
             toggleOption(option) {
                 let index = this.selected_options.indexOf(option);
                 if (index > -1) {
@@ -123,13 +128,6 @@
                 axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
                     if (r.data.status === "success") {
                         this.added = true;
-                        /*Swal.fire({
-                            icon: 'success',
-                            title: 'Item added to cart',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })*/
-
                         let currentOrderProductsCount = parseInt($(".price-badge:first").text());
                         $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
 

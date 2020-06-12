@@ -74,7 +74,8 @@
                     let max_price = b1 * (q ** this.range.to - 1) / (q - 1);
                     this.slider_price = Math.round(max_price - min_price);
                 }
-                this.$emit("change", this.slider_price);
+
+                this.$emit("change", {slider_price: this.slider_price,range:this.range});
             }
         }
     }

@@ -109,8 +109,21 @@
                                             @if($product->pivot->range)
                                                 @php $range = json_decode($product->pivot->range) @endphp
                                                 <p class="m-0"><strong>{{$product->calculator->name}}</strong></p>
-                                                <p>{{$product->calculator->min_title}}: <strong>{{$range->from}}</strong> - {{$product->calculator->max_title}}:
-                                                    <strong>{{$range->to}}</strong></p>
+                                                @if($product->calculator->steps->count()>0)
+                                                    @php
+                                                        $from = $product->calculator->steps->where("price",$range->from)->first();
+                                                        $to = $product->calculator->steps->where("price",$range->to)->first();
+                                                    @endphp
+                                                    @if($from && $to)
+                                                        {{$from->title}} - {{$to->title}}
+                                                    @endif
+                                                @else
+                                                    {{$product->calculator->min_title}}:
+                                                    <strong>{{$range->from}}</strong>
+                                                    -
+                                                    {{$product->calculator->max_title}}:
+                                                    <strong>{{$range->to}}</strong>
+                                                @endif
                                                 <hr>
                                                 <p>
                                                     {{$product->calculator->calc($range)}}

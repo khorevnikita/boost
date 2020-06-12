@@ -23,8 +23,13 @@ class Calculator extends Model
     public function calc($range)
     {
         $difference = $range->to - $range->from;
+
+        if ($this->steps && $this->steps->count() > 0) {
+            return $difference;
+        }
+
         if ($this->step_type === "abs") {
-            $this->slider_price = $difference * $this->step_price;
+            return $difference * $this->step_price;
         } else {
             $b1 = $this->start_value ? $this->start_value : 1;
             $q = (1 + $this->original_step_price / 100);
@@ -32,7 +37,6 @@ class Calculator extends Model
             $max_price = $b1 * ($q ** $range->to - 1) / ($q - 1);
             return round($max_price - $min_price);
         }
-        return 0;
     }
 
     public function getStepPriceAttribute($price)
@@ -47,6 +51,6 @@ class Calculator extends Model
 
     public function getOriginalStepPriceAttribute()
     {
-        return $this->attributes['price'];
+        return $this->attributes['step_price'];
     }
 }
