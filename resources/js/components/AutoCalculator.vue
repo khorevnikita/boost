@@ -3,16 +3,16 @@
         <div class="col-12">
             <h4>{{calculator.name}}</h4>
         </div>
-        <div class="col">
+        <div class="col text-center">
             <label>{{calculator.min_title}}</label>
             <input v-model="range.from" type="text" class="form-control">
         </div>
         <div class="col text-center"><p>{{calculator.description}}</p></div>
-        <div class="col">
+        <div class="col text-center">
             <label>{{calculator.max_title}}</label>
             <input v-model="range.to" type="text" class="form-control">
         </div>
-        <div class="col-12 mt-3 mb-3">
+        <div class="col-12 col-sm-10 offset-sm-1 mt-3 mb-3">
             <!-- AUTO -->
             <vue-slider ref="slider"
                         v-model="slider_value"

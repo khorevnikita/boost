@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Order;
 use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,13 @@ class CurrencyMiddleware
         $seo = DB::table("seo")->first();
         View::share("seo", $seo);
 
+        $orderItemsCount = 0;
+        $order = Order::findTheLast();
+        if ($order) {
+            $orderItemsCount = $order->products()->count();
+        }
+
+        View::share("orderItemsCount", $orderItemsCount);
         return $next($request);
     }
 }

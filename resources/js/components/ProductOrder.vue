@@ -5,11 +5,10 @@
                 <manual-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
                 <auto-calculator v-on:change="(v)=>{slider_price = v}" :calculator="calculator" v-else></auto-calculator>
             </div>
-            <div class=" pb-5 mt-3" v-html="product.short_description"></div>
-
-            <div v-html="product.description"></div>
+            <div style="    word-break: break-word;" v-if="ww>=768" class=" pb-5 mt-3" v-html="product.short_description"></div>
+            <div style="    word-break: break-word;" v-if="ww>=768" v-html="product.description"></div>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4 mt-5 mt-sm-0">
             <div v-if="images && images.length > 0" id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div v-for="(img,i) in images" class="carousel-item @if(!$k) active @endif " v-bind:class="{'active':i==0}">
@@ -25,7 +24,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <div>
+            <div class="mt-3">
                 <h2>{{common_price}}
                     <span v-if="currency==='usd'">$</span>
                     <span v-else>
@@ -70,6 +69,8 @@
                 </div>
             </div>
         </div>
+        <div style="    word-break: break-word;" v-if="ww<768" class="col-12 pb-5 mt-3" v-html="product.short_description"></div>
+        <div style="    word-break: break-word;" v-if="ww<768" class="col-12" v-html="product.description"></div>
     </div>
 </template>
 
@@ -90,6 +91,7 @@
                 selected_options: this.product.selected_options ? this.product.selected_options : [],
                 added: this.product.in_order,
                 slider_price: 0,
+                ww: window.innerWidth,
             }
         },
 
@@ -121,11 +123,29 @@
                 axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id)}).then(r => {
                     if (r.data.status === "success") {
                         this.added = true;
-                        Swal.fire({
+                        /*Swal.fire({
                             icon: 'success',
                             title: 'Item added to cart',
                             showConfirmButton: false,
                             timer: 1500
+                        })*/
+
+                        let currentOrderProductsCount = parseInt($(".price-badge:first").text());
+                        $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
+
+                        Swal.fire({
+                            title: 'Item added to cart',
+                            //        text: "You won't be able to revert this!",
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Go to cart',
+                            cancelButtonColor: '#3085d6',
+                            cancelButtonText: 'Continue  shopping',
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href = "/order"
+                            }
                         })
                     }
                 })

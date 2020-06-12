@@ -24,8 +24,12 @@
     @endif
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm nav-header" style="position: absolute;width: 100%;">
+<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm nav-header" style="position: absolute;width: 100%;z-index: 99;">
     <div class="container">
+        <a href="{{url("/order")}}" class="btn btn-dark position-relative d-md-none">
+            <img src="/images/icons/shop.svg" class="img-fluid">
+            <span class="badge badge-primary price-badge @if(!$orderItemsCount) d-none @endif">{{$orderItemsCount}}</span>
+        </a>
         <a href="{{url("/")}}" class="nav-link bg-dark d-md-none d-lg-none d-xl-none" style="border-radius: 25px">
             <img class="img-fluid" src="/images/logo.png" style="width: 45px">
         </a>
@@ -53,15 +57,11 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a role="button" class="nav-link text-dark">
+                    <a role="button" class="nav-link text-dark js-search">
                         Search
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{url("/order")}}" role="button" class="nav-link text-dark">
-                        My cart
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="{{url("register")}}" class="nav-link text-dark">
                         Profile
@@ -123,8 +123,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url("/order")}}" role="button" class="nav-link">
+                        <a href="{{url("/order")}}" role="button" class="nav-link position-relative">
                             <img src="/images/icons/shop.svg" class="img-fluid">
+                            <span class="badge badge-primary price-badge @if(!$orderItemsCount) d-none @endif">{{$orderItemsCount}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
