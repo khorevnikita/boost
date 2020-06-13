@@ -201,18 +201,11 @@
                         ['view', ['fullscreen', 'codeview', 'help']]
                     ]
                 });
-                var availableTags = [
-                        @foreach($options as $opt)
-                    {
-                        value: "{{$opt->id}}", label: "{{$opt->title}}"
-                    },
-                    @endforeach
-                ];
+
                 $(".js-remove-item").click(function () {
                     $(this).parent().remove()
                 });
                 $("#options").autocomplete({
-                    // source: availableTags,
                     source: function (request, response) {
                         // организуем кроссдоменный запрос
                         $.ajax({

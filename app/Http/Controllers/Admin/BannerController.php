@@ -46,7 +46,7 @@ class BannerController extends Controller
         }
 
         $request->validate([
-            "background" => "required|file",
+           // "background" => "required|file",
             "action_url" => "required_with:action_title",
             "action_title" => "required_with:action_url",
         ]);
