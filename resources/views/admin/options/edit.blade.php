@@ -35,8 +35,8 @@
                             <div class="form-group">
                                 <label for="type">Price type</label>
                                 <select id="type" class="form-control" name="type">
-                                    <option @if($option->type='abs') selected @endif value="abs">Absolute</option>
-                                    <option @if($option->type='percent') selected @endif value="percent">Percent</option>
+                                    <option @if($option->type=='abs') selected @endif value="abs">Absolute</option>
+                                    <option @if($option->type=='percent') selected @endif value="percent">Percent</option>
                                 </select>
                             </div>
                             <div class="form-group">
