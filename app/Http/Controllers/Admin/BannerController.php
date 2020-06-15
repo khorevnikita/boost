@@ -113,7 +113,6 @@ class BannerController extends Controller
      */
     public function update(Request $request, Banner $banner)
     {
-        #var_dump("upd method");exit;
         if (Gate::denies('update-content')) {
             abort(403);
         }
@@ -136,13 +135,10 @@ class BannerController extends Controller
             $banner->action_url = $request->action_url;
         }
         if ($request->hasFile("background")) {
-           # var_dump("has file");
             Storage::disk('public')->delete($banner->original_background);
             $file = $request->file("background");
             $bg_path = "/banners/" . $file->getClientOriginalName();
-            #var_dump($bg_path);
             Storage::disk('public')->put($bg_path, file_get_contents($file), 'public');
-            var_dump(file_get_contents($file));
             $banner->background = $bg_path;
         }
 
@@ -157,7 +153,6 @@ class BannerController extends Controller
         $banner->published = $request->published ? 1 : 0;
 
         $banner->save();
-       # exit;
         return back();
     }
 
