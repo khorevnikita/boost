@@ -46,7 +46,7 @@ class BannerController extends Controller
         }
 
         $request->validate([
-           // "background" => "required|file",
+            // "background" => "required|file",
             "action_url" => "required_with:action_title",
             "action_title" => "required_with:action_url",
         ]);
@@ -135,10 +135,13 @@ class BannerController extends Controller
             $banner->action_url = $request->action_url;
         }
         if ($request->hasFile("background")) {
+            var_dump("has file");
             Storage::disk('public')->delete($banner->original_background);
             $file = $request->file("background");
             $bg_path = "/banners/" . $file->getClientOriginalName();
+            var_dump($bg_path);
             Storage::disk('public')->put($bg_path, file_get_contents($file), 'public');
+            var_dump(file_get_contents($file));
             $banner->background = $bg_path;
         }
 
@@ -153,7 +156,7 @@ class BannerController extends Controller
         $banner->published = $request->published ? 1 : 0;
 
         $banner->save();
-
+        exit;
         return back();
     }
 
