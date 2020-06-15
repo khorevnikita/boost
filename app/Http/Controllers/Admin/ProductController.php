@@ -114,7 +114,8 @@ class ProductController extends Controller
     {
         $options = Option::all();
         $calculator = $product->calculator()->with("steps")->first();
-        return view("admin.products.edit", compact('product', 'options', 'calculator'));
+        $categories = Category::with("game")->get();
+        return view("admin.products.edit", compact('product', 'options', 'calculator','categories'));
     }
 
     /**
@@ -147,6 +148,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->is_hot = $request->is_hot ? 1 : 0;
         $product->is_new = $request->is_new ? 1 : 0;
+
+        $product->category_id = $request->category_id;
 
         $product->rewrite = $checkUnique ? $product->rewrite : $request->rewrite;
         $product->save();

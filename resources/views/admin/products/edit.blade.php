@@ -61,6 +61,16 @@
                                     <label class="form-check-label" for="is_new">New</label>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="category_id">Category</label>
+                                <select id="category_id" name="category_id" class="form-control">
+                                    @foreach($categories as $category)
+                                        <option @if($product->category_id == $category->id) selected @endif value="{{$category->id}}">
+                                            {{$category->game->title}} - {{$category->title}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <hr>
                             @php $productOpts = $product->options()->pluck("options.title","options.id")->toArray(); @endphp
                             <div class="form-group">
