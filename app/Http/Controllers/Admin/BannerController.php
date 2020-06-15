@@ -113,6 +113,7 @@ class BannerController extends Controller
      */
     public function update(Request $request, Banner $banner)
     {
+        var_dump("upd method");exit;
         if (Gate::denies('update-content')) {
             abort(403);
         }
