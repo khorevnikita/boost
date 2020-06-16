@@ -23,7 +23,7 @@
         @foreach($games as $game)
             @if($game->topDeals()->count())
                 <h4 class="mt-5">{{$game->title}} top deals
-                    <a style="text-decoration: none;    color: black;    font-size: 14px;" class="float-right" href="{{url("/$game->id")}}">
+                    <a style="text-decoration: none;    color: black;    font-size: 14px;" class="float-right" href="{{url("/$game->rewrite")}}">
                         all {{$game->title}} deals
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="arrow_forward_ios_24px">
