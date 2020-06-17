@@ -20,26 +20,38 @@ class Calculator extends Model
     }
 
 
-    public function calc($range)
+    public function calc($range, $currency = false)
     {
         $difference = $range->to - $range->from;
 
         if ($this->steps && $this->steps->count() > 0) {
+            if ($currency && Config::get('currency')=="usd") {
+                $exchangeRates = new ExchangeRate();
+                return round($exchangeRates->convert($difference, 'EUR', 'USD', Carbon::now()), 2);
+            }
             return $difference;
         }
 
         if ($this->step_type === "abs") {
+            if ($currency && Config::get('currency')=="usd") {
+                $exchangeRates = new ExchangeRate();
+                return round($exchangeRates->convert($difference * $this->step_price, 'EUR', 'USD', Carbon::now()), 2);
+            }
             return $difference * $this->step_price;
         } else {
             $b1 = $this->start_value ? $this->start_value : 1;
-            $q = (1 + $this->original_step_price / 100);
+            $q = (1 + $this->step_price / 100);
             $min_price = $b1 * ($q ** $range->from - 1) / ($q - 1);
             $max_price = $b1 * ($q ** $range->to - 1) / ($q - 1);
+            if ($currency && Config::get('currency')=="usd") {
+                $exchangeRates = new ExchangeRate();
+                return round($exchangeRates->convert($max_price - $min_price, 'EUR', 'USD', Carbon::now()), 2);
+            }
             return round($max_price - $min_price);
         }
     }
 
-    public function getStepPriceAttribute($price)
+    /*public function getStepPriceAttribute($price)
     {
         $currency = Config::get("currency");
         if ($currency == "usd") {
@@ -47,7 +59,7 @@ class Calculator extends Model
             $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
         }
         return round($price, 2);
-    }
+    }*/
 
     public function getOriginalStepPriceAttribute()
     {

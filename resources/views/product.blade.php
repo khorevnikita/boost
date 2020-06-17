@@ -15,6 +15,7 @@
                 @if($calculator) :calculator="{{$calculator}}" @endif
                 :product="{{$product}}"
                 :options="{{$product->options}}"
+                :rate="'{{$rate}}'"
             ></product-order>
         </div>
 

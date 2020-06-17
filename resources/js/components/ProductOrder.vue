@@ -81,7 +81,7 @@
 
     export default {
         name: "ProductOrder",
-        props: ['product', 'options', 'calculator', 'currency', 'images'],
+        props: ['product', 'options', 'calculator', 'currency', 'images', 'rate'],
         components: {
             ManualCalculator,
             AutoCalculator,
@@ -93,9 +93,9 @@
                 slider_price: 0,
                 range: null,
                 ww: window.innerWidth,
+                currencyRate: parseFloat(this.rate)
             }
         },
-
         computed: {
             common_price: function () {
                 var summ = this.product.price;
@@ -114,6 +114,9 @@
         methods: {
             calcChanged(e) {
                 this.slider_price = e.slider_price;
+                if (this.currency === "usd") {
+                    this.slider_price = this.currencyRate * this.slider_price;
+                }
                 this.range = e.range;
             },
             toggleOption(option) {

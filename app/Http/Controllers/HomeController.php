@@ -7,6 +7,8 @@ use App\Game;
 use App\Order;
 use App\OrderProduct;
 use App\Product;
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -114,8 +116,10 @@ class HomeController extends Controller
             $calculator->min_value = $steps->first()->title;
             $calculator->max_value = $steps->last()->title;
         }
+        $exchangeRates = new ExchangeRate();
+        $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
         //dd($calculator->toArray());
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator'));
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator','rate'));
     }
 
     public function details()
@@ -124,7 +128,7 @@ class HomeController extends Controller
         if (!$page) {
             abort(404);
         }
-        return view("page",compact('page'));
+        return view("page", compact('page'));
     }
 
     public function faq()
@@ -133,7 +137,7 @@ class HomeController extends Controller
         if (!$page) {
             abort(404);
         }
-        return view("page",compact('page'));
+        return view("page", compact('page'));
     }
 
     public function agreement()
@@ -142,7 +146,7 @@ class HomeController extends Controller
         if (!$page) {
             abort(404);
         }
-        return view("page",compact('page'));
+        return view("page", compact('page'));
     }
 
     public function search(Request $request)
