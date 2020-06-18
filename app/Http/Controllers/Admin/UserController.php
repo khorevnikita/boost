@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterMail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -43,7 +46,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.users.create");
     }
 
     /**
@@ -54,7 +57,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (\Illuminate\Support\Facades\Gate::denies('update-users')) {
+            abort(403);
+        }
+        $request->validate([
+            'email' => "required|email|unique:users,email"
+        ]);
+
+        $password = Str::random(8);
+        $user = new User();
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->bonus = $request->bonus;
+        $user->phone = $request->phone;
+        $user->skype = $request->skype;
+        $user->password = bcrypt($password);
+        $user->confirmation_token = Str::random();
+        $user->save();
+
+
+        # email here about registration
+        Mail::to($user)->send(new RegisterMail($user, $password));
+
+        return redirect("admin/users/$user->id/edit");
     }
 
     /**

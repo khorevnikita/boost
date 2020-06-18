@@ -6,6 +6,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
+                        <a class="float-right" href="{{url("admin/users/create")}}">Add user</a>
                         Users list
                     </div>
 
