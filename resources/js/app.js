@@ -59,6 +59,19 @@ $(".js-remove-item-from-order").click(function () {
     });
 });
 
+$(document).ready(function () {
+    let modal = $("#paymentModal");
+    if (modal.length > 0) {
+        let radios = modal.find("input[type='radio']");
+        radios.map(function () {
+            $(this).change(function () {
+                modal.find("label").removeClass("active");
+                $(this).parent().addClass("active")
+            })
+        })
+    }
+});
+
 $("#order-form").submit(function (e) {
     e.preventDefault();
     $(".text-danger").text("");
@@ -70,33 +83,25 @@ $("#order-form").submit(function (e) {
         if (r.data.status === 'success') {
             //window.location.href = r.data.data.url;
             //window.open(r.data.data.url, '_blank');
-            let order = r.data.data.order;
-            var widget = new cp.CloudPayments({language: "en-US"});
-            widget.charge({ // options
-                    publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
-                    description: "Order #" + order.id, //назначение
-                   // amount: 10, //сумма
-                    amount: order.amount, //сумма
-                    currency: 'RUB', //валюта
-                    invoiceId: order.id, //номер заказа  (необязательно)
-                    accountId: order.user.email, //идентификатор плательщика (необязательно)
-                    skin: "mini", //дизайн виджета
-                    data: {
-                        myProp: 'myProp value' //произвольный набор параметров
-                    }
-                },
-                function (options) { // success
-                    axios.post("/api/orders/" + options.invoiceId + "/payed", {email: options.accountId}).then(r => {
-                        if (r.data.status === 'success') {
-                            window.location.href = "/order/success";
-                        }
-                    });
-                    console.log(options);
-                    //действие при успешной оплате
-                },
-                function (reason, options) { // fail
-                    //действие при неуспешной оплате
+
+            if (r.data.data.type === "bitcoin") {
+                $("#paymentModal").modal("hide");
+                let modal = $("#coinModal");
+                $('#coinModal').on('shown.bs.modal', function (e) {
+                   // console.log("shown")
+                    var input = modal.find("#coinhash");
+                 //   console.log(input)
+                    input.val(r.data.data.bitcoin);
+                    document.querySelector("#coinhash").select();
+                    document.execCommand("copy");
+                    input.prop("disabled", true)
                 });
+                modal.modal("show");
+
+            } else {
+                let order = r.data.data.order;
+                initCP(order);
+            }
         }
     }).catch(err => {
         let errors = err.response.data.errors;
@@ -104,9 +109,39 @@ $("#order-form").submit(function (e) {
             var msg = errors[key][0];
             $("[data-key='" + key + "']").text(msg);
         }
+        $("#paymentModal").modal("hide")
     });
     return false;
 });
+
+function initCP(order) {
+    var widget = new cp.CloudPayments({language: "en-US"});
+    widget.charge({ // options
+            publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
+            description: "Order #" + order.id, //назначение
+            // amount: 10, //сумма
+            amount: order.amount, //сумма
+            currency: 'RUB', //валюта
+            invoiceId: order.id, //номер заказа  (необязательно)
+            accountId: order.user.email, //идентификатор плательщика (необязательно)
+            skin: "mini", //дизайн виджета
+            data: {
+                myProp: 'myProp value' //произвольный набор параметров
+            }
+        },
+        function (options) { // success
+            axios.post("/api/orders/" + options.invoiceId + "/payed", {email: options.accountId}).then(r => {
+                if (r.data.status === 'success') {
+                    window.location.href = "/order/success";
+                }
+            });
+            console.log(options);
+            //действие при успешной оплате
+        },
+        function (reason, options) { // fail
+            //действие при неуспешной оплате
+        });
+}
 
 $(".js-logout").click(function (e) {
     e.preventDefault();

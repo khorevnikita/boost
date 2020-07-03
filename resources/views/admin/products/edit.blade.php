@@ -72,7 +72,7 @@
                                 </select>
                             </div>
                             <hr>
-                            @php $productOpts = $product->options()->pluck("options.title","options.id")->toArray(); @endphp
+                            @php $productOpts = $product->options()->get(); @endphp
                             <div class="form-group">
                                 <label for="options">Options</label>
                                 <input id="options" class="form-control" placeholder="Choose options">
@@ -83,9 +83,9 @@
                                     </span>
                                     @foreach($productOpts as $id=>$opt)
                                         <span class="badge badge-info text-white p-2 mr-2 mt-1">
-                                            {{$opt}}&nbsp;
+                                            #{{$opt->id}} {{$opt->title}} [ {{$opt->price}} @if($opt->type=="percent") % @endif ]&nbsp;
                                             <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
-                                            <input type="hidden" name="options[]" value="{{$id}}">
+                                            <input type="hidden" name="options[]" value="{{$opt->id}}">
                                         </span>
                                     @endforeach
                                 </p>
@@ -230,7 +230,7 @@
                                 console.log(data);
                                 response($.map(data.options, function (item) {
                                     return {
-                                        label: item.title,
+                                        label: "#" + item.id + " " + item.title + "[ " + item.price + (item.type === 'percent' ? '%' : '') + "]",
                                         value: item.id
                                     }
                                 }));

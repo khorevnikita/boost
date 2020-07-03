@@ -156,7 +156,7 @@
                             </div>
                         </div>--}}
 
-                        <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
+                        <button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary float-right mt-3">Pay</button>
                         <h4 class="mt-3">Common price: <span class="text-primary">{{$order->amount}}
                                 @if($currency=="usd") $ @else
                                     <svg style="margin-top: -5px;margin-left: -5px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,8 +169,55 @@
                                 @endif
                             </span>
                         </h4>
+
+                        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Choose payment method</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label text-center">
+                                                <input class="form-check-input" type="radio" name="type" value="bitcoin">
+                                                <img src="/images/bitcoint.png" class="img-fluid">
+                                            </label>
+                                            <label class="form-check-label text-center active">
+                                                <input class="form-check-input" type="radio" name="type" value="default" checked>
+                                                <img src="/images/ecommpay.png" class="img-fluid">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 @endif
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="coinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Order has been formed</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   <p>Bitcoin wallet hash:</p>
+                    <div class="form-group">
+                        <input type="text" id="coinhash" class="form-control" value="">
+                    </div>
+                    <p>Please be prepared to present the transaction number to the manager</p>
+                </div>
             </div>
         </div>
     </div>

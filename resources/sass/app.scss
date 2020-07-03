@@ -154,8 +154,34 @@
         padding: .8rem 1rem;
     }
 }
-.price-badge{
+
+.price-badge {
     position: absolute !important;
     right: 2px;
     top: 2px !important;
+}
+
+#paymentModal {
+    label {
+        cursor: pointer;
+        display: flex;
+        margin: auto;
+        padding: 15px;
+        width: 45%;
+        height: 70px;
+
+        &.active {
+            border: 1px solid #949494;
+            border-radius: 20px;
+        }
+
+        input {
+            opacity: 0;
+            position: absolute;
+        }
+
+        img {
+          //  max-width: 45%;
+        }
+    }
 }

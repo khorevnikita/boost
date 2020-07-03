@@ -13,8 +13,8 @@
                 </button>
             </form>
         @endauth
-        <div class="row">
-            <div class="col">
+        <div class="row mt-3">
+            <div class="col mt-3">
                 <h4>My bonus:
                     <span class="text-primary"> {{$user->bonus?:0}}
                     <svg width="24" height="24" viewBox="3 2 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -37,6 +37,7 @@
                             <td>Amount</td>
                             <td>Status</td>
                             <td>Bonus</td>
+                            <td></td>
                         </tr>
                         </thead>
                         <tbody>
@@ -94,6 +95,11 @@
                                 </td>
                                 <td>{{$order->status}}</td>
                                 <td>{{$order->bonus()}}</td>
+                                @if($order->status=="formed")
+                                    <td>
+                                        <a href="{{url("/order/$order->id/cloud-pay")}}" class="btn btn-primary">Pay</a>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>

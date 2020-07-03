@@ -129,6 +129,9 @@ class OrderController extends Controller
         }
 
         $order->user_id = $user->id;
+        if ($request->type == "bitcoin") {
+            $order->status = "formed";
+        }
         # $order->status = "formed";
         $order->save();
 
@@ -165,6 +168,8 @@ class OrderController extends Controller
                 'is_new' => $is_new,
                 # 'url' => $url,
                 'order' => $order,
+                'type' => $request->type,
+                'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null
             ]
         ]);
     }
