@@ -30,7 +30,8 @@
                             </div>--}}
                             <div class="form-group">
                                 <label for="skype">Skype or discord</label>
-                                <input id="skype" type="text" name="skype" value="" class="form-control">
+                                <input id="skype" type="text" name="contact" value="" class="form-control">
+                                <p class="text-danger" data-key="contact"></p>
                             </div>
                             {{--<div class="form-group">
                                 <label for="discord">Discord</label>

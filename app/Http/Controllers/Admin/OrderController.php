@@ -73,7 +73,8 @@ class OrderController extends Controller
 
         $request->validate([
             "email" => "required|email",
-            "amount" => "required|numeric"
+            "amount" => "required|numeric",
+            'contact'=>"required"
         ]);
         $user = User::where("email", $request->email)->first();
         if (!$user) {
@@ -86,7 +87,7 @@ class OrderController extends Controller
             $user->phone = $request->phone;
             $user->password = bcrypt($password);
             $user->confirmation_token = Str::random();
-            $user->skype = $request->skype;
+            $user->skype = $request->contact;
             $user->discord = $request->discord;
             $user->save();
             $is_new = true;
