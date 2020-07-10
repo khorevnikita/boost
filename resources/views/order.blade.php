@@ -179,8 +179,8 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="form-check form-check-inline">
+                                    <div class="modal-body text-center">
+                                        <div class="form-check form-check-inline ">
                                             <label class="form-check-label text-center">
                                                 <input class="form-check-input" type="radio" name="type" value="bitcoin">
                                                 <img src="/images/bitcoint.png" class="img-fluid">

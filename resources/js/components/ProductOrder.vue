@@ -99,15 +99,17 @@
         computed: {
             common_price: function () {
                 var summ = this.product.price;
-                for (var o of this.selected_options) {
-                    if (o.type === "abs") {
-                        summ = summ + o.price;
-                    } else {
-                        summ = summ + this.product.price * o.price / 100
-                    }
-
-                }
                 summ = summ + this.slider_price;
+                let abs_options = this.selected_options.filter(o=>o.type==="abs");
+                for (var o of abs_options) {
+                    summ = summ + o.price;
+                }
+
+                let p_options = this.selected_options.filter(o=>o.type==="percent");
+                for (var po of p_options){
+                    summ = summ + summ * po.price / 100
+                }
+
                 return Math.round(summ * 100) / 100;
             }
         },

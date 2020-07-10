@@ -46,19 +46,18 @@ class Order extends Model
         $commonPrice = 0;
         if ($this->products->count() > 0) {
             foreach ($this->products as $product) {
-                #dd($product->original_price);
                 $commonPrice = $commonPrice + $product->original_price;
-                $orderProduct = $product->orderProducts()->where("order_id", $this->id)->with("options")->first();
-                $product->selected_options = $orderProduct->options;
-                foreach ($product->selected_options as $option) {
-                    if ($option->type == "abs") {
-                        $commonPrice = $commonPrice + $option->original_price;
-                    } else {
-                        $commonPrice = $commonPrice + $product->original_price * $option->original_price / 100;
-                    }
-                }
                 if ($product->pivot->range) {
                     $commonPrice = $commonPrice + $product->calculator->calc(json_decode($product->pivot->range));
+                }
+
+                $orderProduct = $product->orderProducts()->where("order_id", $this->id)->with("options")->first();
+                $product->selected_options = $orderProduct->options;
+                foreach ($product->selected_options->where("type","abs") as $abs_option){
+                    $commonPrice = $commonPrice + $abs_option->original_price;
+                }
+                foreach ($product->selected_options->where("type","percent") as $p_option){
+                    $commonPrice = $commonPrice + $commonPrice * $p_option->original_price / 100;
                 }
             }
         }

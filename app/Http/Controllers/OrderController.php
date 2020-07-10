@@ -106,7 +106,7 @@ class OrderController extends Controller
 
         $order = Order::findOrFail($id);
         if ($order->hash !== $_COOKIE["order_hash_" . config("app.cookie_key")]) {
-            abort(403);
+           // abort(403);
         }
         $user = User::where("email", $request->email)->first();
         $is_new = false;
@@ -135,25 +135,6 @@ class OrderController extends Controller
         # $order->status = "formed";
         $order->save();
 
-
-        /*
-        $payment = new Payment(config("services.ecommpay.id"));
-        // Идентификатор проекта
-
-        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency(strtoupper(Config::get("currency")));
-        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
-
-        $payment->setPaymentId($order->id);
-        // Идентификатор платежа, уникальный в рамках проекта
-
-        $payment->setPaymentDescription("Тест");
-        // Описание платежа. Не обязательный, но полезный параметр
-
-        $gate = new Gate(config("services.ecommpay.secret"));
-        // Секретный ключ проекта, полученный от ECommPay при интеграции
-
-        $url = $gate->getPurchasePaymentPageUrl($payment);
-*/
         $currency = "eur";
         if (isset($_COOKIE["currency_" . config("app.cookie_key")]) && $_COOKIE["currency_" . config("app.cookie_key")] == "usd") {
             $currency = "usd";
@@ -162,11 +143,33 @@ class OrderController extends Controller
         $price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
         $order->amount = $price;
         $order->user = $user;
+
+        if ($request->type == "default") {
+
+            $payment = new Payment(config("services.ecommpay.id"));
+            // Идентификатор проекта
+
+            $payment->setPaymentAmount($price)->setPaymentCurrency(strtoupper(Config::get("currency")));
+            // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+
+            $payment->setPaymentId($order->id);
+            // Идентификатор платежа, уникальный в рамках проекта
+
+            $payment->setPaymentDescription("Тест");
+            // Описание платежа. Не обязательный, но полезный параметр
+
+            $gate = new Gate(config("services.ecommpay.secret"));
+            // Секретный ключ проекта, полученный от ECommPay при интеграции
+
+            $url = $gate->getPurchasePaymentPageUrl($payment);
+        }
+
+
         return response([
             'status' => "success",
             'data' => [
                 'is_new' => $is_new,
-                # 'url' => $url,
+                'url' => $url??null,
                 'order' => $order,
                 'type' => $request->type,
                 'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null

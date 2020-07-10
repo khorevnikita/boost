@@ -52,7 +52,7 @@
                 e.preventDefault();
                 let raw = $(this).serializeArray();
                 let type = raw[0]['value'];
-                if(type==='default'){
+                if (type === 'default') {
                     pay();
                 } else {
                     let modal = $("#coinModal");
@@ -70,6 +70,25 @@
             });
 
             function pay() {
+                let data = {
+                    email:"{{$order->user->email}}",
+                    contact:"{{$order->user->skype}}",
+                    type:"default"
+                };
+                axios.post("{{url("/api/orders/$order->id/form")}}", data).then(r => {
+                    if (r.data.status === 'success') {
+                        window.location.href = r.data.data.url;
+                        //window.open(r.data.data.url, '_blank');
+                    }
+                }).catch(err => {
+                    let errors = err.response.data.errors;
+                    for (var key in errors) {
+                        var msg = errors[key][0];
+                        $("[data-key='" + key + "']").text(msg);
+                    }
+                    $("#paymentModal").modal("hide")
+                });
+                return;
                 var widget = new cp.CloudPayments({language: "en-US"});
                 widget.charge({ // options
                         publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета

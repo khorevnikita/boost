@@ -79,38 +79,38 @@ $("#order-form").submit(function (e) {
     for (var v of $(this).serializeArray()) {
         data[v['name']] = v['value']
     }
-    axios.post($(this).attr("action"), data).then(r => {
-        if (r.data.status === 'success') {
-            //window.location.href = r.data.data.url;
-            //window.open(r.data.data.url, '_blank');
+    if (data['type'] === "bitcoin") {
+        $("#paymentModal").modal("hide");
+        let modal = $("#coinModal");
+        $('#coinModal').on('shown.bs.modal', function (e) {
+            // console.log("shown")
+            var input = modal.find("#coinhash");
+            //   console.log(input)
+            input.val(r.data.data.bitcoin);
+            document.querySelector("#coinhash").select();
+            document.execCommand("copy");
+            input.prop("disabled", true)
+        });
+        modal.modal("show");
 
-            if (r.data.data.type === "bitcoin") {
-                $("#paymentModal").modal("hide");
-                let modal = $("#coinModal");
-                $('#coinModal').on('shown.bs.modal', function (e) {
-                   // console.log("shown")
-                    var input = modal.find("#coinhash");
-                 //   console.log(input)
-                    input.val(r.data.data.bitcoin);
-                    document.querySelector("#coinhash").select();
-                    document.execCommand("copy");
-                    input.prop("disabled", true)
-                });
-                modal.modal("show");
-
-            } else {
-                let order = r.data.data.order;
-                initCP(order);
+    } else {
+        //let order = r.data.data.order;
+        //initCP(order);
+        axios.post($(this).attr("action"), data).then(r => {
+            if (r.data.status === 'success') {
+                window.location.href = r.data.data.url;
+                //window.open(r.data.data.url, '_blank');
             }
-        }
-    }).catch(err => {
-        let errors = err.response.data.errors;
-        for (var key in errors) {
-            var msg = errors[key][0];
-            $("[data-key='" + key + "']").text(msg);
-        }
-        $("#paymentModal").modal("hide")
-    });
+        }).catch(err => {
+            let errors = err.response.data.errors;
+            for (var key in errors) {
+                var msg = errors[key][0];
+                $("[data-key='" + key + "']").text(msg);
+            }
+            $("#paymentModal").modal("hide")
+        });
+    }
+
     return false;
 });
 

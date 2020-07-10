@@ -19,7 +19,7 @@ class Game extends Model
 
     public function topDeals()
     {
-        $products = Product::whereIn("category_id", $this->categories()->pluck("id"))->orderBy("id", "desc")->take(4)->get();
+        $products = Product::whereIn("category_id", $this->categories()->pluck("id"))->orderBy("id", "desc")->where("on_main",1)->get();
         return $products;
     }
 
@@ -34,5 +34,10 @@ class Game extends Model
     public function getActualBannerAttribute()
     {
         return $this->banners()->where("published", 1)->first();
+    }
+
+    public function getMainProductsAttribute()
+    {
+        return Product::whereIn("category_id",$this->categories()->pluck("id"))->where("on_main",1)->get();
     }
 }

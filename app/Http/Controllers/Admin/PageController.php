@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Game;
 use App\Http\Controllers\Controller;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -63,7 +65,8 @@ class PageController extends Controller
         if (!$page) {
             abort(404);
         }
-        return view("admin.pages.edit", compact('page'));
+        $games = Game::all();
+        return view("admin.pages.edit", compact('page', 'games'));
     }
 
     /**
@@ -79,6 +82,13 @@ class PageController extends Controller
             'text' => "required"
         ]);
         DB::table("pages")->where("id", $id)->update(['text' => $request->text]);
+
+        if ($request->has("products")) {
+            Product::where("on_main",1)->update(['on_main'=>0]);
+            $products = array_filter($request->products);
+            Product::whereIn("id",$products)->update(['on_main'=>1]);
+        }
+
         return back();
     }
 
