@@ -20,11 +20,11 @@
                                     <img src="/images/icons/google.png" style="width: 30px">
                                 </a>
                             </div>
-                            <div class="col">
+                            {{--<div class="col">
                                 <a href="{{url("login/steam")}}">
                                     <img src="/images/icons/steam.png" style="width: 30px">
                                 </a>
-                            </div>
+                            </div>--}}
                         </div>
                         <p class="text-center text-muted mt-3">Or using Email account</p>
                         <form class="mt-5" method="POST" action="{{ route('register') }}">

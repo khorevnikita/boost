@@ -140,7 +140,7 @@ class OrderController extends Controller
         #    $currency = "usd";
         #}
 
-        $exchangeRates = new ExchangeRate();
+        #$exchangeRates = new ExchangeRate();
         #$price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
         #$order->amount = $price;
         $order->user = $user;
