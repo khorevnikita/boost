@@ -105,9 +105,9 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        if ($order->hash !== $_COOKIE["order_hash_" . config("app.cookie_key")]) {
+        /*if ($order->hash !== $_COOKIE["order_hash_" . config("app.cookie_key")]) {
            // abort(403);
-        }
+        }*/
         $user = User::where("email", $request->email)->first();
         $is_new = false;
         if (!$user) {
