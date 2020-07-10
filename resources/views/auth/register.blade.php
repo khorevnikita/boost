@@ -10,12 +10,12 @@
                     <div class="card-body">
                         <p class="text-center text-muted">Use social media</p>
                         <div class="row text-center">
-                            <div class="col">
+                            <div class="col col-md-3 offset-md-3">
                                 <a href="{{url("login/facebook")}}">
                                     <img src="/images/icons/fb.png" style="width: 30px">
                                 </a>
                             </div>
-                            <div class="col">
+                            <div class="col col-md-3">
                                 <a href="{{url("login/google")}}">
                                     <img src="/images/icons/google.png" style="width: 30px">
                                 </a>
