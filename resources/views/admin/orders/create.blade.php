@@ -45,8 +45,8 @@
                             <div class="form-group">
                                 <label for="currency">Currency</label>
                                 <select id="currency" type="text" name="currency" class="form-control">
-                                    <option value="eur" selected>EUR</option>
-                                    <option value="usd">USD</option>
+                                    <option value="EUR" selected>EUR</option>
+                                    <option value="USD">USD</option>
                                 </select>
                             </div>
 
