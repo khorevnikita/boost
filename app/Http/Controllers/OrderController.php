@@ -150,7 +150,7 @@ class OrderController extends Controller
             $payment = new Payment(config("services.ecommpay.id"));
             // Идентификатор проекта
             #dd($order->amount);
-            $payment->setPaymentAmount($order->amount)->setPaymentCurrency(strtoupper(Config::get("currency")));
+            $payment->setPaymentAmount($order->amount*100)->setPaymentCurrency(strtoupper(Config::get("currency")));
             // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
 
             $payment->setPaymentId($order->id);
