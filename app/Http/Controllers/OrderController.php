@@ -101,7 +101,7 @@ class OrderController extends Controller
             #  'surname' => "required|string|max:255",
             #  'phone' => "required|string|max:255",
             'email' => "required|email|max:255",
-            'contact' => "required|string|max:255",
+           # 'contact' => "required|string|max:255",
         ]);
 
         $order = Order::findOrFail($id);
