@@ -101,7 +101,7 @@ class OrderController extends Controller
             #  'surname' => "required|string|max:255",
             #  'phone' => "required|string|max:255",
             'email' => "required|email|max:255",
-           # 'contact' => "required|string|max:255",
+            # 'contact' => "required|string|max:255",
         ]);
 
         $order = Order::findOrFail($id);
@@ -135,21 +135,22 @@ class OrderController extends Controller
         # $order->status = "formed";
         $order->save();
 
-        $currency = "eur";
-        if (isset($_COOKIE["currency_" . config("app.cookie_key")]) && $_COOKIE["currency_" . config("app.cookie_key")] == "usd") {
-            $currency = "usd";
-        }
+        #$currency = "eur";
+        #if (isset($_COOKIE["currency_" . config("app.cookie_key")]) && $_COOKIE["currency_" . config("app.cookie_key")] == "usd") {
+        #    $currency = "usd";
+        #}
+
         $exchangeRates = new ExchangeRate();
-        $price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
-        $order->amount = $price;
+        #$price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
+        #$order->amount = $price;
         $order->user = $user;
 
         if ($request->type == "default") {
 
             $payment = new Payment(config("services.ecommpay.id"));
             // Идентификатор проекта
-
-            $payment->setPaymentAmount($price)->setPaymentCurrency(strtoupper(Config::get("currency")));
+            #dd($order->amount);
+            $payment->setPaymentAmount($order->amount)->setPaymentCurrency(strtoupper(Config::get("currency")));
             // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
 
             $payment->setPaymentId($order->id);
@@ -169,7 +170,7 @@ class OrderController extends Controller
             'status' => "success",
             'data' => [
                 'is_new' => $is_new,
-                'url' => $url??null,
+                'url' => $url ?? null,
                 'order' => $order,
                 'type' => $request->type,
                 'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null

@@ -75,6 +75,7 @@
                     contact:"{{$order->user->skype}}",
                     type:"default"
                 };
+
                 axios.post("{{url("/api/orders/$order->id/form")}}", data).then(r => {
                     if (r.data.status === 'success') {
                         window.location.href = r.data.data.url;
