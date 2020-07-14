@@ -224,6 +224,7 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
+        Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
         if ($request->project_id != config("services.ecommpay.id")) {
             Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
 
