@@ -1,7 +1,7 @@
 @guest
     <script>
         //Set your APP_ID
-        var APP_ID = "b1gemxcw";
+        var APP_ID = "r2en52aw";
 
         window.intercomSettings = {
             app_id: APP_ID
@@ -44,7 +44,7 @@
 @auth()
     <script>
         //Set your APP_ID
-        var APP_ID = "b1gemxcw";
+        var APP_ID = "r2en52aw";
         var current_user_email = "{{Auth::user()->email}}";
         var current_user_name = "{{Auth::user()->skype}}";
         var current_user_id = "{{Auth::id()}}";
