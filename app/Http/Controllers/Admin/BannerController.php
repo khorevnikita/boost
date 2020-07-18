@@ -137,7 +137,7 @@ class BannerController extends Controller
         if ($request->hasFile("background")) {
             Storage::disk('public')->delete($banner->original_background);
             $file = $request->file("background");
-            $bg_path = "/banners/" . $file->getClientOriginalName();
+            $bg_path = "/banners/" . time() . "/bg/." . $file->getClientOriginalExtension();
             Storage::disk('public')->put($bg_path, file_get_contents($file), 'public');
             $banner->background = $bg_path;
         }
@@ -145,7 +145,7 @@ class BannerController extends Controller
         if ($request->hasFile("object_image")) {
             Storage::disk('public')->delete($banner->original_object_image);
             $file = $request->file("object_image");
-            $image_path = "/banners/" . $file->getClientOriginalName();
+            $image_path = "/banners/" . time() . "/image/." . $file->getClientOriginalExtension();
             Storage::disk('public')->put($image_path, file_get_contents($file), 'public');
             $banner->object_image = $image_path;
         }
