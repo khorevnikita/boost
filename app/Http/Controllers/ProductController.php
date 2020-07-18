@@ -21,7 +21,9 @@ class ProductController extends Controller
         if ($request->q) {
             $products = $products->where("title", "like", "%$request->q%");
         }
-
+        $take = 30;
+        $skip = ($request->page - 1) * $take;
+        $pagesCount = ceil($products->count() / $take);
         switch ($request->sort_by) {
             case"price":
                 $products = $products->orderBy("price", "asc");
@@ -37,7 +39,13 @@ class ProductController extends Controller
             default:
         }
 
-        $products = $products->with("category")->get()->map(function ($p) {
+
+
+        $products = $products->with("category");
+
+
+
+        $products = $products->skip($skip)->take($take)->get()->map(function ($p) {
             $p->banner = $p->banner;
             $p->url = $p->url;
             return $p;
@@ -46,7 +54,8 @@ class ProductController extends Controller
 
         return response([
             'status' => "success",
-            'products' => $products
+            'products' => $products,
+            'pages_count' => $pagesCount
         ]);
     }
 }

@@ -71,6 +71,25 @@
                 </a>
             </div>
         </div>
+
+        <div class="text-center mt-5">
+            <nav aria-label="Page navigation example" style="    width: fit-content; margin: auto;">
+                <ul class="pagination">
+                    <li class="page-item" v-if="search.page > 1">
+                        <a class="page-link" role="button" style="cursor: pointer" aria-label="Previous" @click="search.page--">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" v-bind:class="{'active':search.page===(i)}" v-for="i of pagesCount"><a class="page-link" role="button"
+                                                                                                                 @click="search.page = (i)">{{(i)}}</a></li>
+                    <li class="page-item" v-if="search.page < pagesCount">
+                        <a class="page-link" role="button" style="cursor: pointer" aria-label="Next" @click="search.page++">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </template>
 
@@ -86,7 +105,9 @@
                     sort_by: "popularity",
                     category_id: 0,
                     game_id: this.game.id,
+                    page: 1,
                 },
+                pagesCount: 1,
                 show_categories: false,
             }
         },
@@ -105,6 +126,8 @@
             fetchProducts() {
                 axios.get("/api/products?" + $.param(this.search)).then(r => {
                     this.products = r.data.products;
+                    this.pagesCount = r.data.pages_count;
+                    //    console.log(this.pagesCount);
                 })
             }
         }
