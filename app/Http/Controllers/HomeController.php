@@ -75,7 +75,7 @@ class HomeController extends Controller
         $recentlyViewed = array_values(array_unique($recentlyViewed));
         $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
 
-        return view("game", compact('game', 'products', 'recentlyViewedItems'));
+        return view("game", compact('game', 'recentlyViewedItems'));
     }
 
     public function product($game_slug, $product_slug)

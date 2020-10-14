@@ -48,7 +48,7 @@ class OrderController extends Controller
             }
         }
         $user = Auth::user();
-        return view("order", compact('order', 'commonPrice', 'user'));
+        return view("order", compact('order', 'user'));
     }
 
     public function store(Request $request)
