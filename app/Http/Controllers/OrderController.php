@@ -154,7 +154,7 @@ class OrderController extends Controller
             $payment->setPaymentId($order->id);
             // Идентификатор платежа, уникальный в рамках проекта
 
-            $payment->setPaymentDescription($order);
+            $payment->setPaymentDescription("Order #$order->id");
             // Описание платежа. Не обязательный, но полезный параметр
 
             $gate = new Gate(config("services.ecommpay.secret"));
