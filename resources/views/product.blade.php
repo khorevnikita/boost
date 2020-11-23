@@ -25,7 +25,7 @@
             <div class="row row-eq-height ">
                 @foreach($crosses as $cross)
                     <div class="col-12 col-md-4 mt-4">
-                        <div style="cursor: pointer" data-href="{{url("/".$cross->category->game_id."/$cross->id")}}" class="media text-muted more-item">
+                        <div style="cursor: pointer" data-href="{{url($cross->url)}}" class="media text-muted more-item">
                             <div>
                                 <img style="width: 110px" src="{{$cross->banner}}" class="mr-3" alt="...">
                                 <div class="text-center">
