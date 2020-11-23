@@ -74,7 +74,26 @@ $(document).ready(function () {
 
 $("#order-form").submit(function (e) {
     e.preventDefault();
-    $(".text-danger").text("");
+    var data = {};
+    for (var v of $(this).serializeArray()) {
+        data[v['name']] = v['value']
+    }
+    axios.post($(this).attr("action"), data).then(r => {
+        if (r.data.status === 'success') {
+            window.location.href = r.data.data.url;
+            //window.open(r.data.data.url, '_blank');
+        }
+    }).catch(err => {
+        let errors = err.response.data.errors;
+        for (var key in errors) {
+            var msg = errors[key][0];
+            $("[data-key='" + key + "']").text(msg);
+        }
+        //$("#paymentModal").modal("hide")
+    });
+    //pay(data);
+    //return;
+    /*$(".text-danger").text("");
     var data = {};
     for (var v of $(this).serializeArray()) {
         data[v['name']] = v['value']
@@ -94,25 +113,30 @@ $("#order-form").submit(function (e) {
         modal.modal("show");
 
     } else {
+        pay();
         //let order = r.data.data.order;
         //initCP(order);
-        axios.post($(this).attr("action"), data).then(r => {
-            if (r.data.status === 'success') {
-                window.location.href = r.data.data.url;
-                //window.open(r.data.data.url, '_blank');
-            }
-        }).catch(err => {
-            let errors = err.response.data.errors;
-            for (var key in errors) {
-                var msg = errors[key][0];
-                $("[data-key='" + key + "']").text(msg);
-            }
-            $("#paymentModal").modal("hide")
-        });
+
     }
 
-    return false;
+    return false;*/
 });
+
+/*function pay(data){
+    axios.post($(this).attr("action"), data).then(r => {
+        if (r.data.status === 'success') {
+            window.location.href = r.data.data.url;
+            //window.open(r.data.data.url, '_blank');
+        }
+    }).catch(err => {
+        let errors = err.response.data.errors;
+        for (var key in errors) {
+            var msg = errors[key][0];
+            $("[data-key='" + key + "']").text(msg);
+        }
+        //$("#paymentModal").modal("hide")
+    });
+}*/
 
 function initCP(order) {
     var widget = new cp.CloudPayments({language: "en-US"});

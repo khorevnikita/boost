@@ -105,9 +105,7 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        /*if ($order->hash !== $_COOKIE["order_hash_" . config("app.cookie_key")]) {
-           // abort(403);
-        }*/
+
         $user = User::where("email", $request->email)->first();
         $is_new = false;
         if (!$user) {
@@ -145,7 +143,7 @@ class OrderController extends Controller
         #$order->amount = $price;
         $order->user = $user;
 
-        if ($request->type == "default") {
+        if (1) {
 
             $payment = new Payment(config("services.ecommpay.id"));
             // Идентификатор проекта
@@ -156,7 +154,7 @@ class OrderController extends Controller
             $payment->setPaymentId($order->id);
             // Идентификатор платежа, уникальный в рамках проекта
 
-            $payment->setPaymentDescription("Тест");
+            $payment->setPaymentDescription($order);
             // Описание платежа. Не обязательный, но полезный параметр
 
             $gate = new Gate(config("services.ecommpay.secret"));

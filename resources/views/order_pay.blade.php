@@ -7,18 +7,14 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <form id="paymentModal">
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label text-center">
-                                    <input class="form-check-input" type="radio" name="type" value="bitcoin">
-                                    <img src="/images/bitcoint.png" class="img-fluid">
-                                </label>
-                                <label class="form-check-label text-center active">
-                                    <input class="form-check-input" type="radio" name="type" value="default" checked>
-                                    <img src="/images/ecommpay.png" class="img-fluid">
-                                </label>
-                            </div>
-                            <div class="form-group mt-5 ">
-                                <button type="submit" class="btn btn-primary">Pay</button>
+                            <div class="form-check">
+                                <!-- <label class="form-check-label text-center">
+                                     <input class="form-check-input" type="radio" name="type" value="bitcoin">
+                                     <img src="/images/bitcoint.png" class="img-fluid">
+                                 </label>-->
+                                <button id="pay-btn" type="submit" class="btn btn-link border-dark">
+                                    <img src="/images/ecommpay.png" class="img-fluid" style="width: 100px">
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -46,11 +42,13 @@
         </div>
     </div>
     @push("scripts")
-        <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
+        {{--<script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>--}}
         <script>
-            $("form").submit(function (e) {
+            $("#pay-btn").click(function (e) {
                 e.preventDefault();
-                let raw = $(this).serializeArray();
+                pay();
+                return;
+                /*let raw = $(this).serializeArray();
                 let type = raw[0]['value'];
                 if (type === 'default') {
                     pay();
@@ -66,14 +64,14 @@
                         input.prop("disabled", true)
                     });
                     modal.modal("show");
-                }
+                }*/
             });
 
             function pay() {
                 let data = {
-                    email:"{{$order->user->email}}",
-                    contact:"{{$order->user->skype}}",
-                    type:"default"
+                    email: "{{$order->user->email}}",
+                    contact: "{{$order->user->skype}}",
+                    type: "default"
                 };
 
                 axios.post("{{url("/api/orders/$order->id/form")}}", data).then(r => {
@@ -89,7 +87,7 @@
                     }
                     $("#paymentModal").modal("hide")
                 });
-                return;
+                {{--return;
                 var widget = new cp.CloudPayments({language: "en-US"});
                 widget.charge({ // options
                         publicId: 'pk_9b1b8ca37fa37329548c6541f127f',  //id из личного кабинета
@@ -115,7 +113,7 @@
                     },
                     function (reason, options) { // fail
                         //действие при неуспешной оплате
-                    });
+                    });--}}
             }
         </script>
     @endpush

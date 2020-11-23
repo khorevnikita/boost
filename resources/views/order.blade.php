@@ -156,7 +156,7 @@
                             </div>
                         </div>--}}
 
-                        <button type="button" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary float-right mt-3">Pay</button>
+                        <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
                         <h4 class="mt-3">Common price: <span class="text-primary">{{$order->amount}}
                                 @if($currency=="usd") $ @else
                                     <svg style="margin-top: -5px;margin-left: -5px;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +170,7 @@
                             </span>
                         </h4>
 
-                        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        {{--<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -196,13 +196,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
                     </form>
                 @endif
             </div>
         </div>
     </div>
-    <div class="modal fade" id="coinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{--<div class="modal fade" id="coinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -220,8 +220,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    @push("scripts")
+    </div>--}}
+    {{--@push("scripts")
         <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
-    @endpush
+    @endpush--}}
 @endsection

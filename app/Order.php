@@ -53,10 +53,10 @@ class Order extends Model
 
                 $orderProduct = $product->orderProducts()->where("order_id", $this->id)->with("options")->first();
                 $product->selected_options = $orderProduct->options;
-                foreach ($product->selected_options->where("type","abs") as $abs_option){
+                foreach ($product->selected_options->where("type", "abs") as $abs_option) {
                     $commonPrice = $commonPrice + $abs_option->original_price;
                 }
-                foreach ($product->selected_options->where("type","percent") as $p_option){
+                foreach ($product->selected_options->where("type", "percent") as $p_option) {
                     $commonPrice = $commonPrice + $commonPrice * $p_option->original_price / 100;
                 }
             }
@@ -81,10 +81,11 @@ class Order extends Model
         }
         return Carbon::parse($v)->format("H:i d.m.Y");
     }
+
     public function getAmountAttribute($price)
     {
         $currency = Config::get("currency");
-        if ($currency=="usd") {
+        if ($currency == "usd") {
             $exchangeRates = new ExchangeRate();
             $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
         }
