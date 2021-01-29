@@ -45,8 +45,8 @@
                                     <tr>
                                         <td>{{$product->id}}</td>
                                         <td>{{$product->title}}</td>
-                                        <td>{{$product->category->title}}</td>
-                                        <td>{{$product->category->game->title}}</td>
+                                        <td>{{$product->category?$product->category->title:"-"}}</td>
+                                        <td>{{($product->category&&$product->category->game)?$product->category->game->title:"-"}}</td>
                                         <td>
                                             <a href="{{url("/admin/products/$product->id/edit")}}">More</a>
                                         </td>
