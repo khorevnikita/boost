@@ -113,9 +113,9 @@ class HomeController extends Controller
 
         $calculator = $product->calculator()->with('steps')->first();
         if ($calculator && $calculator->steps->count() > 0) {
-            $steps = $calculator->steps->sortBy("price");
-            $calculator->min_value = $steps->sortBy("price")->first()->title;
-            $calculator->max_value = $steps->sortByDesc("price")->last()->title;
+            $steps = $calculator->steps->sortBy("price")->values();
+            $calculator->min_value = $steps->first()->title;
+            $calculator->max_value = $steps->last()->title;
         }
         $exchangeRates = new ExchangeRate();
         $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
