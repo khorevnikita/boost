@@ -66,7 +66,7 @@
                 var to_step = this.calculator.steps.filter(s => s.title === to)[0];
                 this.range.from = from_step.title;
                 this.range.to = to_step.title;
-                this.slider_price = to_step.price - from_step.price;
+                this.slider_price = Math.abs(to_step.price - from_step.price);
                 this.$emit("change", {slider_price: this.slider_price,range:{from:from_step.price,to:to_step.price}});
             }
         }

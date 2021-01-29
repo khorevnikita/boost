@@ -282,7 +282,7 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/app.js') }}?1"></script>
 @stack("scripts")
 @include("particles.intercom")
 </body>
