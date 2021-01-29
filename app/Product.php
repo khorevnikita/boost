@@ -71,13 +71,19 @@ class Product extends Model
 
     public function getUrlAttribute()
     {
+        if (!$this->category) {
+            return null;
+        }
+        if (!$this->category->game) {
+            return null;
+        }
         return $this->category->game->rewrite . "/" . $this->rewrite;
     }
 
     public function getPriceAttribute($price)
     {
         $currency = Config::get("currency");
-        if ($currency=="usd") {
+        if ($currency == "usd") {
             $exchangeRates = new ExchangeRate();
             $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
         }
