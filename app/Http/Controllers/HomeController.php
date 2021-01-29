@@ -116,11 +116,12 @@ class HomeController extends Controller
             $steps = $calculator->steps->sortBy("price")->values();
             $calculator->min_value = $steps->first()->title;
             $calculator->max_value = $steps->last()->title;
+            $calculator->steps = $steps;
         }
         $exchangeRates = new ExchangeRate();
         $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
         //dd($calculator->toArray());
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator','rate'));
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate'));
     }
 
     public function details()
