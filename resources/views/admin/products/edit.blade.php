@@ -7,7 +7,9 @@
                 <div class="card">
                     <div class="card-header">
                         {{$product->title}}
-                        <a class="float-right" href="{{url($product->url)}}">Open card</a>
+                        @if($product->url)
+                            <a class="float-right" href="{{url($product->url)}}">Open card</a>
+                        @endif
                     </div>
 
                     <div class="card-body" id="app">
