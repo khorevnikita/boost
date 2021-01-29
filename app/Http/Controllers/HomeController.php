@@ -116,7 +116,7 @@ class HomeController extends Controller
             $steps = $calculator->steps->sortBy("price")->values();
             $calculator->min_value = $steps->first()->title;
             $calculator->max_value = $steps->last()->title;
-            $calculator->steps = $steps;
+            $calculator->sorted_steps = $steps;
         }
         $exchangeRates = new ExchangeRate();
         $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
