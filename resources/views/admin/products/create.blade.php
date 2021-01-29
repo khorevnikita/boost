@@ -46,7 +46,7 @@
                                     @foreach($categories as $category)
                                         <option @if(Request::has("category_id") && Request::input("category_id")==$category->id) selected
                                                 @endif value="{{$category->id}}">
-                                            {{$category->game->title}} - {{$category->title}}
+                                            {{$category->game?$category->game->title:""}} - {{$category->title}}
                                         </option>
                                     @endforeach
                                 </select>
