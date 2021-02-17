@@ -97,7 +97,7 @@
                                 <td>{{$order->bonus()}}</td>
                                 @if($order->status=="formed")
                                     <td>
-                                        <a href="{{url("/order/$order->id/cloud-pay")}}" class="btn btn-primary">Pay</a>
+                                        <a href="{{url("/order/$order->id/pay")}}" class="btn btn-primary">Pay</a>
                                     </td>
                                 @endif
                             </tr>

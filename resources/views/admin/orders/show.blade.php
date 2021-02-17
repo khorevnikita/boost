@@ -52,7 +52,7 @@
                             <li>Comment: <strong>{{$order->comment}}</strong></li>
                             <li>Status: <strong>{{$order->status}}</strong></li>
                             <li>Bonus: <strong>{{$order->bonus()}}</strong></li>
-                            <li>Payment link: <strong>{{url("/order/$order->id/cloud-pay")}}</strong></li>
+                            <li>Payment link: <strong>{{url("/order/$order->id/pay")}}</strong></li>
                         </ul>
 
                         <h4>Products</h4>

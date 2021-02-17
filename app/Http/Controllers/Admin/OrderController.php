@@ -130,7 +130,7 @@ class OrderController extends Controller
 
         return response()->json([
             'status' => "success",
-            'url' => url("order/$order->id/cloud-pay"),
+            'url' => url("order/$order->id/pay"),
         ]);
     }
 

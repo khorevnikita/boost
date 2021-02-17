@@ -197,7 +197,7 @@ class OrderController extends Controller
             curl_close($curl);
 
             if ($err) {
-               # echo "cURL Error #:" . $err;
+                # echo "cURL Error #:" . $err;
             } else {
                 #echo $response;
             }
@@ -335,26 +335,75 @@ class OrderController extends Controller
     public function pay($order_id)
     {
         $order = Order::findOrFail($order_id);
-        /* Заявка на оплату */
-        $payment = new Payment(config("services.ecommpay.id"));
-        // Идентификатор проекта
+        if (0) {
+            /* Заявка на оплату */
+            $payment = new Payment(config("services.ecommpay.id"));
+            // Идентификатор проекта
 
-        $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
-        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+            $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
+            // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
 
-        $payment->setPaymentId($order->id);
-        // Идентификатор платежа, уникальный в рамках проекта
+            $payment->setPaymentId($order->id);
+            // Идентификатор платежа, уникальный в рамках проекта
 
-        $payment->setPaymentDescription("Тест");
-        // Описание платежа. Не обязательный, но полезный параметр
+            $payment->setPaymentDescription("Тест");
+            // Описание платежа. Не обязательный, но полезный параметр
 
-        $gate = new Gate(config("services.ecommpay.secret"));
-        // Секретный ключ проекта, полученный от ECommPay при интеграции
+            $gate = new Gate(config("services.ecommpay.secret"));
+            // Секретный ключ проекта, полученный от ECommPay при интеграции
 
-        /* Запрос для вызова платёжной формы */
-        $url = $gate->getPurchasePaymentPageUrl($payment);
+            /* Запрос для вызова платёжной формы */
+            $url = $gate->getPurchasePaymentPageUrl($payment);
+        } else {
+            $curl = curl_init();
+            $data = [
+                "product" => "Order $order->id",
+                "amount" => $order->amount * 100,
+                "currency" => strtoupper($order->currency), #todo: ПОПРАВИТЬ
+                "redirectSuccessUrl" => url("/order/success"),
+                "redirectFailUrl" => url("/order/decline"),
+                "extraReturnParam" => "$order->id",
+                "orderNumber" => "$order->id",
+                "locale" => "en"
 
-        return redirect($url);
+            ];
+            $key = config("services.payapp.key");
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode($data),
+                CURLOPT_HTTPHEADER => [
+                    "authorization: Bearer $key",
+                    "content-type: application/json"
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                # echo "cURL Error #:" . $err;
+            } else {
+                #echo $response;
+                #dd(json_decode($response, true));
+                try {
+                    $url = json_decode($response, true)['processingUrl'];
+
+                    return redirect($url);
+                } catch (\Exception $e) {
+                }
+            }
+        }
+
+
+        return back();
     }
 
     public function cloudPay($id)
