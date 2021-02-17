@@ -56,6 +56,9 @@ return [
 
     'bitcoin' => [
         'hash' => env("BITCOIN_HASH")
+    ],
+    'payapp'=>[
+        'key'=>env("PAYAPP_KEY")
     ]
 
 

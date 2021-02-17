@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Http\Controllers;
 
@@ -143,7 +143,7 @@ class OrderController extends Controller
         #$order->amount = $price;
         $order->user = $user;
 
-        if (1) {
+        if (0) {
 
             $payment = new Payment(config("services.ecommpay.id"));
             // Идентификатор проекта
@@ -161,18 +161,60 @@ class OrderController extends Controller
             // Секретный ключ проекта, полученный от ECommPay при интеграции
 
             $url = $gate->getPurchasePaymentPageUrl($payment);
+        } else {
+            $curl = curl_init();
+            # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
+            $data = [
+                "product" => "Order $order->id",
+                "amount" => $order->amount * 100,
+                "currency" => strtoupper($order->currency), #todo: ПОПРАВИТЬ
+                "redirectSuccessUrl" => url("/order/success"),
+                "redirectFailUrl" => url("/order/decline"),
+                "extraReturnParam" => "$order->id",
+                "orderNumber" => "$order->id",
+                "locale" => "en"
+
+            ];
+            $key = config("services.payapp.key");
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode($data),
+                CURLOPT_HTTPHEADER => [
+                    "authorization: Bearer $key",
+                    "content-type: application/json"
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+               # echo "cURL Error #:" . $err;
+            } else {
+                #echo $response;
+            }
         }
 
 
         return response([
             'status' => "success",
-            'data' => [
+            'response' => json_decode($response, true),
+            #"header"=>"Bearer $key"
+            /*'data' => [
                 'is_new' => $is_new,
                 'url' => $url ?? null,
                 'order' => $order,
                 'type' => $request->type,
-                'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null
-            ]
+                'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null,
+            ]*/
         ]);
     }
 
@@ -209,15 +251,28 @@ class OrderController extends Controller
     public function success(Request $request)
     {
         $hash = $_COOKIE["order_hash_" . config("app.cookie_key")] ?? "";
-        $order = Order::where("status", "payed")->where("hash", $hash)->orderBy("id", "desc")->first();
+        #$order = Order::where("status", "payed")->where("hash", $hash)->orderBy("id", "desc")->first();
+        $order = Order::find($request->orderNumber);
+        if ($order) {
+            $order->status = "payed";
+            $order->payed_at = Carbon::now();
+            $order->save();
+        }
         return view("order_success", compact('order'));
     }
 
     public function decline(Request $request)
     {
         $hash = $_COOKIE["order_hash_" . config("app.cookie_key")] ?? "";
-        $order = Order::where("status", "declined")->where("hash", $hash)->orderBy("id", "desc")->first();
-        return view("order_decline", compact('order'));
+        #$order = Order::where("status", "declined")->where("hash", $hash)->orderBy("id", "desc")->first();
+        $order = Order::find($request->orderNumber);
+        $data = $request->all();
+        if ($order) {
+            $order->status = "decline";
+            $order->save();
+
+        }
+        return view("order_decline", compact('order', 'data'));
     }
 
     public function callback(Request $request)

@@ -13,6 +13,14 @@
                             <li><a href="{{url("order/$order->id/pay")}}" class="btn btn-primary">Try again</a></li>
                         </ul>
                     @endif
+
+                    @if($data)
+                        <ul>
+                            @foreach($data as $key=>$v)
+                                <li>{{$key}} - {{$v}}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
 
             </div>
