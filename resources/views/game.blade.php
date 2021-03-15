@@ -8,7 +8,7 @@
             <h2>{{$game->title}}</h2>
         </div>
     @endif
-    <div class="container">
+    <div class="container" id="app">
         <div class="mt-5">
             <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
         </div>

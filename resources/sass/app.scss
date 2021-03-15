@@ -206,15 +206,17 @@
     height: 100%;
     background: #000;
     opacity: 0.8;
+    display: flex;
+    align-items: center;
     @media (min-width: 768px) {
-        padding: 15px 0px;
+        padding: 75px 0px;
     }
 }
 
 .custom-bg-image {
     display: inline;
     height: auto;
-    margin: 55px;
+    margin: auto;
     max-width: 300px;
     @media (max-width: 767px) {
         max-height: 100px;
@@ -225,8 +227,10 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    justify-content: center;
-
+    justify-content: space-between;
+    @media (max-width: 767px) {
+        margin-top: auto;
+    }
     .banner-text {
         max-width: 90%;
         text-align: center;
@@ -356,9 +360,9 @@ a{
     }
 }
 
-/*@media (max-width: 767px) {
+@media (max-width: 767px) {
     .navbar-menu-bg{
         background-color: $black;
 
     }
-}*/
+}
