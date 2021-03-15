@@ -6,6 +6,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+/*
 .sidebar {
     position: fixed;
     top: 0;
@@ -25,9 +26,7 @@
 .sidebar-sticky {
     position: -webkit-sticky;
     position: sticky;
-    /*top: 5px;*/
     height: calc(100vh);
-    /* padding-top: .5rem;*/
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -188,3 +187,178 @@
         }
     }
 }
+*/
+.preview {
+    height: 300px;
+}
+
+@media (min-width: 768px) {
+    .preview {
+        height: initial;
+        min-height: 300px;
+    }
+}
+
+.custom-bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    background: #000;
+    opacity: 0.8;
+    @media (min-width: 768px) {
+        padding: 15px 0px;
+    }
+}
+
+.custom-bg-image {
+    display: inline;
+    height: auto;
+    margin: 55px;
+    max-width: 300px;
+    @media (max-width: 767px) {
+        max-height: 100px;
+    }
+}
+
+.custom-bg-content {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    .banner-text {
+        max-width: 90%;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    @media (min-width: 768px) {
+        .banner-text {
+            max-width: 70%;
+            font-size: 42px;
+        }
+    }
+}
+
+body {
+    background-color: #1C1C1C;
+}
+
+p {
+    color: $white
+}
+a{
+    &:hover {
+        text-decoration: none;
+    }
+}
+.b-r-30 {
+    border-radius: 30px;
+}
+
+.btn-primary {
+    padding: 7px 20px;
+}
+
+.btn-cart {
+    margin-right: -20px;;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.bg-dark {
+    background-color: #1C1C1C !important;
+}
+
+.nav-item {
+    padding: 5px 10px;
+    border-top: 1px solid #6d6d6d;
+    text-align: center;
+
+    .btn-currency {
+        width: fit-content;
+        margin: auto;
+        border: 1px solid;
+        padding: 10px 15px;
+    }
+}
+
+.point-primary {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;;
+    border-radius: 50px;
+    display: inline-block;
+}
+
+.btn-primary, .bg-primary {
+    background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+}
+
+.btn-main-game {
+    color: $white;
+    /* op */
+
+    background: linear-gradient(195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
+    /* op */
+
+    backdrop-filter: blur(10px);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 20px;
+    padding: 10px 0px;
+    margin-top: 15px;
+    @media (min-width: 768px) {
+        padding: 35px 0;
+        &:hover {
+            background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+        }
+    }
+}
+
+.btn-outline-secondary {
+    background: inherit;
+}
+
+.card {
+    background-color: #1D1D1D;
+    border-radius: 20px;
+
+    .card-footer {
+        background-color: #242424;
+        border-radius: 20px;
+    }
+}
+
+.product-item-card {
+    .badge {
+        position: absolute;
+    }
+
+    .product-item-price {
+        background: linear-gradient(
+                195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-sizing: border-box;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        float: right;
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        padding: 10px 15px;
+        color: $white
+    }
+}
+
+/*@media (max-width: 767px) {
+    .navbar-menu-bg{
+        background-color: $black;
+
+    }
+}*/

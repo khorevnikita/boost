@@ -5,20 +5,34 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162422290-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-162422290-1');
     </script>
     <!-- Facebook Pixel Code -->
     <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '394692321943326');
         fbq('track', 'PageView');
@@ -50,56 +64,68 @@
     @endif
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm nav-header" style="position: absolute;width: 100%;z-index: 99;">
+<nav class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg" style="position: absolute;width: 100%;z-index: 99;">
     <div class="container">
-        <a href="{{url("/order")}}" class="btn btn-dark position-relative d-md-none">
-            <img src="/images/icons/shop.svg" class="img-fluid">
-            <span class="badge badge-primary price-badge @if(!$orderItemsCount) d-none @endif">{{$orderItemsCount}}</span>
+        <a href="{{url("/")}}" class="nav-link" style="border-radius: 25px">
+            <img class="img-fluid" src="/images/boost_logo.png" style="width: 45px">
         </a>
-        <a href="{{url("/")}}" class="nav-link bg-dark d-md-none d-lg-none d-xl-none" style="border-radius: 25px">
-            <img class="img-fluid" src="/images/logo.png" style="width: 45px">
-        </a>
-        <button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        <button class="b-r-30 btn btn-secondary btn-cart d-sm-none" type="button">
+            <img src="/images/cart_icon.png"/>
+        </button>
+
+        <button class="b-r-30 btn-primary btn d-sm-none" type="button">
+            Log in
+        </button>
+
+        <button class="navbar-toggler b-r-30 bg-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false"
                 aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto d-md-none d-lg-none d-xl-none">
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       v-pre>
-                        Games <span class="caret"></span>
-                    </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        @foreach($games as $game)
-                            <a class="dropdown-item" href="{{url($game->rewrite)}}">
-                                {{$game->title}}
-                            </a>
-                        @endforeach
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a role="button" class="nav-link text-dark js-search">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav mr-auto ">
+                {{-- <li class="nav-item dropdown">
+                     <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        v-pre>
+                         Games <span class="caret"></span>
+                     </a>
+
+                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                         @foreach($games as $game)
+                             <a class="dropdown-item" href="{{url($game->rewrite)}}">
+                                 {{$game->title}}
+                             </a>
+                         @endforeach
+                     </div>
+                 </li>--}}
+                @foreach($games as $game)
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link text-white" href="{{url($game->rewrite)}}">
+                            {{$game->title}}
+                        </a>
+                    </li>
+                @endforeach
+                {{--<li class="nav-item">
+                    <a role="button" class="nav-link js-search">
                         Search
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{url("register")}}" class="nav-link text-dark">
+                    <a href="{{url("register")}}" class="nav-link">
                         Profile
                     </a>
-                </li>
+                </li>--}}
             </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
-                <li class="nav-item">
-                    <a class="nav-link text-dark" type="button" data-toggle="modal" data-target="#help-modal">
+                {{--<li class="nav-item">
+                    <a class="nav-link" type="button" data-toggle="modal" data-target="#help-modal">
                         <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                             <path
@@ -107,10 +133,10 @@
                         </svg>
                         24/7 Customer support
                     </a>
-                </li>
+                </li>--}}
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle b-r-30 text-white btn-currency" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
                         {{strtoupper($currency)}} <span class="caret"></span>
                     </a>
 
@@ -122,84 +148,23 @@
                             USD
                         </a>
                     </div>
-                </li>
 
+                </li>
+                <li class="nav-item d-none d-sm-block">
+                    <button class="b-r-30 btn btn-secondary btn-cart " type="button">
+                        <img src="/images/cart_icon.png"/>
+                    </button>
+
+                    <button class="b-r-30 btn-primary btn" type="button">
+                        Log in
+                    </button>
+
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-<div id="app">
-    <div style=" margin-top: 65px;">
-        <nav class=" d-none d-md-block bg-dark sidebar sidebar-main">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="{{url("/")}}" class="nav-link">
-                            <img class="img-fluid" src="/images/logo.png">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a role="button" class="nav-link js-menu-toggle">
-                            <img class="img-fluid" src="/images/icons/menu.svg">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a role="button" class="nav-link js-search">
-                            <img src="/images/icons/search.svg" class="img-fluid">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url("/order")}}" role="button" class="nav-link position-relative">
-                            <img src="/images/icons/shop.svg" class="img-fluid">
-                            <span class="badge badge-primary price-badge @if(!$orderItemsCount) d-none @endif">{{$orderItemsCount}}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url("register")}}" class="nav-link">
-                            <img src="/images/icons/auth.svg" class="img-fluid">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="fixed-list" style="display: none">
-            <nav class="col-md-3 d-none d-md-block bg-light sidebar sidebar-games">
-                <div class="sidebar-sticky">
-                    <ul class="list-group">
-                        <li class="list-group-item"><strong>Games:</strong></li>
-                        @foreach($games as $game)
-                            <li class="list-group-item">
-                                <a href="{{url($game->rewrite)}}" class="text-muted">
-                                    <strong>{{$game->title}}</strong>
-                                    <img src="/images/icons/left_arrow.svg" class="img-fluid">
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <main class="bg-white">
-            @yield('content')
-
-            <footer class=" pt-5 pb-5 mt-3" style="background-color: #f8fafc !important;">
-                <div class="container mt-3 mb-3">
-                    <div class="row text-center">
-                        <div class="col">
-                            <a href="{{url("agreement")}}">User agreement</a>
-                        </div>
-                        <div class="col">
-                            <a href="{{url("details")}}">Company details</a>
-                        </div>
-                        <div class="col">
-                            <a href="{{url("faq")}}">FAQ</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </main>
-    </div>
-</div>
+@yield('content')
 <!-- Scripts -->
 <!-- Button trigger modal -->
 
