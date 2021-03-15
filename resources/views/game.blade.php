@@ -9,9 +9,8 @@
         </div>
     @endif
     <div class="container" id="app">
-        <div class="mt-5">
-            <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
-        </div>
+        <p class="mt-3"><span class="text-primary">{{$game->title}}</span> items</p>
+        <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
         <div style="clear: both"></div>
 
 

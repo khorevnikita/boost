@@ -231,6 +231,7 @@
     @media (max-width: 767px) {
         margin-top: auto;
     }
+
     .banner-text {
         max-width: 90%;
         text-align: center;
@@ -253,11 +254,13 @@ body {
 p {
     color: $white
 }
-a{
+
+a {
     &:hover {
         text-decoration: none;
     }
 }
+
 .b-r-30 {
     border-radius: 30px;
 }
@@ -361,8 +364,21 @@ a{
 }
 
 @media (max-width: 767px) {
-    .navbar-menu-bg{
-        background-color: $black;
+    .navbar-menu-bg {
+        background-color: $dark;
 
+    }
+}
+
+.form-control {
+    background: $black;
+    border-color: #6c757d;
+
+    &:focus {
+        background: $dark;
+    }
+
+    &::placeholder {
+        color: $white;
     }
 }
