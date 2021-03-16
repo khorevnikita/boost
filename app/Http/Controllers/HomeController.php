@@ -89,6 +89,8 @@ class HomeController extends Controller
         if (!$product) {
             abort(404);
         }
+        $product->banner = $product->banner;
+        $product->url = $product->url;
         $order = Order::findTheLast();
         if ($order) {
             $orderProduct = OrderProduct::where("order_id", $order->id)->where("product_id", $product->id)->first();
@@ -121,7 +123,7 @@ class HomeController extends Controller
         $exchangeRates = new ExchangeRate();
         $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
         //dd($calculator->toArray());
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate'));
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate','game'));
     }
 
     public function details()
