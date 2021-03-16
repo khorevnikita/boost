@@ -8,7 +8,7 @@
             <h2>{{$game->title}}</h2>
         </div>
     @endif
-    <div class="container" id="app" style="    padding-bottom: 30px;">
+    <div class="container" id="app" style="padding-bottom: 30px;">
         <p class="mt-3"><span class="text-primary">{{$game->title}}</span> items</p>
         <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
         <div style="clear: both"></div>

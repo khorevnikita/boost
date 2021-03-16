@@ -86,8 +86,6 @@ class HomeController extends Controller
 
     public function product($game_slug, $product_slug, Request $request)
     {
-        #dd($request->cookie("recently_viewed"));
-
         $game = Game::where("rewrite", $game_slug)->first();
         if (!$game) {
             abort(404);
@@ -97,6 +95,8 @@ class HomeController extends Controller
             abort(404);
         }
 
+        $product->banner = $product->banner;
+        $product->url = $product->url;
 
         $order = Order::findTheLast();
         if ($order) {
@@ -132,10 +132,8 @@ class HomeController extends Controller
             $calculator->max_value = $steps->last()->title;
             $calculator->sorted_steps = $steps;
         }
-        $exchangeRates = new ExchangeRate();
-        $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
-        //dd($calculator->toArray());
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate', 'game'));
+
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'game'));
     }
 
     public function details()

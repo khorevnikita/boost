@@ -25,16 +25,17 @@
         {{--<div>
             @include('particles.product_rating', ['product' => $product,'vote'=>true,])
         </div>--}}
+
         <div id="app">
             <product-order
                 @if($product->images) :images="{{$product->images}}" @endif
-            :currency="'{{$currency}}'"
+
                 @if($calculator) :calculator="{{$calculator}}" @endif
                 :product="{{$product}}"
                 :game="{{$game}}"
                 :options="{{$product->options}}"
                 :rate="'{{$rate}}'"
-            ></product-order>
+                :currency="'{{$currency}}'"></product-order>
         </div>
 
         <div style="clear: both"></div>
@@ -42,24 +43,8 @@
             <h4 class="mt-4">You may be interested in:</h4>
             <div class="row row-eq-height ">
                 @foreach($crosses as $cross)
-                    <div class="col-12 col-md-4 mt-4">
-                        <div style="cursor: pointer" data-href="{{url($cross->url)}}" class="media text-muted more-item">
-                            <div>
-                                <img style="width: 110px" src="{{$cross->banner}}" class="mr-3" alt="...">
-                                <div class="text-center">
-                                    @include('particles.product_rating', ['product' => $cross,'vote'=>false])
-                                </div>
-                            </div>
-                            <div class="media-body">
-                                <p class="mt-0">{{$cross->title}}</p>
-                                <p>{{$cross->price}}
-                                    @if($currency=="usd")
-                                        $
-                                    @else
-                                        <img style="width: 15px" src="/images/icons/euro.svg"/>
-                                    @endif</p>
-                            </div>
-                        </div>
+                    <div class="col-12 col-sm-4">
+                        @include("particles.product_item",["product"=>$cross])
                     </div>
                 @endforeach
             </div>
@@ -70,7 +55,7 @@
             <div class="row row-eq-height">
                 @foreach($recentlyViewedItems as $item)
                     <div class="col-12 col-sm-4">
-                    @include("particles.product_item",["product"=>$item])
+                        @include("particles.product_item",["product"=>$item])
                     </div>
                 @endforeach
             </div>

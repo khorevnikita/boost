@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\Product;
+use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,9 +43,16 @@ class ProductController extends Controller
 
         $products = $products->with("category");
 
-        $products = $products->skip($skip)->take($take)->get()->map(function ($p) {
+        $rate = 1;
+        if ($request->currency == "usd") {
+            $exchangeRates = new ExchangeRate();
+            $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
+        }
+
+        $products = $products->skip($skip)->take($take)->get()->map(function ($p) use ($rate) {
             $p->banner = $p->banner;
             $p->url = $p->url;
+            $p->price = $p->price * $rate;
             return $p;
         });
 

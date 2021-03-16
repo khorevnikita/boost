@@ -84,8 +84,8 @@ class Product extends Model
     {
         $currency = Config::get("currency");
         if ($currency == "usd") {
-            $exchangeRates = new ExchangeRate();
-            $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
+            $rate = Config::get("rate");
+            $price = $price * $rate;
         }
         return round($price, 2);
     }

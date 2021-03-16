@@ -105,6 +105,7 @@ export default {
                 category_id: 0,
                 game_id: this.game.id,
                 page: 1,
+                currency: this.currency,
             },
             pagesCount: 1,
             show_categories: false,
