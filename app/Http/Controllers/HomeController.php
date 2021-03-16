@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
@@ -69,18 +70,24 @@ class HomeController extends Controller
             abort(404);
         }
 
-        $recentlyViewed = Cache::get("recently_viewed");
-        if (!$recentlyViewed) {
-            $recentlyViewed = [];
+        $recentlyViewed = [];
+        try {
+            $recentlyViewed = json_decode(Cookie::get("recently_viewed"));
+        } catch (\Exception $e) {
+
         }
-        $recentlyViewed = array_values(array_unique($recentlyViewed));
-        $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
+        $recentlyViewedItems = collect();
+        if ($recentlyViewed) {
+            $recentlyViewedItems = Product::whereIn("id", $recentlyViewed)->get();
+        }
 
         return view("game", compact('game', 'recentlyViewedItems'));
     }
 
-    public function product($game_slug, $product_slug)
+    public function product($game_slug, $product_slug, Request $request)
     {
+        #dd($request->cookie("recently_viewed"));
+
         $game = Game::where("rewrite", $game_slug)->first();
         if (!$game) {
             abort(404);
@@ -89,8 +96,8 @@ class HomeController extends Controller
         if (!$product) {
             abort(404);
         }
-        $product->banner = $product->banner;
-        $product->url = $product->url;
+
+
         $order = Order::findTheLast();
         if ($order) {
             $orderProduct = OrderProduct::where("order_id", $order->id)->where("product_id", $product->id)->first();
@@ -101,16 +108,21 @@ class HomeController extends Controller
             }
         }
 
-        $recentlyViewed = Cache::get("recently_viewed");
-        if (!$recentlyViewed) {
-            $recentlyViewed = [];
-        }
+        $recentlyViewed = [];
+        try {
+            $recentlyViewed = json_decode(Cookie::get("recently_viewed"));
+        } catch (\Exception $e) {
 
+        }
+        $recentlyViewedItems = collect();
+        if ($recentlyViewed) {
+            $recentlyViewedItems = Product::whereIn("id", $recentlyViewed)->get();
+        }
         $recentlyViewed[] = $product->id;
         $recentlyViewed = array_values(array_unique($recentlyViewed));
-        Cache::forget("recently_viewed");
-        Cache::put("recently_viewed", $recentlyViewed, 60 * 60);
-        $recentlyViewedItems = Product::whereIn("id", array_slice($recentlyViewed, -3))->get();
+        $recentlyViewed= array_slice($recentlyViewed, -3);
+        Cookie::queue("recently_viewed", json_encode($recentlyViewed), 60 * 24 * 7);
+
         $crosses = $product->crosses;
 
         $calculator = $product->calculator()->with('steps')->first();
@@ -123,7 +135,7 @@ class HomeController extends Controller
         $exchangeRates = new ExchangeRate();
         $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
         //dd($calculator->toArray());
-        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate','game'));
+        return view("product", compact('product', 'recentlyViewedItems', 'crosses', 'calculator', 'rate', 'game'));
     }
 
     public function details()

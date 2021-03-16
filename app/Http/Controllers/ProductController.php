@@ -39,11 +39,7 @@ class ProductController extends Controller
             default:
         }
 
-
-
         $products = $products->with("category");
-
-
 
         $products = $products->skip($skip)->take($take)->get()->map(function ($p) {
             $p->banner = $p->banner;

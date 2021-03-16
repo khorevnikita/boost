@@ -219,9 +219,8 @@ export default {
 .card-options .card-body {
     padding: 20px 0px 30px 25px;
 }
-.form-check{
 
+.form-check {
     padding-right: 15px;
-
 }
 </style>
