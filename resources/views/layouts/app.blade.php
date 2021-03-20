@@ -64,110 +64,18 @@
     @endif
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg" style="position: absolute;width: 100%;z-index: 99;">
-    <div class="container">
-        <a href="{{url("/")}}" class="nav-link" style="border-radius: 25px">
-            <img class="img-fluid" src="/images/boost_logo.png" style="width: 45px">
-        </a>
-        <button class="b-r-30 btn btn-secondary btn-cart d-sm-none" type="button">
-            <img src="/images/cart_icon.png"/>
-        </button>
-
-        <button class="b-r-30 btn-primary btn d-sm-none" type="button">
-            Log in
-        </button>
-
-        <button class="navbar-toggler b-r-30 bg-primary" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse " id="navbarSupportedContent">
-
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto ">
-                {{-- <li class="nav-item dropdown">
-                     <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                        v-pre>
-                         Games <span class="caret"></span>
-                     </a>
-
-                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                         @foreach($games as $game)
-                             <a class="dropdown-item" href="{{url($game->rewrite)}}">
-                                 {{$game->title}}
-                             </a>
-                         @endforeach
-                     </div>
-                 </li>--}}
-                @foreach($games as $game)
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link text-white" href="{{url($game->rewrite)}}">
-                            {{$game->title}}
-                        </a>
-                    </li>
-                @endforeach
-                {{--<li class="nav-item">
-                    <a role="button" class="nav-link js-search">
-                        Search
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{url("register")}}" class="nav-link">
-                        Profile
-                    </a>
-                </li>--}}
-            </ul>
-
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Authentication Links -->
-                {{--<li class="nav-item">
-                    <a class="nav-link" type="button" data-toggle="modal" data-target="#help-modal">
-                        <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path
-                                d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                        </svg>
-                        24/7 Customer support
-                    </a>
-                </li>--}}
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle b-r-30 text-white btn-currency" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
-                        {{strtoupper($currency)}} <span class="caret"></span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url("currency/eur")}}">
-                            EUR
-                        </a>
-                        <a class="dropdown-item" href="{{url("currency/usd")}}">
-                            USD
-                        </a>
-                    </div>
-
-                </li>
-                <li class="nav-item d-none d-sm-block">
-                    <button class="b-r-30 btn btn-secondary btn-cart " type="button">
-                        <img src="/images/cart_icon.png"/>
-                    </button>
-
-                    <button class="b-r-30 btn-primary btn" type="button">
-                        Log in
-                    </button>
-
-                </li>
-            </ul>
-        </div>
-    </div>
+<nav id="auth-app" class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg" style="position: absolute;width: 100%;z-index: 99;">
+    <header-widget
+        @if(Auth::check())
+        :user="{{Auth::user()}}"
+        @endif
+        :product_count="'{{$orderItemsCount}}'"
+        :csrf="'{{csrf_token()}}'"
+        :games="{{$games}}"
+        :currency="'{{$currency}}'"/>
 </nav>
 @yield('content')
 <!-- Scripts -->
-<!-- Button trigger modal -->
-
 
 <!-- Modal -->
 <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

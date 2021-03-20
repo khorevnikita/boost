@@ -41,6 +41,14 @@ const app = new Vue({
         }
     }
 });
+const auth = new Vue({
+    el: '#auth-app',
+    methods: {
+        reload() {
+            window.location.reload();
+        }
+    }
+});
 
 
 $(".js-menu-toggle").click(function () {

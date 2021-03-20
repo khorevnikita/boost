@@ -28,6 +28,7 @@ class CurrencyMiddleware
             $exchangeRates = new ExchangeRate();
             $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
         }
+
         Config::set('currency', $currency);
         Config::set('rate', $rate);
 

@@ -10,7 +10,7 @@
         </div>-->
         <div class="col-12 col-sm-4">
             <product-list-item :short="true" :product="product"/>
-            <button class="btn btn-primary b-r-30 btn-block">
+            <button class="btn btn-primary b-r-30 btn-block" @click="addToOrder()">
                 <span v-if="added">Already in Cart</span>
                 <span v-else>
                     Add to Cart {{ common_price }} {{ currency === 'usd' ? "$" : "€" }}
@@ -187,7 +187,7 @@ export default {
                     let currentOrderProductsCount = parseInt($(".price-badge:first").text());
                     $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
 
-                    Swal.fire({
+                    /*Swal.fire({
                         title: 'Item added to cart',
                         //        text: "You won't be able to revert this!",
                         icon: 'success',
@@ -198,9 +198,9 @@ export default {
                         cancelButtonText: 'Continue  shopping',
                     }).then((result) => {
                         if (result.value) {
-                            window.location.href = "/order"
+                         //   window.location.href = "/order"
                         }
-                    })
+                    })*/
                 }
             })
         }

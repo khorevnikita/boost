@@ -47,8 +47,10 @@ class OrderController extends Controller
                 $product->selected_options = $product->selectedOptions($order);;
             }
         }
-        $user = Auth::user();
-        return view("order", compact('order', 'user'));
+        return response()->json([
+            'status' => "success",
+            "order" => $order,
+        ]);
     }
 
     public function store(Request $request)
