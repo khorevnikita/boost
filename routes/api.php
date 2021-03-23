@@ -18,11 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get("order", "OrderController@show")->middleware("currency");
-Route::post("orders", "OrderController@store");
+Route::post("orders", "OrderController@store")->middleware("currency");
 Route::put("orders", "OrderController@destroy");
 Route::post("orders/{id}/form", "OrderController@form")->middleware('currency');
 Route::post("orders/{id}/payed", "OrderController@payed");#->middleware('currency');
-Route::get("products", "ProductController@index");
+Route::get("products", "ProductController@index")->middleware("currency");
 Route::post("products/{id}/vote", "ProductController@vote");
 Route::get("options","Admin\OptionController@indexJson");
 Route::post("order/callback","OrderController@callback");

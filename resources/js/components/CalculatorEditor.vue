@@ -15,6 +15,13 @@
                     <label class="custom-control-label" for="step-switch">Manual steps</label>
                 </div>
             </div>
+             <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="multiple-switch" v-model="calc.multiple">
+                    <label class="custom-control-label" for="multiple-switch">Multiple</label>
+                </div>
+            </div>
+
             <div class="auto-steps" v-if="!is_manual">
                 <div class="form-group row">
                     <div class="col-6">
@@ -40,7 +47,7 @@
 
                 <div class="form-group row">
                     <div class="col">
-                        <label for="step">Step</label>
+                        <label for="step">Step (interval)</label>
                         <input placeholder="1" id="step" type="number" class="form-control" v-model="calc.step">
                     </div>
                     <div class="col">
@@ -120,7 +127,8 @@
                     step_price: "",
                     step_type: "",
                     start_value: "",
-                    steps: []
+                    steps: [],
+                    multiple: true,
                 },
                 creating: false,
                 is_manual: false,

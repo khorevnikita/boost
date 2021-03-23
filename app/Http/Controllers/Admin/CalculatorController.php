@@ -102,7 +102,7 @@ class CalculatorController extends Controller
     public function update(Request $request, Calculator $calculator)
     {
         foreach ($request->except("_token", "_method", 'steps') as $k => $value) {
-            if ($value) {
+            if (1) {
                 $calculator->{$k} = $value;
             }
         }

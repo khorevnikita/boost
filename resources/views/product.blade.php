@@ -1,11 +1,17 @@
 @extends('layouts.app')
-
+@push('seo')
+    <title>{{$product->seo_title?:$product->title}}</title>
+    <meta name="description" content="{{$product->seo_description?:$product->short_description}}">
+    @if($product->seo_keys)
+        <meta name="Keywords" content="{{$product->seo_keys}}">
+    @endif
+@endpush
 @section('content')
     @if($game->actual_banner)
         @include('particles.banner_item', ['banner' => $game->actual_banner])
     @else
         <div class="text-center bg-dark pt-5 pb-5 text-white banner">
-            <h2>{{$game->title}}</h2>
+            <h2 >{{$game->title}}</h2>
         </div>
     @endif
     <div class="container" style="    padding-bottom: 30px;">
@@ -27,13 +33,14 @@
         </div>--}}
 
         <div id="app">
+
             <product-order
                 @if($product->images) :images="{{$product->images}}" @endif
 
-                @if($calculator) :calculator="{{$calculator}}" @endif
+            @if($calculator) :calculator="{{$calculator}}" @endif
                 :product="{{$product}}"
                 :game="{{$game}}"
-                :options="{{$product->options}}"
+                :options="{{$product->getOptions()}}"
                 :rate="'{{$rate}}'"
                 :currency="'{{$currency}}'"></product-order>
         </div>

@@ -18,12 +18,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
-
-
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm nav-header" style="position:absolute;">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm nav-header">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
@@ -65,7 +63,18 @@
                     @endcan
                     @can("update-content")
                         <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/promocodes")}}">Promo codes</a>
+                        </li>
+                    @endcan
+
+                    @can("update-content")
+                        <li class="nav-item">
                             <a class="nav-link" href="{{url("/admin/seo")}}">SEO</a>
+                        </li>
+                    @endcan
+                    @can("update-content")
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url("/admin/scripts")}}">Scripts</a>
                         </li>
                     @endcan
 

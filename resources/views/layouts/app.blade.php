@@ -47,8 +47,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -56,14 +54,29 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css?1') }}" rel="stylesheet">
 
-    @if($seo)
+    @if($seo && !isset($product))
         <title>@yield('page_title',$seo->title)</title>
         <meta name="description" content="@yield('page_description',$seo->description)">
         <meta property="og:image" content="@yield('page_og_image',Storage::disk("public")->url($seo->image))"/>
         <meta name="Keywords" content="@yield('seo_keys',$seo->keys)">
     @endif
+    @stack('seo')
+
+    @if(isset($scripts) && $scripts)
+        @foreach($scripts->where("place","header") as $script)
+            {!! $script->value !!}
+        @endforeach
+    @endif
+
+    @if($currency??null)
+        <meta name="currency" content="{{$currency}}">
+    @endif
+    @if($rate??null)
+        <meta name="rate" content="{{$rate}}">
+    @endif
+
 </head>
-<body>
+<body id="main-body">
 <nav id="auth-app" class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg" style="position: absolute;width: 100%;z-index: 99;">
     <header-widget
         @if(Auth::check())
@@ -158,5 +171,10 @@
 <script src="{{ asset('js/app.js') }}?3"></script>
 @stack("scripts")
 @include("particles.intercom")
+@if(isset($scripts) && $scripts)
+    @foreach($scripts->where("place","footer") as $sc)
+        {!! $sc->value !!}
+    @endforeach
+@endif
 </body>
 </html>

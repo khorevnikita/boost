@@ -40,13 +40,14 @@ export default {
     components: {VueSlider},
     data() {
         return {
-            slider_value: [this.calculator ? this.calculator.min_value : 0, this.calculator ? this.calculator.max_value : 0],
+            slider_value: null,
             range: {from: this.calculator.min_value, to: this.calculator.max_value},
             slider_price: 0,
             calc_marks_array: [],
         }
     },
     created() {
+        this.slider_value = [this.calculator ? this.calculator.min_value : 0, this.calculator ? this.calculator.max_value : 0]
         for (var s of this.calculator.sorted_steps) {
             this.calc_marks_array.push(s.title);
         }
@@ -55,10 +56,18 @@ export default {
     watch: {
         slider_value: {
             handler: function (value) {
+                if (!this.calculator.multiple && value[0] !== this.calculator.min_value) {
+                    this.slider_value[0] = this.calculator ? this.calculator.min_value : 0;
+                }
                 this.calcValue(value[0], value[1]);
             },
             deep: true
         },
+    },
+    mounted() {
+        if (!this.calculator.multiple) {
+            document.querySelector(".vue-slider-dot").style.display="none";
+        }
     },
     methods: {
         calcValue(from, to) {

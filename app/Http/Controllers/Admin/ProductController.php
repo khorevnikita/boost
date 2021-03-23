@@ -25,7 +25,7 @@ class ProductController extends Controller
             $products = $products->where("id", $request->id);
         }
         if ($request->title) {
-            $products = $products->where("title", "like","%$request->title%");
+            $products = $products->where("title", "like", "%$request->title%");
         }
         if ($request->category) {
             $category = Category::where("title", "like", "%$request->category%")->pluck("id");
@@ -115,15 +115,13 @@ class ProductController extends Controller
         $options = Option::all();
         $calculator = $product->calculator()->with("steps")->first();
         $categories = Category::with("game")->get();
-        return view("admin.products.edit", compact('product', 'options', 'calculator','categories'));
+        return view("admin.products.edit", compact('product', 'options', 'calculator', 'categories'));
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Product $product)
     {
@@ -146,19 +144,30 @@ class ProductController extends Controller
         $product->description = $request->description;
 
         $product->price = $request->price;
+        $product->currency = $request->currency;
+
         $product->is_hot = $request->is_hot ? 1 : 0;
         $product->is_new = $request->is_new ? 1 : 0;
 
         $product->category_id = $request->category_id;
 
         $product->rewrite = $checkUnique ? $product->rewrite : $request->rewrite;
+
+        $product->seo_title = $request->seo_title;
+        $product->seo_keys = $request->seo_keys;
+        $product->seo_description = $request->seo_description;
+
         $product->save();
 
         $product->options()->detach();
-        $product->options()->attach(array_filter($request->options));
+        if ($request->options) {
+            $product->options()->attach(array_filter($request->options));
+        }
 
         $product->crosses()->detach();
-        $product->crosses()->attach(array_filter($request->crosses));
+        if ($request->crosses) {
+            $product->crosses()->attach(array_filter($request->crosses));
+        }
         return back();
     }
 

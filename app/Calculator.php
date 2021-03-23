@@ -23,19 +23,28 @@ class Calculator extends Model
     public function calc($range, $currency = false)
     {
         $difference = $range->to - $range->from;
+        $currency = Config::get("currency");
+        $rate = Config::get("rate");
+        $productCurrency = $this->product->currency ?: "eur";
 
         if ($this->steps && $this->steps->count() > 0) {
-            if ($currency && Config::get('currency')=="usd") {
-                $exchangeRates = new ExchangeRate();
-                return round($exchangeRates->convert($difference, 'EUR', 'USD', Carbon::now()), 2);
+            if ($productCurrency !== $currency) {
+                if ($currency == "eur") {
+                    $difference = $difference * $rate;
+                } else {
+                    $difference = $difference / $rate;
+                }
             }
-            return $difference;
+            return round($difference, 2);
         }
 
         if ($this->step_type === "abs") {
-            if ($currency && Config::get('currency')=="usd") {
-                $exchangeRates = new ExchangeRate();
-                return round($exchangeRates->convert($difference * $this->step_price, 'EUR', 'USD', Carbon::now()), 2);
+            if ($productCurrency !== $currency) {
+                if ($currency == "eur") {
+                    $difference = $difference * $rate;
+                } else {
+                    $difference = $difference / $rate;
+                }
             }
             return $difference * $this->step_price;
         } else {
@@ -43,11 +52,15 @@ class Calculator extends Model
             $q = (1 + $this->step_price / 100);
             $min_price = $b1 * ($q ** $range->from - 1) / ($q - 1);
             $max_price = $b1 * ($q ** $range->to - 1) / ($q - 1);
-            if ($currency && Config::get('currency')=="usd") {
-                $exchangeRates = new ExchangeRate();
-                return round($exchangeRates->convert($max_price - $min_price, 'EUR', 'USD', Carbon::now()), 2);
+            $priceDiff = $max_price - $min_price;
+            if ($productCurrency !== $currency) {
+                if ($currency == "eur") {
+                    $priceDiff = $priceDiff * $rate;
+                } else {
+                    $priceDiff = $priceDiff / $rate;
+                }
             }
-            return round($max_price - $min_price);
+            return round($priceDiff);
         }
     }
 

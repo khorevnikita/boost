@@ -28,16 +28,11 @@ class Option extends Model
 
     public function orderProduct()
     {
-        return $this->belongsToMany(OrderProduct::class,'order_product_option');
+        return $this->belongsToMany(OrderProduct::class, 'order_product_option');
     }
 
     public function getPriceAttribute($price)
     {
-        $currency = Config::get("currency");
-        if ($currency=="usd") {
-            $exchangeRates = new ExchangeRate();
-            $price = $exchangeRates->convert($price, 'EUR', 'USD', Carbon::now());
-        }
         return round($price, 2);
     }
 

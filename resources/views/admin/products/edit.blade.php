@@ -46,12 +46,25 @@
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="price">Price</label>
-                                <input id="price" type="text" class="form-control" name="price" value="{{$product->price}}">
-                                @error('price')
-                                <p class="text-danger">{{$message}}</p>
-                                @enderror
+                            <div class="form-group row">
+                                <div class="col">
+                                    <label for="price">Price</label>
+                                    <input id="price" type="text" class="form-control" name="price" value="{{$product->original_price}}">
+                                    @error('price')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <label for="currency">Currency</label>
+                                    <select id="currency" name="currency" class="form-control">
+                                        <option @if($product->currency == "usd") selected @endif value="usd">USD</option>
+                                        <option @if($product->currency == "eur") selected @endif value="eur">EUR</option>
+                                    </select>
+                                    @error('currency')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
+                                </div>
+
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
@@ -79,7 +92,7 @@
                                 <label for="options">Options</label>
                                 <input id="options" class="form-control" placeholder="Choose options">
                                 <p class="mt-1" id="selected-options">
-                                    <span class="badge badge-info text-white p-2 mr-2 mt-1 example-badge">
+                                    <span class="d-none badge badge-info text-white p-2 mr-2 mt-1 example-badge">
                                         <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
                                             <input type="hidden" name="options[]">
                                     </span>
@@ -97,7 +110,7 @@
                                 <label for="crosses">Crosses</label>
                                 <input id="crosses" class="form-control" placeholder="Choose crosses">
                                 <p class="mt-1" id="selected-crosses">
-                                    <span class="badge badge-info text-white p-2 mr-2 mt-1 example-badge">
+                                    <span class="d-none badge badge-info text-white p-2 mr-2 mt-1 example-badge">
                                         <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
                                             <input type="hidden" name="crosses[]">
                                     </span>
@@ -110,6 +123,31 @@
                                     @endforeach
                                 </p>
                             </div>
+                            <hr>
+                            <p><strong>SEO</strong></p>
+                            <div class="form-group">
+                                <label for="seo_title">SEO title</label>
+                                <input id="seo_title" type="text" class="form-control" name="seo_title" value="{{$product->seo_title}}">
+                                @error('seo_title')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="description">SEO description</label>
+                                <textarea id="seo_description" class="form-control" name="seo_description">{{$product->seo_description}}</textarea>
+                                @error('seo_description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="seo_keys">SEO keys</label>
+                                <textarea id="seo_keys" class="form-control" name="seo_keys">{{$product->seo_keys}}</textarea>
+                                @error('seo_description')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Save product</button>
                             </div>
@@ -119,11 +157,11 @@
                         <calculator-editor @if($calculator) :calculator="{{$calculator}}" @endif :product="{{$product}}"></calculator-editor>
                         @if($calculator)
                             <div class="form-group float-right">
-                                <form action="{{url(" admin/calculators/$calculator->id")}}" method="post">
+                                <form action="{{url("/admin/calculator/$calculator->id")}}" method="post">
                                     @csrf
                                     @method("DELETE")
-                                    <button onclick="return confirm('Are you sure you want to delete CALCULATOR?')" type="submit" class="btn btn-danger float-right">Delete
-                                        calculator
+                                    <button onclick="return confirm('Are you sure you want to delete CALCULATOR?')" type="submit" class="btn btn-danger float-right">
+                                        Delete calculator
                                     </button>
                                 </form>
                             </div>
@@ -242,10 +280,13 @@
                     },
                     select: function (event, ui) {
                         let item = $("#selected-options").find(".example-badge").clone(true, true).removeClass("example-badge");
+                        item.removeClass("d-none");
                         item.html(ui.item.label + item.html());
                         item.find("input").val(ui.item.value);
                         $("#selected-options").append(item);
-                        $("#options").val("");
+                        setTimeout(() => {
+                            $("#options").val("");
+                        }, 100);
                         $(".js-remove-item").click(function () {
                             $(this).parent().remove()
                         })
@@ -275,7 +316,6 @@
                             // обработка успешного выполнения запроса
                             success: function (data) {
                                 console.log(data);
-                                //return data.products;
                                 // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
                                 response($.map(data.products, function (item) {
                                     return {
@@ -288,10 +328,13 @@
                     },
                     select: function (event, ui) {
                         let item = $("#selected-crosses").find(".example-badge").clone(true, true).removeClass("example-badge");
+                        item.removeClass("d-none");
                         item.html(ui.item.label + item.html());
                         item.find("input").val(ui.item.value);
                         $("#selected-crosses").append(item);
-                        $("#crosses").val("");
+                        setTimeout(() => {
+                            $("#crosses").val("");
+                        }, 100)
                         $(".js-remove-item").click(function () {
                             $(this).parent().remove()
                         })

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
+Route::group(['middleware' => ['admin', 'currency'], 'prefix' => "admin"], function () {
     Route::get("/", "Admin\HomeController@index");
     Route::resource("games", "Admin\GameController");
     Route::post("games/{id}/banner", "Admin\GameController@banner");
@@ -27,6 +28,8 @@ Route::group(['middleware' => ['admin'], 'prefix' => "admin"], function () {
     Route::post("orders/{id}", "Admin\OrderController@destroy");
     Route::resource("calculator", "Admin\CalculatorController");
     Route::resource("banners", "Admin\BannerController");
+    Route::resource("promocodes", "Admin\PromocodeController");
+    Route::resource("scripts", "Admin\ScriptController");
 
     Route::get("seo", "Admin\SeoController@get");
     Route::post("seo", "Admin\SeoController@save");
@@ -57,7 +60,7 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get("agreement", "HomeController@agreement");
 
     Route::get("currency/{code}", function ($code) {
-        setcookie("currency_" . config("app.cookie_key"), $code, null, '/');
+        Cookie::queue("currency", $code, 60 * 24 * 7 * 365);
         return back();
     });
 

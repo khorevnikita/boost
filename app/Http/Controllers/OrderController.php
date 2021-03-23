@@ -44,7 +44,7 @@ class OrderController extends Controller
         $order = Order::findTheLast();
         if ($order && $order->products->count() > 0) {
             foreach ($order->products as $product) {
-                $product->selected_options = $product->selectedOptions($order);;
+                $product->selected_options = $product->getSelectedOptions($order);;
             }
         }
         return response()->json([
@@ -64,8 +64,7 @@ class OrderController extends Controller
             $order->hash = $hash;
             $order->status = "new";
             $order->save();
-            # dd(config("app.cookie_key"));
-            setcookie("order_hash_" . config("app.cookie_key"), $hash, time() + 3600, '/');
+            setcookie("order_hash", $hash, time() + 3600, '/');
         }
 
         # attach product
@@ -76,7 +75,6 @@ class OrderController extends Controller
         if ($calc && $request->has("range")) {
             $range = json_encode($request->range);
         }
-        #dd($range);
         $order->products()->attach($request->product_id, ['range' => $range]);
 
         # attach options
@@ -86,6 +84,7 @@ class OrderController extends Controller
 
         # calc amount
         $order->amount = $order->commonPrice();
+        $order->currency = strtoupper(Config::get("currency") ?: "eur");
         $order->save();
 
         return response([
@@ -129,80 +128,50 @@ class OrderController extends Controller
         }
 
         $order->user_id = $user->id;
-        if ($request->type == "bitcoin") {
-            $order->status = "formed";
-        }
-        # $order->status = "formed";
+        #$order->status = "formed";
         $order->save();
 
-        #$currency = "eur";
-        #if (isset($_COOKIE["currency_" . config("app.cookie_key")]) && $_COOKIE["currency_" . config("app.cookie_key")] == "usd") {
-        #    $currency = "usd";
-        #}
-
-        #$exchangeRates = new ExchangeRate();
-        #$price = $exchangeRates->convert($order->amount, strtoupper($currency), 'RUB', Carbon::now());
-        #$order->amount = $price;
         $order->user = $user;
 
-        if (0) {
 
-            $payment = new Payment(config("services.ecommpay.id"));
-            // Идентификатор проекта
-            #dd($order->amount);
-            $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency(strtoupper(Config::get("currency")));
-            // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
+        $curl = curl_init();
+        # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
+        $data = [
+            "product" => "Order $order->id",
+            "amount" => $order->amount * 100,
+            "currency" => Config::get("currency"), #todo: ПОПРАВИТЬ
+            "redirectSuccessUrl" => url("/order/success"),
+            "redirectFailUrl" => url("/order/decline"),
+            "extraReturnParam" => "$order->id",
+            "orderNumber" => "$order->id",
+            "locale" => "en"
 
-            $payment->setPaymentId($order->id);
-            // Идентификатор платежа, уникальный в рамках проекта
+        ];
+        $key = config("services.payapp.key");
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => [
+                "authorization: Bearer $key",
+                "content-type: application/json"
+            ],
+        ]);
 
-            $payment->setPaymentDescription("Order #$order->id");
-            // Описание платежа. Не обязательный, но полезный параметр
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-            $gate = new Gate(config("services.ecommpay.secret"));
-            // Секретный ключ проекта, полученный от ECommPay при интеграции
+        curl_close($curl);
 
-            $url = $gate->getPurchasePaymentPageUrl($payment);
+        if ($err) {
+            # echo "cURL Error #:" . $err;
         } else {
-            $curl = curl_init();
-            # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
-            $data = [
-                "product" => "Order $order->id",
-                "amount" => $order->amount * 100,
-                "currency" => strtoupper($order->currency), #todo: ПОПРАВИТЬ
-                "redirectSuccessUrl" => url("/order/success"),
-                "redirectFailUrl" => url("/order/decline"),
-                "extraReturnParam" => "$order->id",
-                "orderNumber" => "$order->id",
-                "locale" => "en"
-
-            ];
-            $key = config("services.payapp.key");
-            curl_setopt_array($curl, [
-                CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => json_encode($data),
-                CURLOPT_HTTPHEADER => [
-                    "authorization: Bearer $key",
-                    "content-type: application/json"
-                ],
-            ]);
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                # echo "cURL Error #:" . $err;
-            } else {
-                #echo $response;
-            }
+            #echo $response;
         }
 
 

@@ -250,168 +250,177 @@
     }
 }
 
-body {
+#main-body {
     background-color: #1C1C1C;
-}
 
-p,h4,label {
-    color: $white
-}
 
-a {
-    &:hover {
-        text-decoration: none;
-    }
-}
-
-.b-r-30 {
-    border-radius: 30px;
-    padding: 10px 10px
-}
-
-.btn-primary {
-    padding: 7px 20px;
-}
-
-.btn-cart {
-    margin-right: -10px;
-    position: relative;
-}
-
-.navbar {
-    padding: 0;
-}
-
-.bg-dark {
-    background-color: #1C1C1C !important;
-}
-
-.nav-item {
-    padding: 5px 10px;
-    border-top: 1px solid #6d6d6d;
-    text-align: center;
-
-    .btn-currency {
-        width: fit-content;
-        margin: auto;
-        border: 1px solid;
-        padding: 10px 15px;
-    }
-}
-
-.point-primary {
-    width: 10px;
-    height: 10px;
-    background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;;
-    border-radius: 50px;
-    display: inline-block;
-}
-
-.btn-primary, .bg-primary {
-    background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
-}
-
-.btn-main-game {
-    color: $white;
-    /* op */
-
-    background: linear-gradient(195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
-    /* op */
-
-    backdrop-filter: blur(10px);
-    /* Note: backdrop-filter has minimal browser support */
-
-    border-radius: 20px;
-    padding: 10px 0px;
-    margin-top: 15px;
-    @media (min-width: 768px) {
-        padding: 35px 0;
-        &:hover {
-            background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
-        }
-    }
-}
-
-.btn-outline-secondary {
-    background: inherit;
-}
-
-.card {
-    background-color: #1D1D1D;
-    border-radius: 20px;
-
-    .card-footer {
-        background-color: #242424;
-        border-radius: 20px;
-    }
-}
-
-.product-item-card {
-    .badge {
-        position: absolute;
-    }
-
-    .product-item-price {
-        background: linear-gradient(
-                195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        box-sizing: border-box;
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        border-radius: 25px;
-        float: right;
-        position: absolute;
-        right: 5px;
-        top: 10px;
-        padding: 10px 15px;
+    p, h4, label {
         color: $white
     }
-}
-.navbar{
-    padding: 10px 0;
-}
-.nav-item{
-    border-top:none;
-}
-@media (max-width: 767px) {
-    .navbar-menu-bg {
-        background-color: $dark;
 
-    }
-}
-
-.form-control {
-    background: $black;
-    border-color: #6c757d;
-
-    &:focus {
-        background: $dark;
+    a {
+        &:hover {
+            text-decoration: none;
+        }
     }
 
-    &::placeholder {
+    .b-r-30 {
+        border-radius: 30px;
+        padding: 10px 10px
+    }
+
+    .btn-primary {
+        padding: 7px 20px;
+    }
+
+    .btn-cart {
+        margin-right: -10px;
+        position: relative;
+    }
+
+    .navbar {
+        padding: 0;
+    }
+
+    .bg-dark {
+        background-color: #1C1C1C !important;
+    }
+
+    .nav-item {
+        padding: 5px 10px;
+        border-top: 1px solid #6d6d6d;
+        text-align: center;
+
+        .btn-currency {
+            width: fit-content;
+            margin: auto;
+            border: 1px solid;
+            padding: 10px 15px;
+        }
+    }
+
+    .point-primary {
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;;
+        border-radius: 50px;
+        display: inline-block;
+    }
+
+    .btn-primary, .bg-primary {
+        background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+    }
+
+    .btn-main-game {
         color: $white;
+        /* op */
+
+        background: linear-gradient(195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
+        /* op */
+
+        backdrop-filter: blur(10px);
+        /* Note: backdrop-filter has minimal browser support */
+
+        border-radius: 20px;
+        padding: 10px 0px;
+        margin-top: 15px;
+        @media (min-width: 768px) {
+            padding: 35px 0;
+            &:hover {
+                background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+            }
+        }
     }
-}
-input[type='text'],input[type='password'],input[type='email'],{
-    border: 1px solid #4C4C4C;
-    box-sizing: border-box;
-    border-radius: 10px;
-    padding: 25px 10px;
-    color:#fff;
-    &::placeholder{
-        color:#4C4C4C;
+
+    .btn-outline-secondary {
+        background: inherit;
     }
-    &:focus{
-        color:#fff;
+
+    .card {
+        background-color: #1D1D1D;
+        border-radius: 20px;
+
+        .card-footer {
+            background-color: #242424;
+            border-radius: 20px;
+        }
     }
-}
-.badge-primary{
-    background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;;
-}
-.price-badge{
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    border-radius: 20px;
-    padding: 3px 5px;
+
+    .product-item-card {
+        .badge {
+            position: absolute;
+        }
+
+        .product-item-price {
+            background: linear-gradient(
+                    195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-sizing: border-box;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            float: right;
+            position: absolute;
+            right: 5px;
+            top: 10px;
+            padding: 10px 15px;
+            color: $white
+        }
+    }
+
+    .navbar {
+        padding: 10px 0;
+    }
+
+    .nav-item {
+        border-top: none;
+    }
+
+    @media (max-width: 767px) {
+        .navbar-menu-bg {
+            background-color: $dark;
+
+        }
+    }
+
+    .form-control {
+        background: $black;
+        border-color: #6c757d;
+
+        &:focus {
+            background: $dark;
+        }
+
+        &::placeholder {
+            color: $white;
+        }
+    }
+
+    input[type='text'], input[type='password'], input[type='email'], {
+        border: 1px solid #4C4C4C;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 25px 10px;
+        color: #fff;
+
+        &::placeholder {
+            color: #4C4C4C;
+        }
+
+        &:focus {
+            color: #fff;
+        }
+    }
+
+    .badge-primary {
+        background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;;
+    }
+
+    .price-badge {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        border-radius: 20px;
+        padding: 3px 5px;
+    }
 }

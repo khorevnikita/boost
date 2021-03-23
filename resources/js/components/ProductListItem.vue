@@ -1,5 +1,4 @@
 <template>
-
     <div class="card product-item-card">
         <div class="card-body text-center">
             <span class="product-item-price" v-if="!short">
@@ -17,7 +16,7 @@
 
             <span v-if="product.is_hot" style="margin: 10px" class="badge badge-danger">HOT</span>
             <span v-if="product.is_new" style="margin: 10px" class="badge badge-danger">NEW</span>
-            <img :src="product.banner" class="img-fluid">
+            <img :src="product.banner" class="img-fluid" >
         </div>
         <div v-if="!short" class="card-footer text-white text-center">
             {{ product.title }}

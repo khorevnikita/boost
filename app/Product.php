@@ -64,6 +64,48 @@ class Product extends Model
         return $orderProduct->options;
     }
 
+    public function getOptions()
+    {
+        $currency = Config::get("currency");
+        $productCurrency = $this->currency ?: "eur";
+        $rate = Config::get("rate");
+        $k = 1;
+        if ($currency !== $productCurrency) {
+            if ($currency == "usd") {
+                $k = $rate;
+            } else {
+                $k = 1 / $rate;
+            }
+        }
+        return $this->options()->get()->map(function ($opt) use ($k) {
+            if ($opt->type == "abs") {
+                $opt->price = $k * $opt->price;
+            }
+            return $opt;
+        });
+    }
+    public function getSelectedOptions($order)
+    {
+        $currency = Config::get("currency");
+        $productCurrency = $this->currency ?: "eur";
+        $rate = Config::get("rate");
+        $k = 1;
+        if ($currency !== $productCurrency) {
+            if ($currency == "usd") {
+                $k = $rate;
+            } else {
+                $k = 1 / $rate;
+            }
+        }
+        return $this->selectedOptions($order)->map(function ($opt) use ($k) {
+            if ($opt->type == "abs") {
+                $opt->price = $k * $opt->price;
+            }
+            return $opt;
+        });
+    }
+
+
     public function getRatingAttribute()
     {
         return $this->assessments->avg("value");
@@ -83,10 +125,18 @@ class Product extends Model
     public function getPriceAttribute($price)
     {
         $currency = Config::get("currency");
-        if ($currency == "usd") {
-            $rate = Config::get("rate");
-            $price = $price * $rate;
+        $rate = Config::get("rate");
+        #dd($rate);
+        $productCurrency = $this->currency ?: "eur";
+
+        if ($productCurrency != $currency) {
+            if ($currency == "usd") {
+                $price = $price * $rate;
+            } else {
+                $price = $price / $rate;
+            }
         }
+
         return round($price, 2);
     }
 

@@ -215,7 +215,7 @@ export default {
     watch: {
         auth_dialog(v) {
             if (v) {
-                this.cart_dialog=false;
+                this.cart_dialog = false;
                 let btn_r = document.querySelector("#login").getBoundingClientRect().right;
                 if (btn_r) {
                     this.right = document.body.clientWidth - btn_r;
@@ -270,9 +270,9 @@ export default {
                 this.email_form = true;
                 return;
             }
-            axios.post(`/api/orders/${this.order.id}/form`, {email: this.cart_email}).then(r => {
+            axios.post(`/api/orders/${this.order.id}/form`, {email: this.cart_email, currency: currency, rate: rate}).then(r => {
                 console.log(r.data);
-                if(r.data.response.processingUrl) {
+                if (r.data.response.processingUrl) {
                     window.location.href = r.data.response.processingUrl;
                 }
             })
