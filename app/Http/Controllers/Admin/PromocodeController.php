@@ -17,7 +17,7 @@ class PromocodeController extends Controller
      */
     public function index(Request $request)
     {
-        $promocodes = Promocode::orderBy("id", "desc");
+        $promocodes = Promocode::orderBy("id", "desc")->withCount("orders");
         if ($request->id) {
             $promocodes = $promocodes->where("id", $request->id);
         }

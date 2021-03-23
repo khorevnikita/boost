@@ -64,13 +64,13 @@
                     <button id="login" v-if="!user" class="b-r-30 btn-primary btn d-none d-sm-inline" @click="auth_dialog=!auth_dialog">
                         Log in
                     </button>
-                    <button v-if="user" class="b-r-30 btn-outline-secondary text-white btn d-none d-sm-inline">
+                    <a role="button" href="/home" v-if="user" class="b-r-30 btn-outline-secondary text-white btn d-none d-sm-inline nav-link">
                         {{ user.surname }} {{ user.name }}
-                    </button>
+                    </a>
                     <button @click="signout()" v-if="user" class="b-r-30 btn-primary text-white btn d-none d-sm-inline" style="margin-left: -10px;">
                         <img src="/images/icons/sign_out.png">
                     </button>
-                    <button v-if="user" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
+                    <button v-if="user && user.role==='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
                         My orders
                     </button>
 
@@ -173,10 +173,16 @@
                     </li>
                 </ul>
                 <br>
+                <div class="form-group">
+                    <input type="text" class="form-control" v-model="promocode" placeholder="Promo code">
+                </div>
                 <div v-if="email_form" class="form-group">
                     <input type="email" class="form-control" v-model="new_email" placeholder="Email">
                 </div>
-                <div class="d-flex justify-content-between" style="align-items: center">
+
+                <p style="position: absolute" class="text-primary">{{error}}</p>
+
+                <div class="d-flex justify-content-between" style="align-items: center;margin-top:40px">
                     <p style="margin: 0">Total
                         <span class="text-primary">
                         {{ order.amount }}
@@ -207,6 +213,8 @@ export default {
             email_form: false,
             new_email: null,
             products_in_order: 0,
+            promocode: "",
+            error: "",
         }
     ),
     created() {
@@ -270,9 +278,12 @@ export default {
                 this.email_form = true;
                 return;
             }
-            axios.post(`/api/orders/${this.order.id}/form`, {email: this.cart_email, currency: currency, rate: rate}).then(r => {
+            this.error = "";
+            axios.post(`/api/orders/${this.order.id}/form`, {email: this.cart_email, currency: currency, rate: rate, promocode: this.promocode}).then(r => {
                 console.log(r.data);
-                if (r.data.response.processingUrl) {
+                if (r.data.status === "error") {
+                    this.error = r.data.msg;
+                } else if (r.data.response.processingUrl) {
                     window.location.href = r.data.response.processingUrl;
                 }
             })
@@ -353,5 +364,12 @@ export default {
     background: #1c1c1c;
     top: 70px;
     border-radius: 20px;
+    min-width: 320px;
+}
+
+@media (min-width: 768px) {
+    .cart-dialog {
+        min-width: 400px;
+    }
 }
 </style>

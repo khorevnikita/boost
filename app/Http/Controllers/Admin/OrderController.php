@@ -60,10 +60,10 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \AshAllenDesign\LaravelExchangeRates\Exceptions\InvalidCurrencyException
+     * @throws \AshAllenDesign\LaravelExchangeRates\Exceptions\InvalidDateException
      */
     public function store(Request $request)
     {
@@ -109,24 +109,6 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         $order->comment = $request->comment;
         $order->save();
-
-
-        /*$payment = new Payment(config("services.ecommpay.id"));
-        // Идентификатор проекта
-
-        $payment->setPaymentAmount($request->amount * 100)->setPaymentCurrency($currency);
-        // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
-
-        $payment->setPaymentId($order->id);
-        // Идентификатор платежа, уникальный в рамках проекта
-
-        $payment->setPaymentDescription("Тест");
-        // Описание платежа. Не обязательный, но полезный параметр
-
-        $gate = new Gate(config("services.ecommpay.secret"));
-        // Секретный ключ проекта, полученный от ECommPay при интеграции
-
-        $url = $gate->getPurchasePaymentPageUrl($payment);*/
 
         return response()->json([
             'status' => "success",

@@ -22,6 +22,7 @@
                                     <td>Currency</td>
                                     <td>Time</td>
                                     <td>Code</td>
+                                    <td>Count of usage</td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -43,6 +44,8 @@
                                     <td>
                                         <input class="form-control js-filter" name="code" value="{{Request::input("code")}}">
                                     </td>
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <button class="btn btn-primary js-admin-search">Search</button>
@@ -58,6 +61,7 @@
                                         <td>{{$promocode->currency}}</td>
                                         <td>{{$promocode->end_at}}</td>
                                         <td>{{$promocode->code}}</td>
+                                        <td>{{$promocode->orders_count}}</td>
                                         <td>
                                             <a href="{{url("/admin/promocodes/$promocode->id/edit")}}">More</a>
                                         </td>

@@ -101,16 +101,37 @@ class Order extends Model
     {
         $currency = Config::get("currency");
         $rate = Config::get("rate");
-        #dd(strtoupper($currency));
         if (strtoupper($currency) != $this->currency) {
-
             if ($currency === "usd") {
                 $price = $price * $rate;
-           } else {
+            } else {
                 $price = $price / $rate;
             }
         }
         return round($price, 2);
     }
 
+    public function setPromocode($promocode)
+    {
+        $rate = Config::get("rate");
+        switch ($promocode->currency) {
+            case "usd":
+                if ($this->currency == "usd") {
+                    return $this->amount - $promocode->value;
+                } else {
+                    return $this->amount - ($promocode->value / $rate);
+                }
+
+            case "eur":
+                if ($this->currency == "eur") {
+                    return $this->amount - $promocode->value;
+                } else {
+                    return $this->amount - ($promocode->value * $rate);
+                }
+            case "%":
+                return $this->amount * (1 - $promocode->value / 100);
+            default;
+        }
+        return $this->amount;
+    }
 }

@@ -8,6 +8,7 @@ use App\Mail\InfoMail;
 use App\Mail\RegisterMail;
 use App\Order;
 use App\OrderProduct;
+use App\Promocode;
 use App\User;
 use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 use Carbon\Carbon;
@@ -106,7 +107,22 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        if ($request->promocode) {
+            $pc = Promocode::where("code", $request->promocode)->first();
+            if (!$pc) {
+                return response([
+                    'status' => "error",
+                    'msg' => "Promo code does not exists",
 
+                ]);
+            }
+            if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
+                return response([
+                    'status' => "error",
+                    'msg' => "Expired promotional code",
+                ]);
+            }
+        }
         $user = User::where("email", $request->email)->first();
         $is_new = false;
         if (!$user) {
@@ -125,27 +141,33 @@ class OrderController extends Controller
             $is_new = true;
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
+
+            Auth::user($user);
         }
 
         $order->user_id = $user->id;
         #$order->status = "formed";
+        if (isset($pc)) {
+            $order->promocode_id = $pc->id;
+        }
         $order->save();
 
-        $order->user = $user;
-
+        $finalPrice = $order->amount;
+        if ($pc ?? null) {
+            $finalPrice = $order->setPromocode($pc);
+        }
 
         $curl = curl_init();
         # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
         $data = [
             "product" => "Order $order->id",
-            "amount" => $order->amount * 100,
-            "currency" => Config::get("currency"), #todo: ПОПРАВИТЬ
+            "amount" => $finalPrice * 100,
+            "currency" => Config::get("currency"),
             "redirectSuccessUrl" => url("/order/success"),
             "redirectFailUrl" => url("/order/decline"),
             "extraReturnParam" => "$order->id",
             "orderNumber" => "$order->id",
             "locale" => "en"
-
         ];
         $key = config("services.payapp.key");
         curl_setopt_array($curl, [
@@ -165,27 +187,10 @@ class OrderController extends Controller
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-
         curl_close($curl);
-
-        if ($err) {
-            # echo "cURL Error #:" . $err;
-        } else {
-            #echo $response;
-        }
-
-
         return response([
             'status' => "success",
             'response' => json_decode($response, true),
-            #"header"=>"Bearer $key"
-            /*'data' => [
-                'is_new' => $is_new,
-                'url' => $url ?? null,
-                'order' => $order,
-                'type' => $request->type,
-                'bitcoin' => $request->type == "bitcoin" ? config("services.bitcoin.hash") : null,
-            ]*/
         ]);
     }
 
