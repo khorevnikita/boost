@@ -20,11 +20,13 @@
                                     <td>Created at</td>
                                     <td>Payed at</td>
                                     <td>Amount</td>
+                                    <td>Promo code</td>
                                     <td>Status</td>
                                     <td>User</td>
                                     <td></td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -56,6 +58,11 @@
                                             <td>{{$order->created_at}}</td>
                                             <td>{{$order->payed_at}}</td>
                                             <td>{{$order->amount}} {{$order->currency}}</td>
+                                            <td>
+                                                @if($order->promocode)
+                                                    {{$order->promocode->title}}<br>{{$order->promocode->value}} {{$order->promocode->currency}}
+                                                @endif
+                                            </td>
                                             <td>{{$order->status}}</td>
                                             <td>
                                                 @if($order->user)

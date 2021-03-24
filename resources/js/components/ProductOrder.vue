@@ -16,7 +16,7 @@
                     Add to Cart {{ common_price }} {{ currency === 'usd' ? "$" : "€" }}
                 </span>
             </button>
-            <button class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
+            <button data-toggle="modal" data-target="#purchase-modal" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
             <div class="card card-options" v-if="options.length>0">
                 <div class="card-body">
                     <p class="text-center">Add options</p>
@@ -64,6 +64,32 @@
             <p style="word-break: break-word;" v-if="ww<768" class="col-12 pb-5 mt-3" v-html="product.short_description"></p>
             <p style="word-break: break-word;" v-if="ww>=768" class="col-12" v-html="product.description"></p>
         </div>
+
+        <div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Quick purchase</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="padding-bottom: 35px;">
+                        <div class="form-group">
+                            <input type="email" class="form-control" v-model="purchase.email" placeholder="E-mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" v-model="purchase.promocode" placeholder="Promo code">
+                        </div>
+                        <p style="position: absolute" class="text-primary">{{error}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="formPurchase()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -88,7 +114,9 @@ export default {
             slider_price: 0,
             range: null,
             ww: window.innerWidth,
-            currencyRate: parseFloat(this.rate)
+            currencyRate: parseFloat(this.rate),
+            purchase: {},
+            error: null,
         }
     },
     computed: {
@@ -122,27 +150,36 @@ export default {
             }
         },
         addToOrder() {
+
             axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id), rate: rate, currency: currency}).then(r => {
                 if (r.data.status === "success") {
+                    if (!this.added) {
+                        let currentOrderProductsCount = parseInt($(".price-badge:first").text());
+                        $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
+                    }
                     this.added = true;
-                    let currentOrderProductsCount = parseInt($(".price-badge:first").text());
-                    $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
 
-                    /*Swal.fire({
-                        title: 'Item added to cart',
-                        //        text: "You won't be able to revert this!",
-                        icon: 'success',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Go to cart',
-                        cancelButtonColor: '#3085d6',
-                        cancelButtonText: 'Continue  shopping',
-                    }).then((result) => {
-                        if (result.value) {
-                         //   window.location.href = "/order"
-                        }
-                    })*/
                 }
+            })
+        },
+        formPurchase() {
+            this.error = null;
+            axios.post("/api/purchase", {
+                range: this.range,
+                product_id: this.product.id,
+                options: this.selected_options.map(o => o.id),
+                rate: rate,
+                currency: currency,
+                email: this.purchase.email,
+                promocode: this.purchase.promocode
+            }).then(r => {
+                if (r.data.status === "error") {
+                    this.error = r.data.msg;
+                } else if (r.data.response.processingUrl) {
+                    window.location.href = r.data.response.processingUrl;
+                }
+            }).catch(err => {
+                this.error = Object.values(err.response.data.errors)[0][0];
             })
         }
     }

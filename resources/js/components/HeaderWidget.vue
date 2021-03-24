@@ -170,6 +170,16 @@
                                 </button>
                             </div>
                         </div>
+                        <ul v-if="product.selected_options">
+                            <li v-for="option in product.selected_options">
+                                <p>{{ option.title }} <br>
+                                <span class="text-primary">{{ option.price }}
+                                    <span v-if="currency==='eur'">&euro;</span>
+                                    <span v-else>$</span>
+                                </span>
+                                </p>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <br>
@@ -180,7 +190,7 @@
                     <input type="email" class="form-control" v-model="new_email" placeholder="Email">
                 </div>
 
-                <p style="position: absolute" class="text-primary">{{error}}</p>
+                <p style="position: absolute" class="text-primary">{{ error }}</p>
 
                 <div class="d-flex justify-content-between" style="align-items: center;margin-top:40px">
                     <p style="margin: 0">Total

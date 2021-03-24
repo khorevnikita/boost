@@ -254,7 +254,7 @@
     background-color: #1C1C1C;
 
 
-    p, h4, label {
+    p, h4, label,h5 {
         color: $white
     }
 
@@ -355,6 +355,15 @@
             border-radius: 20px;
         }
     }
+    .modal-content{
+        background: #242424;
+    }
+    .modal-header{
+        border-bottom: 1px solid #5a5c5f;
+    }
+    .modal-footer{
+        border-top: 1px solid #5a5c5f;
+    };
 
     .product-item-card {
         .badge {

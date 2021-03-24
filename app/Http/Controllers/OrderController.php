@@ -151,12 +151,103 @@ class OrderController extends Controller
             $order->promocode_id = $pc->id;
         }
         $order->save();
+        $response = $this->pay($order);
+        return response([
+            'status' => "success",
+            'response' => $response,
+        ]);
+    }
 
-        $finalPrice = $order->amount;
-        if ($pc ?? null) {
-            $finalPrice = $order->setPromocode($pc);
+    public function purchase(Request $request)
+    {
+        $request->validate([
+            'email' => "required|email|max:255",
+        ]);
+        if ($request->promocode) {
+            $pc = Promocode::where("code", $request->promocode)->first();
+            if (!$pc) {
+                return response([
+                    'status' => "error",
+                    'msg' => "Promo code does not exists",
+
+                ]);
+            }
+            if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
+                return response([
+                    'status' => "error",
+                    'msg' => "Expired promotional code",
+                ]);
+            }
         }
 
+        $user = User::where("email", $request->email)->first();
+        $is_new = false;
+        if (!$user) {
+            $password = Str::random(8);
+
+            $user = new User();
+            $user->name = $request->name;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = bcrypt($password);
+            $user->confirmation_token = Str::random();
+            $user->skype = $request->contact;
+            $user->discord = $request->discord;
+            $user->save();
+            $is_new = true;
+            # email here about registration
+            Mail::to($user)->send(new RegisterMail($user, $password));
+
+            Auth::user($user);
+        }
+        $order = new Order();
+        $order->user_id = $user->id;
+        $hash = md5(now());
+        $order->hash = $hash;
+        $order->status = "formed";
+        $order->save();
+        $range = null;
+        $calc = Calculator::where("product_id", $request->product_id)->first();
+        if ($calc && $request->has("range")) {
+            $range = json_encode($request->range);
+        }
+        $order->products()->attach($request->product_id, ['range' => $range]);
+
+        # attach options
+        $orderProductItem = OrderProduct::where("order_id", $order->id)->where("product_id", $request->product_id)->first();
+        $orderProductItem->options()->detach();
+        $orderProductItem->options()->attach($request->options);
+
+        # calc amount
+        $order->amount = $order->commonPrice();
+        $order->currency = strtoupper(Config::get("currency") ?: "eur");
+        $order->save();
+
+        if (isset($pc)) {
+            $order->promocode_id = $pc->id;
+        }
+        $order->save();
+
+        $response = $this->pay($order);
+        if (!isset($response->processingUrl)) {
+            return response()->json([
+                'status' => "error",
+                "msg" => $response->errors[0],
+            ]);
+        }
+        return response([
+            'status' => "success",
+            'response' => $response,
+        ]);
+    }
+
+    public function pay($order)
+    {
+        $finalPrice = $order->amount;
+        if ($order->promocode) {
+            $finalPrice = $order->setPromocode($order->promocode);
+        }
         $curl = curl_init();
         # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
         $data = [
@@ -188,10 +279,7 @@ class OrderController extends Controller
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-        return response([
-            'status' => "success",
-            'response' => json_decode($response, true),
-        ]);
+        return json_decode($response);
     }
 
     public function destroy(Request $request)
@@ -306,80 +394,6 @@ class OrderController extends Controller
         return response([
             'status' => "success",
         ]);
-    }
-
-    public function pay($order_id)
-    {
-        $order = Order::findOrFail($order_id);
-        if (0) {
-            /* Заявка на оплату */
-            $payment = new Payment(config("services.ecommpay.id"));
-            // Идентификатор проекта
-
-            $payment->setPaymentAmount($order->amount * 100)->setPaymentCurrency('EUR');
-            // Сумма (в минорных единицах валюты) и валюта (в формате ISO-4217 alpha-3)
-
-            $payment->setPaymentId($order->id);
-            // Идентификатор платежа, уникальный в рамках проекта
-
-            $payment->setPaymentDescription("Тест");
-            // Описание платежа. Не обязательный, но полезный параметр
-
-            $gate = new Gate(config("services.ecommpay.secret"));
-            // Секретный ключ проекта, полученный от ECommPay при интеграции
-
-            /* Запрос для вызова платёжной формы */
-            $url = $gate->getPurchasePaymentPageUrl($payment);
-        } else {
-            $curl = curl_init();
-            $data = [
-                "product" => "Order $order->id",
-                "amount" => $order->amount * 100,
-                "currency" => strtoupper($order->currency), #todo: ПОПРАВИТЬ
-                "redirectSuccessUrl" => url("/order/success"),
-                "redirectFailUrl" => url("/order/decline"),
-                "extraReturnParam" => "$order->id",
-                "orderNumber" => "$order->id",
-                "locale" => "en"
-
-            ];
-            $key = config("services.payapp.key");
-            curl_setopt_array($curl, [
-                CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => json_encode($data),
-                CURLOPT_HTTPHEADER => [
-                    "authorization: Bearer $key",
-                    "content-type: application/json"
-                ],
-            ]);
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                # echo "cURL Error #:" . $err;
-            } else {
-                #echo $response;
-                #dd(json_decode($response, true));
-                try {
-                    $url = json_decode($response, true)['processingUrl'];
-
-                    return redirect($url);
-                } catch (\Exception $e) {
-                }
-            }
-        }
-
-
-        return back();
     }
 
     public function cloudPay($id)

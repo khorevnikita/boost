@@ -20,6 +20,11 @@ class Order extends Model
         return $this->belongsToMany(Product::class)->withPivot("range");
     }
 
+    public function promocode()
+    {
+        return $this->belongsTo(Promocode::class);
+    }
+
     public static function findTheLast(User $user = null)
     {
         if ($user) {
@@ -49,6 +54,8 @@ class Order extends Model
         $commonPrice = 0;
         if ($this->products->count() > 0) {
             foreach ($this->products as $product) {
+                #echo $product->currency . "<br>";
+                #echo $currency . "<br>";
                 $commonPrice = $commonPrice + $product->price;
                 #echo "Product price: $product->price <br>";
                 if ($product->pivot->range) {
@@ -61,7 +68,7 @@ class Order extends Model
                 $selectedOptions = $product->getSelectedOptions($this);
                 foreach ($selectedOptions->where("type", "abs") as $abs_option) {
                     $optPrice = $abs_option->price;
-                    if ($currency !== $product->currency) {
+                    if ($currency !== ($product->currency?:"eur")) {
                         if ($currency == "usd") {
                             $optPrice = $optPrice * $rate;
                         } else {
@@ -76,6 +83,7 @@ class Order extends Model
                 }
             }
         }
+        #var_dump($commonPrice);
         return $commonPrice;
     }
 
@@ -114,24 +122,28 @@ class Order extends Model
     public function setPromocode($promocode)
     {
         $rate = Config::get("rate");
+        $price = $this->amount;
         switch ($promocode->currency) {
             case "usd":
                 if ($this->currency == "usd") {
-                    return $this->amount - $promocode->value;
+                    $price = $this->amount - $promocode->value;
                 } else {
-                    return $this->amount - ($promocode->value / $rate);
+                    $price = $this->amount - ($promocode->value / $rate);
                 }
+                break;
 
             case "eur":
                 if ($this->currency == "eur") {
-                    return $this->amount - $promocode->value;
+                    $price = $this->amount - $promocode->value;
                 } else {
-                    return $this->amount - ($promocode->value * $rate);
+                    $price = $this->amount - ($promocode->value * $rate);
                 }
+                break;
             case "%":
-                return $this->amount * (1 - $promocode->value / 100);
+                $price = $this->amount * (1 - $promocode->value / 100);
+                break;
             default;
         }
-        return $this->amount;
+        return round($price, 2);
     }
 }
