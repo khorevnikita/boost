@@ -8,6 +8,7 @@ use App\Mail\RegisterMail;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -49,6 +50,27 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            "email" => "required|email|exists:users,email",
+            "password" => "required"
+        ], $request->all());
+        if (!Auth::attempt($request->all(['email', 'password']))) {
+            return response()->json([
+                'message' => "Credentials are wrong",
+                "errors" => [
+                    "password" => ["Wrong password"]
+                ]
+            ], 422);
+        }
+        $user = User::where("email", $request->email)->first();
+        Auth::login($user, $request->remember);
+        return response()->json([
+            'status' => "success"
+        ]);
+    }
+
     /**
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -86,7 +108,7 @@ class LoginController extends Controller
             Mail::to($user)->send(new RegisterMail($user, $password));
         }
 
-        Auth::login($user,true);
+        Auth::login($user, true);
 
         return redirect("/home");
     }

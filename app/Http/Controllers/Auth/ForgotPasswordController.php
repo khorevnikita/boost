@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Game;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\View;
 
 class ForgotPasswordController extends Controller
 {
@@ -19,4 +21,9 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+    public function __construct()
+    {
+        $games = Game::all();
+        View::share("games", $games);
+    }
 }

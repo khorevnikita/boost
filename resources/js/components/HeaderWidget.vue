@@ -56,7 +56,7 @@
 
                 </li>
                 <li class="nav-item d-none d-sm-block">
-                    <button id="cart-btn" class="b-r-30 btn btn-secondary btn-cart " type="button" @click="openCart()">
+                    <button v-bind:class="{'d-none':user && user.role!=='user'}" id="cart-btn" class="b-r-30 btn btn-secondary btn-cart " type="button" @click="openCart()">
                         <span class="badge badge-primary price-badge" v-bind:class="{'d-none':!products_in_order}">{{ products_in_order }}</span>
                         <img src="/images/cart_icon.png"/>
                     </button>
@@ -64,72 +64,82 @@
                     <button id="login" v-if="!user" class="b-r-30 btn-primary btn d-none d-sm-inline" @click="auth_dialog=!auth_dialog">
                         Log in
                     </button>
-                    <a role="button" href="/home" v-if="user" class="b-r-30 btn-outline-secondary text-white btn d-none d-sm-inline nav-link">
+                    <a role="button" href="/profile" v-if="user" class="b-r-30 btn-outline-secondary text-white btn d-none d-sm-inline nav-link">
                         {{ user.surname }} {{ user.name }}
                     </a>
                     <button @click="signout()" v-if="user" class="b-r-30 btn-primary text-white btn d-none d-sm-inline" style="margin-left: -10px;">
                         <img src="/images/icons/sign_out.png">
                     </button>
-                    <button v-if="user && user.role==='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
+                    <a href="/home" v-if="user && user.role==='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
                         My orders
-                    </button>
+                    </a>
+                    <a href="/home" v-if="user && user.role!=='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
+                        Dashboard
+                    </a>
 
                 </li>
             </ul>
         </div>
 
         <div class="dropdown-menu auth-menu bg-dark" v-bind:class="{'show':auth_dialog}" v-bind:style="{'right':`${right}px`}">
-            <form class="px-4 py-3" v-if="type==='login'" action="/login" method="POST">
-                <input type="hidden" name="_token" v-model="csrf">
+            <form class="px-4 py-3" v-if="type==='login'">
+                <!--<input type="hidden" name="_token" v-model="csrf">-->
                 <button type="button" @click="auth_dialog=false;" class="btn btn-primary b-r-30 double-btn close-btn float-right">
                     <span>x</span>
                 </button>
                 <p class="text-center">Log In</p>
                 <div class="form-group">
-                    <input name="email" type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Email">
+                    <input v-model="credentials.email" type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Email">
+                    <p class="text-primary position-absolute" v-if="auth_errors.email">{{ auth_errors.email[0] }}</p>
                 </div>
                 <div class="form-group">
-                    <input name="password" type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                    <input v-model="credentials.password" type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                    <p class="text-primary position-absolute" v-if="auth_errors.password">{{ auth_errors.password[0] }}</p>
                 </div>
                 <div class="form-check">
-                    <input name="remember" type="checkbox" class="form-check-input" id="dropdownCheck">
-                    <label class="form-check-label" for="dropdownCheck">
+                    <a style="font-size: 14px" href="/password/reset" class="text-primary float-right">Forgot your password?</a>
+                    <input v-model="credentials.remember" type="checkbox" class="form-check-input" id="dropdownCheck">
+                    <label style="font-size: 14px" class="form-check-label" for="dropdownCheck">
                         Remember me
                     </label>
                 </div>
                 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-                    <button type="submit" class="btn btn-primary double-btn login-btn">
+                    <button type="button" @click="login()" class="btn btn-primary double-btn login-btn">
                         <span>Sign In</span>
                     </button>
                     <button @click="type='register'" type="button" class="btn btn-outline-secondary text-white">Sign Up</button>
                 </div>
             </form>
 
-            <form class="px-4 py-3" v-if="type==='register'" action="/register" method="POST">
-                <input type="hidden" name="_token" v-model="csrf">
+            <form class="px-4 py-3" v-if="type==='register'">
+                <!--<input type="hidden" name="_token" v-model="csrf">-->
                 <button type="button" @click="auth_dialog=false;" class="btn btn-primary b-r-30 double-btn close-btn float-right">
                     <span>x</span>
                 </button>
                 <p class="text-center">Sign Up</p>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="surname" placeholder="Surname">
+                    <input v-model="credentials.surname" type="text" class="form-control" id="surname" placeholder="Surname">
+                    <p class="text-primary position-absolute" v-if="auth_errors.surname">{{ auth_errors.surname[0] }}</p>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" placeholder="Name">
+                    <input v-model="credentials.name" type="text" class="form-control" id="name" placeholder="Name">
+                    <p class="text-primary position-absolute" v-if="auth_errors.name">{{ auth_errors.name[0] }}</p>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="email" placeholder="Email">
+                    <input v-model="credentials.email" type="email" class="form-control" id="email" placeholder="Email">
+                    <p class="text-primary position-absolute" v-if="auth_errors.email">{{ auth_errors.email[0] }}</p>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input v-model="credentials.password" type="password" class="form-control" id="password" placeholder="Password">
+                    <p class="text-primary position-absolute" v-if="auth_errors.password">{{ auth_errors.password[0] }}</p>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" id="c_password" placeholder="Confirm password">
+                    <input v-model="credentials.password_confirmation" type="password" class="form-control" id="c_password" placeholder="Confirm password">
                 </div>
 
                 <div class="btn-group mt-3" role="group" aria-label="Basic example">
-                    <button type="submit" class="btn btn-primary double-btn login-btn">
+                    <button type="button" @click="register()" class="btn btn-primary double-btn login-btn">
                         <span>Sign Up</span>
                     </button>
                 </div>
@@ -173,7 +183,7 @@
                         <ul v-if="product.selected_options">
                             <li v-for="option in product.selected_options">
                                 <p>{{ option.title }} <br>
-                                <span class="text-primary">{{ option.price }}
+                                    <span class="text-primary">{{ option.price }}
                                     <span v-if="currency==='eur'">&euro;</span>
                                     <span v-else>$</span>
                                 </span>
@@ -225,6 +235,8 @@ export default {
             products_in_order: 0,
             promocode: "",
             error: "",
+            credentials: {},
+            auth_errors: {}
         }
     ),
     created() {
@@ -297,7 +309,26 @@ export default {
                     window.location.href = r.data.response.processingUrl;
                 }
             })
-        }
+        },
+        login() {
+            this.auth_errors = {};
+            axios.post(`/auth/login`, this.credentials).then(e => {
+                window.location.reload();
+            }).catch(err => {
+                this.auth_errors = err.response.data.errors;
+                console.log(err.response.data)
+            })
+        },
+        register() {
+            this.auth_errors = {};
+            axios.post(`/auth/register`, this.credentials).then(e => {
+                window.location.reload();
+            }).catch(err => {
+                this.auth_errors = err.response.data.errors;
+                console.log(err.response.data)
+            })
+        },
+
     }
 }
 </script>
@@ -381,5 +412,9 @@ export default {
     .cart-dialog {
         min-width: 400px;
     }
+}
+
+.form-group {
+    margin-bottom: 2rem;
 }
 </style>

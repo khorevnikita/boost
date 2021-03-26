@@ -1,22 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-3">
-        @auth
-            <form id="logout-form" action="{{url("logout")}}" method="post">
-                @csrf
-                <button type="submit" class="float-right mt-2 btn btn-link js-logout">
-                    <svg class="bi bi-x-circle-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
-                    </svg>
-                </button>
-            </form>
-        @endauth
-        <div class="row mt-3">
-            <div class="col mt-3">
-                <h4>My bonus:
-                    <span class="text-primary"> {{$user->bonus?:0}}
+    <div class="container">
+        <div class="row ">
+            <div class="col" style="margin-top: 100px">
+                <div class="d-flex justify-content-between align-items-baseline">
+                    <h1>My orders</h1>
+                    <h4>My bonus:
+                        <span class="text-primary"> {{$user->bonus?:0}}
                     <svg width="24" height="24" viewBox="3 2 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <g id="euro_symbol_24px">
                             <path id="icon/action/euro_symbol_24px"
@@ -25,10 +16,9 @@
                         </g>
                     </svg>
                     </span>
-                </h4>
-                <hr>
-                <h4>My orders</h4>
-                <div class="table-responsive">
+                    </h4>
+                </div>
+                <div class="table-responsive mt-4">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -45,7 +35,7 @@
                             <tr>
                                 <td>{{$order->created_at}}</td>
                                 <td>
-                                    <ul>
+                                    <ul class="list-unstyled">
                                         @foreach($order->products as $product)
                                             <li>
                                                 {{$product->title}}
@@ -60,7 +50,7 @@
                                                         </ul>
                                                     @endif
                                                 @endif
-                                                @if($product->pivot->range)
+                                                @if($product->pivot->range && $product->calculator)
                                                     @php $range = json_decode($product->pivot->range) @endphp
                                                     <p class="m-0 mt-3"><strong>{{$product->calculator->name}}</strong></p>
                                                     @if($product->calculator->steps->count()>0)
@@ -93,13 +83,15 @@
                                         </g>
                                     </svg>
                                 </td>
-                                <td>{{$order->status}}</td>
+                                <td>
+                                    <span class="@if($order->status==='payed') text-success @elseif($order->status==='formed') @endif">{{ucfirst($order->status)}}</span>
+                                </td>
                                 <td>{{$order->bonus()}}</td>
-                                @if($order->status=="formed")
-                                    <td>
+                                <td>
+                                    @if($order->status=="formed")
                                         <a href="{{url("/order/$order->id/pay")}}" class="btn btn-primary">Pay</a>
-                                    </td>
-                                @endif
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

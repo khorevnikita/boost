@@ -242,6 +242,18 @@ class OrderController extends Controller
         ]);
     }
 
+    public function directPay($order_id){
+        $order = Order::findOrFail($order_id);
+        $response = $this->pay($order);
+        if (!isset($response->processingUrl)) {
+            return response()->json([
+                'status' => "error",
+                "msg" => $response->errors[0],
+            ]);
+        }
+        return redirect($response->processingUrl);
+    }
+
     public function pay($order)
     {
         $finalPrice = $order->amount;

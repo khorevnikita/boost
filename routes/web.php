@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post("auth/login","Auth\LoginController@login");
+Route::post("auth/register","Auth\RegisterController@register");
 
 Route::group(['middleware' => ['admin', 'currency'], 'prefix' => "admin"], function () {
     Route::get("/", "Admin\HomeController@index");
@@ -48,7 +50,7 @@ Route::group(['middleware' => ['currency']], function () {
 
 
     Route::get("order/{id}/cloud-pay", "OrderController@cloudPay");
-    Route::get("order/{id}/pay", "OrderController@pay");
+    Route::get("order/{id}/pay", "OrderController@directPay");
     Route::get("order/success", "OrderController@success");
     Route::get("order/decline", "OrderController@decline");
     Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');

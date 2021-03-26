@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::get("order", "OrderController@show")->middleware("currency");
 Route::post("orders", "OrderController@store")->middleware("currency");
 Route::post("purchase", "OrderController@purchase")->middleware("currency");
