@@ -2,6 +2,10 @@
 
 @section('content')
     <div class="container">
-        {!! $page->text !!}
+        <div class="row ">
+            <div class="col-12 info-page" style="margin-top: 80px">
+                {!! $page->text !!}
+            </div>
+        </div>
     </div>
 @endsection
