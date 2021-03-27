@@ -35,7 +35,7 @@
                     </a>
                 </li>-->
                 <li>
-                    <div class="dropdown">
+                    <div class="dropdown text-center">
                         <button class="btn btn-primary b-r-30 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Choose your game
                         </button>
