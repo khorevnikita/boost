@@ -1,4 +1,4 @@
-<a href="{{url($product->url)}}">
+<a href="{{var_dump($product->url)}}">
     <div class="card product-item-card">
         <div class="card-body text-center">
             <span class="product-item-price">
