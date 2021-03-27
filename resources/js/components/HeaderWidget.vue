@@ -56,9 +56,12 @@
 
                 </li>
                 <li class="nav-item d-none d-sm-block">
-                    <button v-bind:class="{'d-none':user && user.role!=='user'}" id="cart-btn" class="b-r-30 btn btn-secondary btn-cart " type="button" @click="openCart()">
+                    <a href="/home" v-if="user && user.role!=='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
+                        Dashboard
+                    </a>
+                    <button style="    margin-left: 10px;" id="cart-btn" class="b-r-30 btn btn-secondary btn-cart " type="button" @click="openCart()">
                         <span class="badge badge-primary price-badge" v-bind:class="{'d-none':!products_in_order}">{{ products_in_order }}</span>
-                        <img src="/images/cart_icon.png"/>
+                        <img style="width: 25px" src="/images/cart_icon.png"/>
                     </button>
 
                     <button id="login" v-if="!user" class="b-r-30 btn-primary btn d-none d-sm-inline" @click="auth_dialog=!auth_dialog">
@@ -73,9 +76,7 @@
                     <a href="/home" v-if="user && user.role==='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
                         My orders
                     </a>
-                    <a href="/home" v-if="user && user.role!=='user'" class="b-r-30 btn-primary text-white btn d-none d-sm-inline">
-                        Dashboard
-                    </a>
+
 
                 </li>
             </ul>
@@ -151,7 +152,7 @@
 
         </div>
 
-        <form method="post" action="/logout" id="logout-form">
+        <form v-if="user" method="post" action="/logout" id="logout-form">
             <input type="hidden" name="_token" v-model="csrf">
         </form>
 
@@ -433,5 +434,8 @@ export default {
 
 .form-group {
     margin-bottom: 2rem;
+}
+#logout-form{
+    position: absolute;
 }
 </style>
