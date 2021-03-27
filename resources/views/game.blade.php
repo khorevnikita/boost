@@ -12,7 +12,7 @@
         <div class="bg-tone">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 d-flex align-items-center">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
                         <h1>{{$game->title}}</h1>
                     </div>
                     <div class="d-none d-md-block col-md-6">
