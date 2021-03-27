@@ -7,13 +7,28 @@
     @endif
 @endpush
 @section('content')
-    @if($game->actual_banner)
+    {{--}}@if($game->actual_banner)
         @include('particles.banner_item', ['banner' => $game->actual_banner])
     @else
         <div class="text-center bg-dark pt-5 pb-5 text-white banner">
             <h2>{{$game->title}}</h2>
         </div>
-    @endif
+    @endif--}}
+    <div class="main-banner" style="background-image: url(/images/game_bg.png);">
+        <div class="bg-tone">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center flex-column">
+                        <h1>{{$game->title}}</h1>
+                        <a href="{{url($game->rewrite)}}" class="btn btn-primary b-r-30">All {{$game->title}} deals</a>
+                    </div>
+                    <div class="d-none d-md-block col-md-6">
+                        <img style="max-width: 100%" src="/images/game_target_img.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container" style="    padding-bottom: 30px;">
         <div class="text-center d-sm-none mt-4">
             <h4>@if($product->category)<span class="text-primary">{{$product->category->title}}</span> - @endif {{$product->title}}</h4>
