@@ -12,10 +12,14 @@
                         </g>
                     </svg>
             </span>
-            <span style="margin: 10px" class="badge badge-secondary">{{ product.category.title }}</span>
 
-            <span v-if="product.is_hot" style="margin: 10px" class="badge badge-danger">HOT</span>
-            <span v-if="product.is_new" style="margin: 10px" class="badge badge-danger">NEW</span>
+            <div class="position-absolute d-flex flex-column">
+                <span v-if="product.category" class="badge badge-secondary">{{product.category.title}}</span>
+                <span v-if="product.is_hot" style="margin: 10px" class="badge badge-danger">HOT</span>
+                <span v-if="product.is_new" style="margin: 10px" class="badge badge-danger">NEW</span>
+            </div>
+
+
             <img :src="product.banner" class="img-fluid" >
         </div>
         <div v-if="!short" class="card-footer text-white text-center">

@@ -52,7 +52,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css?1') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?2" rel="stylesheet">
 
     @if($seo && !isset($product))
         <title>@yield('page_title',$seo->title)</title>
@@ -77,7 +77,7 @@
 
 </head>
 <body id="main-body">
-<nav id="auth-app" class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg" style="position: absolute;width: 100%;z-index: 99;">
+<nav id="auth-app" class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg fixed-top bg-dark">
     <header-widget
         @if(Auth::check())
         :user="{{Auth::user()}}"

@@ -265,8 +265,65 @@
         line-height: 22px;
     }
 
+    .main-banner {
+        background-repeat: no-repeat;
+        background-position: top center;
+        width: 100%;
+        height: 800px;
+        background-size: cover;
+
+        .bg-tone {
+            background: #000000e0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            h1 {
+                font-style: normal;
+                font-weight: 800;
+                font-size: 48px;
+                line-height: 59px;
+                @media (max-width: 767px) {
+                    text-align: center;
+                }
+            }
+
+            a {
+                padding: 25px;
+                margin-top: 70px;
+                @media (max-width: 767px) {
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    width: fit-content;
+
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        background: #1C1C1C;
+
+        a {
+            color: #fff;
+            margin: 7px 5px;
+            border-bottom: 1px solid;
+            border-color: #5f5f5f;
+            &:hover{
+                color:#D96321;
+            }
+        }
+
+    }
+
+    .dropdown-item:hover, .dropdown-item:focus {
+        background: inherit;
+    }
+
     .nav-link {
-     /*   font-size: 14px;*/
+        /*   font-size: 14px;*/
         font-size: 0.9rem;
         line-height: 1.6;
 
@@ -303,7 +360,7 @@
     }
 
     .nav-item {
-       /* padding: 5px 10px;*/
+        /* padding: 5px 10px;*/
         border-top: 1px solid #6d6d6d;
         text-align: center;
 
@@ -377,7 +434,8 @@
 
     .product-item-card {
         .badge {
-            position: absolute;
+            margin: 5px 10px;
+            width: fit-content;
         }
 
         .product-item-price {
@@ -468,17 +526,20 @@
     }
 
     .info-page {
-        header,.main-content-page,footer {
+        header, .main-content-page, footer {
             background: black !important;
         }
     }
-    .vue-slider-process,.vue-slider-dot-tooltip-inner,vue-slider-dot-handle{
+
+    .vue-slider-process, .vue-slider-dot-tooltip-inner, vue-slider-dot-handle {
         background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
     }
-    .vue-slider-dot-tooltip-inner{
+
+    .vue-slider-dot-tooltip-inner {
         border-color: #d96327;
     }
-    .vue-slider-rail{
+
+    .vue-slider-rail {
         background: #343434;
     }
 }

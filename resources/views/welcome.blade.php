@@ -1,17 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    @if($banner)
+    {{--@if($banner)
         @include('particles.banner_item', ['banner' => $banner])
     @else
         <div class="text-center pt-5 pb-5 text-white banner">
             <h2>Boost your skill. Team up with PROes. <br> Be invincible and enjoy the game every moment.
             </h2>
         </div>
-    @endif
+    @endif--}}
+    <div class="main-banner" style="background-image: url(/images/main_bg.png);">
+        <div class="bg-tone">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>Shadowlands has arrived.
+                            Check out our brilliant offers
+                            to become worlds leading player</h1>
+                        <a href="#games" class="btn btn-primary b-r-30">Find out more</a>
+                    </div>
+                    <div class="d-none d-md-block col-md-6">
+                        <img style="max-width: 100%" src="/images/main_target_img.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
-        <div class="row">
+        <div class="row" id="games">
             @foreach($games as $game)
                 <div class="col-6 col-sm-3 ">
                     <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
@@ -39,7 +56,7 @@
                 <div style="clear:both"></div>
                 <div class="row">
                     @foreach($game->topDeals() as $product)
-                        <div class="col-12 col-sm-6 mt-4">
+                        <div class="col-12 col-sm-6 col-md-4 mt-4">
                             @include("particles.product_item",["product"=>$product])
                         </div>
                     @endforeach

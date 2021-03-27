@@ -29,10 +29,20 @@
 
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto ">
-                <li v-for="game in games" class="nav-item dropdown">
+               <!-- <li v-for="game in games" class="nav-item dropdown">
                     <a class="nav-link text-white" :href="`/${game.rewrite}`">
                         {{ game.title }}
                     </a>
+                </li>-->
+                <li>
+                    <div class="dropdown">
+                        <button class="btn btn-primary b-r-30 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choose your game
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a v-for="game in games" class="dropdown-item" :href="`/${game.rewrite}`">{{ game.title }}</a>
+                        </div>
+                    </div>
                 </li>
             </ul>
 

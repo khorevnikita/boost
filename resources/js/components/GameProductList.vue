@@ -61,7 +61,7 @@
                 class="badge badge-primary">{{ category.title }}</span></a>
         </div>
         <div class="row mt-5">
-            <div v-for="product in products" class="col-12 col-sm-6 mt-4">
+            <div v-for="product in products" class="col-12 col-sm-6 col-md-4 mt-4">
                 <a :href="product.url">
                     <product-list-item :product="product" :currency="currency" :key="product.id"/>
                 </a>
