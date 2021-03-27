@@ -1,4 +1,4 @@
-<a href="{{$product->url}}">
+<a href="/{{$product->url}}">
     <div class="card product-item-card">
         <div class="card-body text-center">
             <span class="product-item-price">
