@@ -43,9 +43,30 @@ class OrderController extends Controller
     {
 
         $order = Order::findTheLast();
-        if ($order && $order->products->count() > 0) {
+        if ($order/* && $order->products->count() > 0*/) {
+            $order->load(["products", "products.calculator"]);
             foreach ($order->products as $product) {
-                $product->selected_options = $product->getSelectedOptions($order);;
+                $product->selected_options = $product->getSelectedOptions($order);
+                if ($product->calculator) {
+                    $range = json_decode($product->pivot->range);
+                    $calc = $product->calculator;
+                    if ($calc->steps->count()) {
+                        $from = $calc->steps->where("price", $range->from)->first();
+                        if($from){
+                            $from = $from->title;
+                        }
+                        $to = $calc->steps->where("price", $range->to)->first();
+                        if($to){
+                            $to = $to->title;
+                        }
+                    } else {
+                        $from = $calc->min_title;
+                        $to = $calc->max_title;
+                    }
+                    $product->calculator->amount = $product->calculator->calc($range);
+                    $product->calculator->from = $from;
+                    $product->calculator->to = $to;
+                }
             }
         }
         return response()->json([
@@ -242,7 +263,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function directPay($order_id){
+    public function directPay($order_id)
+    {
         $order = Order::findOrFail($order_id);
         $response = $this->pay($order);
         if (!isset($response->processingUrl)) {

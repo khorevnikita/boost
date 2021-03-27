@@ -8,7 +8,7 @@
             <div style="word-break: break-word;" v-if="ww>=768" class=" pb-5 mt-3" v-html="product.short_description"></div>
             <div style="word-break: break-word;" v-if="ww>=768" v-html="product.description"></div>
         </div>-->
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-md-4">
             <product-list-item :short="true" :product="product"/>
             <button class="btn btn-primary b-r-30 btn-block" @click="addToOrder()">
                 <span v-if="added">Already in Cart</span>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-8">
+        <div class="col-12 col-md-8">
             <div class="d-none d-sm-block">
                 <a :href="`/${game.rewrite}`" class="btn btn-outline-secondary float-right b-r-30">
                     Back to deals
@@ -63,6 +63,15 @@
             </div>
             <p style="word-break: break-word;" v-if="ww<768" class="col-12 pb-5 mt-3" v-html="product.short_description"></p>
             <p style="word-break: break-word;" v-if="ww>=768" class="col-12" v-html="product.description"></p>
+
+            <div class="row" v-if="product.requirements">
+                <div class="col-12 col-sm-4 requirements">
+                    <p class="text-primary">Service Requirements</p>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div class="requirements" v-html="product.requirements"></div>
+                </div>
+            </div>
         </div>
 
         <div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -81,7 +90,7 @@
                         <div class="form-group">
                             <input type="text" class="form-control" v-model="purchase.promocode" placeholder="Promo code">
                         </div>
-                        <p style="position: absolute" class="text-primary">{{error}}</p>
+                        <p style="position: absolute" class="text-primary">{{ error }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -195,10 +204,21 @@ export default {
 }
 
 .card-options .card-body {
-    padding: 20px 0px 30px 25px;
+    /* padding: 20px 0px 30px 25px;*/
 }
 
 .form-check {
     padding-right: 15px;
 }
+.requirements{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    border-color: #343434;
+    border-radius: 20px;
+    flex-flow: column;
+    padding: 0px 10px;
+}
+
 </style>

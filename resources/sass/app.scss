@@ -467,4 +467,13 @@
             background: black !important;
         }
     }
+    .vue-slider-process,.vue-slider-dot-tooltip-inner,vue-slider-dot-handle{
+        background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+    }
+    .vue-slider-dot-tooltip-inner{
+        border-color: #d96327;
+    }
+    .vue-slider-rail{
+        background: #343434;
+    }
 }

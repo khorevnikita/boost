@@ -78,6 +78,8 @@ class ProductController extends Controller
         $product->title = $request->title;
         $product->short_description = $request->short_description;
         $product->description = $request->description;
+        $product->requirements = $request->requirements;
+        $product->currency = $request->currency;
         $product->category_id = $request->category_id;
         $product->price = $request->price;
         $product->is_hot = $request->is_hot ? 1 : 0;
@@ -142,6 +144,7 @@ class ProductController extends Controller
         $product->title = $request->title;
         $product->short_description = $request->short_description;
         $product->description = $request->description;
+        $product->requirements = $request->requirements;
 
         $product->price = $request->price;
         $product->currency = $request->currency;

@@ -190,6 +190,15 @@
                                 </p>
                             </li>
                         </ul>
+                        <p style="padding-left: 10px" v-if="product.calculator && product.pivot.range">
+                            {{ product.calculator.from }}: <span class="text-primary">{{ range(product.pivot.range).from }}</span><br>
+                            {{ product.calculator.to }}: <span class="text-primary">{{ range(product.pivot.range).to }}</span><br>
+                            <span class="text-primary">
+                                {{ product.calculator.amount }}
+                                <span v-if="currency==='eur'">&euro;</span>
+                                <span v-else>$</span>
+                            </span>
+                        </p>
                     </li>
                 </ul>
                 <br>
@@ -328,7 +337,15 @@ export default {
                 console.log(err.response.data)
             })
         },
+        range(range) {
+            let obj = {};
+            try {
+                obj = JSON.parse(range)
+            } catch (e) {
 
+            }
+            return obj;
+        }
     }
 }
 </script>

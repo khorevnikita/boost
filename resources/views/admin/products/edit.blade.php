@@ -46,6 +46,14 @@
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="requirements">Requirements</label>
+                                <textarea id="requirements" name="requirements">{{$product->requirements}}</textarea>
+                                @error('requirements')
+                                <p class="text-danger">{{$message}}</p>
+                                @enderror
+                            </div>
+
                             <div class="form-group row">
                                 <div class="col">
                                     <label for="price">Price</label>
@@ -240,6 +248,18 @@
                 });
 
                 $('#description').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+                $('#requirements').summernote({
                     height: 200,
                     toolbar: [
                         ['style', ['style']],

@@ -11,7 +11,7 @@
         @include('particles.banner_item', ['banner' => $game->actual_banner])
     @else
         <div class="text-center bg-dark pt-5 pb-5 text-white banner">
-            <h2 >{{$game->title}}</h2>
+            <h2>{{$game->title}}</h2>
         </div>
     @endif
     <div class="container" style="    padding-bottom: 30px;">
@@ -33,7 +33,6 @@
         </div>--}}
 
         <div id="app">
-
             <product-order
                 @if($product->images) :images="{{$product->images}}" @endif
 

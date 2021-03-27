@@ -21,24 +21,44 @@
                             </div>
                             <div class="form-group">
                                 <label for="short_description">Short description</label>
-                                <textarea id="short_description" class="form-control" name="short_description" rows="3"></textarea>
+                                <textarea id="short_description" class="form-control" name="short_description" rows="3">{{old("short_description")}}</textarea>
                                 @error('short_description')
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea id="description" class="form-control" name="description" rows="3"></textarea>
+                                <textarea id="description" class="form-control" name="description" rows="3">{{old("description")}}</textarea>
                                 @error('description')
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="price">Price</label>
-                                <input id="price" type="text" class="form-control" name="price">
-                                @error('price')
+                                <label for="requirements">Requirements</label>
+                                <textarea id="requirements" name="requirements">{{old("requirements")}}</textarea>
+                                @error('requirements')
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <label for="price">Price</label>
+                                    <input id="price" type="text" class="form-control" name="price">
+                                    @error('price')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <label for="currency">Currency</label>
+                                    <select id="currency" name="currency" class="form-control">
+                                        <option value="usd">USD</option>
+                                        <option value="eur">EUR</option>
+                                    </select>
+                                    @error('currency')
+                                    <p class="text-danger">{{$message}}</p>
+                                    @enderror
+                                </div>
+
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>
@@ -99,6 +119,19 @@
                         ['view', ['fullscreen', 'codeview', 'help']]
                     ]
                 });
+                 $('#requirements').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ]
+                });
+
             });
         </script>
     @endpush

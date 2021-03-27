@@ -1,18 +1,19 @@
 <template>
     <div class="row">
         <div class="col-12">
-            <h4>{{ calculator.name }}</h4>
+            <p class="text-center">{{ calculator.name }}</p>
+          <p class="text-center f-14">{{ calculator.description }}</p>
         </div>
-        <div class="col text-center" v-if="calculator.multiple">
-            <label>{{ calculator.min_title }}</label>
+        <div class="col-6 " v-if="calculator.multiple">
+            <label class="f-14">{{ calculator.min_title }}</label>
             <input v-model="range.from" type="text" class="form-control">
         </div>
-        <div class="col text-center"><p>{{ calculator.description }}</p></div>
-        <div class="col text-center" v-if="calculator.multiple">
-            <label>{{ calculator.max_title }}</label>
+
+        <div class="col-6 " v-if="calculator.multiple">
+            <label class="f-14">{{ calculator.max_title }}</label>
             <input v-model="range.to" type="text" class="form-control">
         </div>
-        <div class="col-12 col-sm-10 offset-sm-1 mt-3 mb-3">
+        <div class="col-12 mt-3">
             <!-- AUTO -->
             <vue-slider ref="slider"
                         v-model="slider_value"
@@ -98,5 +99,10 @@ export default {
 </script>
 
 <style scoped>
-
+.f-14{
+  font-size: 14px !important;
+}
+label.f-14{
+  color: #636363 !important;
+}
 </style>
