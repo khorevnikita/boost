@@ -41,7 +41,7 @@
             </div>
             <div class="card card-options" v-if="calculator">
                 <div class="card-body">
-                    <manual-calculator v-on:change="calcChanged" :calculator="calculator" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
+                    <manual-calculator v-on:change="calcChanged" :calculator="calculator" :product="product" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
                     <auto-calculator v-on:change="calcChanged" :calculator="calculator" :product="product" v-else></auto-calculator>
                 </div>
             </div>

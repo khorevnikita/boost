@@ -201,7 +201,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}?3"></script>
+<script src="{{ asset('js/app.js') }}?4"></script>
 @stack("scripts")
 @include("particles.intercom")
 @if(isset($scripts) && $scripts)

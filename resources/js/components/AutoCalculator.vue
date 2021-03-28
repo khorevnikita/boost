@@ -83,7 +83,6 @@ export default {
                     } else {
                         this.slider_price = this.slider_price / rate;
                     }
-
                 }
             } else {
                 let b1 = this.calculator.start_value ? this.calculator.start_value : 1;
