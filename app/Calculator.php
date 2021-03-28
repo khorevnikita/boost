@@ -41,12 +41,12 @@ class Calculator extends Model
         if ($this->step_type === "abs") {
             if ($productCurrency !== $currency) {
                 if ($currency == "eur") {
-                    $difference = $difference * $rate;
-                } else {
                     $difference = $difference / $rate;
+                } else {
+                    $difference = $difference * $rate;
                 }
             }
-            return $difference * $this->step_price;
+            return round($difference * $this->step_price,2);
         } else {
             $b1 = $this->start_value ? $this->start_value : 1;
             $q = (1 + $this->step_price / 100);
@@ -60,7 +60,7 @@ class Calculator extends Model
                     $priceDiff = $priceDiff / $rate;
                 }
             }
-            return round($priceDiff);
+            return round($priceDiff,2);
         }
     }
 

@@ -79,9 +79,9 @@ export default {
                 let productCurrency = this.product.currency;
                 if (productCurrency !== currency) {
                     if (productCurrency === "usd") {
-                        this.slider_price = this.slider_price * rate;
-                    } else {
                         this.slider_price = this.slider_price / rate;
+                    } else {
+                        this.slider_price = this.slider_price * rate;
                     }
                 }
             } else {

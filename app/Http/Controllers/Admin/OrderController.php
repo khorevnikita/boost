@@ -180,10 +180,11 @@ class OrderController extends Controller
         if (\Illuminate\Support\Facades\Gate::denies('update-orders')) {
             abort(403);
         }
+        $order->comment = $request->comment;
         $order->status = $request->status;
         $order->save();
 
-        return back();
+        return redirect("/admin/orders/$order->id");
     }
 
     /**

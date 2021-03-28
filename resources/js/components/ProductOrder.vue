@@ -28,7 +28,7 @@
                                :id="'opt'+option.id">
                         <label class="form-check-label" :for="'opt'+option.id">
                             {{ option.title }}
-                            <span>
+                            <span v-if="parseInt(option.price) > 0">
                             +  {{ option.price }}
                             <span v-if="option.type=='abs'">
                                 {{ currency === 'usd' ? "$" : "€" }}
