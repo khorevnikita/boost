@@ -14,13 +14,14 @@
             <h2>{{$game->title}}</h2>
         </div>
     @endif--}}
-    <div class="main-banner" style="background-image: url(/images/game_bg.png);">
+    <div class="main-banner" style="background-image: url(/images/game_bg.png);height: 430px">
         <div class="bg-tone">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 d-flex align-items-center justify-content-center flex-column">
+                    <div class="col-md-6 d-flex justify-content-center flex-column">
+                        @if($product->category)<span class="b-r-30 bg-primary text-white cat-span">{{$product->category->title}}</span>@endif
                         <h1>{{$game->title}}</h1>
-                        <a href="{{url($game->rewrite)}}" class="btn btn-primary b-r-30">All {{$game->title}} deals</a>
+                        <a href="{{url($game->rewrite)}}" class="btn btn-primary b-r-30 mt-5">All {{$game->title}} deals</a>
                     </div>
                     <div class="d-none d-md-block col-md-6">
                         <img style="max-width: 100%" src="/images/game_target_img.png">

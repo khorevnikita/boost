@@ -17,7 +17,17 @@
                         <h1>Shadowlands has arrived.
                             Check out our brilliant offers
                             to become worlds leading player</h1>
-                        <a href="#games" class="btn btn-primary b-r-30">Find out more</a>
+                        <div style="  margin-top: 70px;" class="align-items-center d-flex">
+                            <a target="_blank" href="https://www.trustpilot.com/review/boostmytoon.com" class="btn btn-primary b-r-30">Find out more</a>
+                            <div class="pilot">
+                                <p>Rated 5 stars on Trust<span>pilot</span></p>
+                                <img src="/images/trustpilotstar.png">
+                                <img src="/images/trustpilotstar.png">
+                                <img src="/images/trustpilotstar.png">
+                                <img src="/images/trustpilotstar.png">
+                                <img src="/images/trustpilotstar.png">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-none d-md-block col-md-6">
                         <img style="max-width: 100%" src="/images/main_target_img.png">
@@ -30,7 +40,7 @@
         <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
         <div class="row" id="games">
             @foreach($games as $game)
-                <div class="col-6 col-sm-3 ">
+                <div class="col-6 col-sm-2 d-flex align-items-center" style="padding: 0 5px">
                     <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
                         {{$game->title}}
                     </a>
@@ -40,8 +50,8 @@
         </div>
         @foreach($games as $game)
             @if($game->topDeals()->count())
-                <p class="mt-5">
-                    <span class="text-primary">{{$game->title}}</span> top deals
+                <p class="mt-5 d-flex justify-content-between align-items-center">
+                    <span><span class="text-primary">{{$game->title}}</span> top deals</span>
                     <a class="float-right btn btn-outline-secondary b-r-30" href="{{url("/$game->rewrite")}}">
                         All {{$game->title}} deals
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

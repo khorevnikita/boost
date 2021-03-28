@@ -8,7 +8,7 @@
             <h2>{{$game->title}}</h2>
         </div>
     @endif--}}
-    <div class="main-banner" style="background-image: url(/images/game_bg.png);">
+    <div class="main-banner" style="background-image: url(/images/game_bg.png); height: 430px">
         <div class="bg-tone">
             <div class="container">
                 <div class="row">
