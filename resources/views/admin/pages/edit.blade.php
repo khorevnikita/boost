@@ -24,17 +24,17 @@
                                 <p><strong>Products</strong></p>
                                 @foreach($games as $game)
                                     <div class="form-group">
-                                        <label for="#game{{$game->id}}" >{{$game->title}}</label>
+                                        <label for="#game{{$game->id}}">{{$game->title}}</label>
                                         <input id="game{{$game->id}}" class="form-control" placeholder="Choose products">
                                         <p class="mt-1" id="selected-crosses-{{$game->id}}">
-                                            <span class="badge badge-info text-white p-2 mr-2 mt-1 example-badge">
+                                            <span class="d-none badge badge-info text-white p-2 mr-2 mt-1 example-badge">
                                                 <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
                                                 <input type="hidden" name="products[]">
                                             </span>
                                             @foreach($game->main_products as $product)
                                                 <span class="badge badge-info text-white p-2 mr-2 mt-1">
                                                     {{$product->title}}&nbsp;
-                                                    <a style="cursor: pointer" class="text-danger js-remove-item">x</a>
+                                                    <a style="cursor: pointer" class=" text-danger js-remove-item">x</a>
                                                     <input type="hidden" name="products[]" value="{{$product->id}}">
                                                 </span>
                                             @endforeach
@@ -106,13 +106,16 @@
                 },
                 select: function (event, ui) {
                     let item = $("#selected-crosses-{{$game->id}}").find(".example-badge").clone(true, true).removeClass("example-badge");
+                    item.removeClass("d-none")
                     item.html(ui.item.label + item.html());
                     item.find("input").val(ui.item.value);
                     $("#selected-crosses-{{$game->id}}").append(item);
-                    $("#game-{{$game->id}}").val("");
                     $(".js-remove-item").click(function () {
                         $(this).parent().remove()
-                    })
+                    });
+                    setTimeout(() => {
+                        $("#game{{$game->id}}").val("");
+                    }, 50);
                 }
             });
             @endforeach

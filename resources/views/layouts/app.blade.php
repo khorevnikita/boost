@@ -79,6 +79,7 @@
 <body id="main-body">
 <nav id="auth-app" class="navbar navbar-expand-md navbar-dark shadow-sm nav-header navbar-menu-bg fixed-top bg-dark">
     <header-widget
+        ref="header-widget"
         @if(Auth::check())
         :user="{{Auth::user()}}"
         @endif

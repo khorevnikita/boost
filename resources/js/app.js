@@ -33,7 +33,7 @@ Vue.component('image-cropper', AvatarCropper);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+window.app = new Vue({
     el: '#app',
     methods: {
         reload() {
@@ -41,7 +41,7 @@ const app = new Vue({
         }
     }
 });
-const auth = new Vue({
+window.auth = new Vue({
     el: '#auth-app',
     methods: {
         reload() {

@@ -23,8 +23,7 @@
         </div>
     </div>
     <div class="container" id="app" style="padding-bottom: 30px;">
-        <p class="mt-3"><span class="text-primary">{{$game->title}}</span> items</p>
-        <game-product-list :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
+        <game-product-list class="mt-3" :currency="'{{$currency}}'" :game="{{$game}}"></game-product-list>
         <div style="clear: both"></div>
 
 

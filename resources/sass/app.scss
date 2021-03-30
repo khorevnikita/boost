@@ -6,6 +6,11 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@font-face {
+    font-family: 'Montserrat'; /*a name to be used later*/
+    src: url('/fonts/Montserrat-Regular.ttf'); /*URL to font*/
+
+}
 /*
 .sidebar {
     position: fixed;
@@ -259,10 +264,9 @@
     }
 
     p, a, li, span, label {
-        font-style: normal;
         font-weight: 600;
-        font-size: 18px;
-        line-height: 22px;
+        font-size: 13px;
+        line-height: 16px;
     }
 
     .main-banner {
@@ -350,9 +354,9 @@
 
     .nav-link {
         /*   font-size: 14px;*/
-        font-size: 0.9rem;
+        /*font-size: 0.9rem;
         line-height: 1.6;
-
+*/
         padding: 0.5rem 1rem;
     }
 
@@ -364,7 +368,7 @@
 
     .b-r-30 {
         border-radius: 30px;
-        /*padding: 10px 10px*/
+        padding: 10px 10px
     }
 
     .btn-primary {
@@ -503,7 +507,7 @@
         }
     }
 
-    .form-control {
+    .form-control,.form-inline {
         background: $black;
         border-color: #6c757d;
 
@@ -517,7 +521,7 @@
     }
 
     input[type='text'], input[type='password'], input[type='email'], {
-        border: 1px solid #4C4C4C;
+        border: 1px solid #6c757d;
         box-sizing: border-box;
         border-radius: 10px;
         padding: 25px 10px;

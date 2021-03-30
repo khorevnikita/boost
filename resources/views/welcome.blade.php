@@ -40,7 +40,7 @@
         <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
         <div class="row" id="games">
             @foreach($games as $game)
-                <div class="col-6 col-sm-2 d-flex align-items-center" style="padding: 0 5px">
+                <div class="col d-flex align-items-center" style="padding: 0 5px">
                     <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
                         {{$game->title}}
                     </a>

@@ -212,7 +212,7 @@
                             :upload-form-data="{product_id:'{{$product->id}}',_token:'{{csrf_token()}}'}"
                             upload-url="/admin/images"
                             :output-options="{width:1400,height:300}"
-                            :cropper-options="{aspectRatio: 16/9,autoCropArea: 1,viewMode: 1, movable: false, zoomable: false}"
+                            :cropper-options="{aspectRatio: 1,autoCropArea: 1,viewMode: 1, movable: false, zoomable: false}"
                         ></image-cropper>
                     </div>
                 </div>

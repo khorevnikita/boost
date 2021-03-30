@@ -1,61 +1,29 @@
 <template>
     <div>
-        <div class="row">
-            <div class="col-6 col-sm-4">
-                <button type="button" class="btn btn-outline-secondary text-white b-r-30" @click="show_categories = !show_categories">
-                    Categories &nbsp; <img src="/images/icons/chevron-bottom.svg" style="width: 15px">
-                </button>
+        <p class="game-title "><span class="text-primary">{{ game.title }}</span> items</p>
+        <div class="d-flex justify-content-end align-items-center product-filters">
+            <p style="margin: 0">Sort by: </p>&nbsp;
+            <button class="btn btn-outline-secondary text-white b-r-30 ml-2" type="button" @click="search.sort_by='popularity'">
+                Popularity
+                &nbsp;
+                <img :src="`/images/icons/${search.sort_by==='popularity'?'down':'up'}.png`"/>
+            </button>
+            <button class="btn btn-outline-secondary text-white b-r-30 ml-2" type="button" @click="search.sort_by='price'">
+                Price
+                &nbsp;
+                <img :src="`/images/icons/${search.sort_by==='price'?'down':'up'}.png`"/>
+            </button>
+            <button type="button" class="btn btn-outline-secondary text-white b-r-30 ml-2" @click="show_categories = !show_categories">
+                All categories &nbsp;
+                <img src="/images/icons/down.png"/>
+            </button>
+            <div class="search-form">
+                <img src="/images/icons/search.png"/>
+                <input type="text" class="form-inline b-r-30 ml-2" id="search" v-model="search.q" placeholder="Search">
             </div>
 
-            <div class="col-6 col-sm-4">
-                <!--<div class="input-group">
-                    <input type="text" class="form-control b-r-30" id="search" v-model="search.q" placeholder="Search">
-                    <div class="input-group-append">
-                        <div class="input-group-text bg-dark">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g id="search_24px">
-                                    <path id="icon/action/search_24px" fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M14.965 14.255H15.755L20.745 19.255L19.255 20.745L14.255 15.755V14.965L13.985 14.685C12.845 15.665 11.365 16.255 9.755 16.255C6.16504 16.255 3.255 13.345 3.255 9.755C3.255 6.16501 6.16504 3.255 9.755 3.255C13.345 3.255 16.255 6.16501 16.255 9.755C16.255 11.365 15.665 12.845 14.6851 13.985L14.965 14.255ZM5.255 9.755C5.255 12.245 7.26501 14.255 9.755 14.255C12.245 14.255 14.255 12.245 14.255 9.755C14.255 7.26501 12.245 5.255 9.755 5.255C7.26501 5.255 5.255 7.26501 5.255 9.755Z"
-                                          fill="currentColor" fill-opacity="1"/>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
-                </div>-->
-                <input type="text" class="form-control b-r-30" id="search" v-model="search.q" placeholder="Search">
-            </div>
-            <!-- <div class="col-6 col-sm-4">
-                 <label>Sort by: </label>&nbsp;
-                 <div class="dropdown d-inline-block">
-                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         {{ search.sort_by === 'price' ? "Price" : "Popularity" }}
-                     </button>
-                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                         <a class="dropdown-item" role="button" @click="search.sort_by='price'">Price</a>
-                         <a class="dropdown-item" role="button" @click="search.sort_by='popularity'">Popularity</a>
-                     </div>
-                 </div>
-             </div>
- -->
         </div>
-        <div class="row mt-3">
-            <div class="col-3">
-                <p>Sort by: </p>&nbsp;
-            </div>
 
-            <div class="col-5">
-                <button class="btn btn-outline-secondary text-white b-r-30" type="button" @click="search.sort_by='popularity'">
-                    Popularity
-                    &nbsp; <img src="/images/icons/chevron-bottom.svg" style="width: 15px">
-                </button>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-outline-secondary text-white b-r-30" type="button" @click="search.sort_by='price'">
-                    Price
-                    &nbsp; <img src="/images/icons/chevron-bottom.svg" style="width: 15px">
-                </button>
-            </div>
-        </div>
         <div class="mt-3 js-category-list " v-bind:class="{'d-none':!show_categories}">
             <a @click="search.category_id = category.id" v-bind:class="{'ml-3':i > 0}" v-for="(category,i) in game.categories" style="font-size: 22px;cursor: pointer"><span
                 class="badge badge-primary">{{ category.title }}</span></a>
@@ -136,6 +104,27 @@ export default {
 </script>
 
 <style scoped>
+.game-title {
+    margin: 13px 0px 0px 0px;
+    float: left;
+}
+
+.search-form {
+    width: fit-content;
+    position: relative;
+}
+
+.search-form img {
+    position: absolute;
+    left: 20px;
+    top: 15px
+}
+
+.search-form .form-inline {
+    padding: 10px 10px 10px 30px !important;
+    border-radius: 20px !important;
+}
+
 @media (max-width: 767px) {
     .filters {
         flex-flow: column;
@@ -149,5 +138,48 @@ export default {
     .filters label {
         display: block;
     }
+
+    .game-title {
+        float: initial;
+    }
+
+    .product-filters {
+        flex-wrap: wrap;
+        justify-content: flex-start !important;
+        margin-top: 15px;
+    }
+
+    .product-filters > * {
+        margin-top: 10px;
+    }
+
+    .product-filters > input {
+        max-width: 183px;
+
+    }
+}
+
+.page-item {
+    margin: 0 10px;
+    border-radius: 10px;
+}
+
+.page-item a {
+    background: #1C1C1C;
+    border-radius: 10px;
+    border: 1px solid #5B5B5B;
+    box-sizing: border-box;
+
+}
+
+.page-item:last-child .page-link,.page-item:first-child .page-link {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.page-item.active .page-link{
+    background: #1c1c1c;
+    color: #D96321;
 }
 </style>

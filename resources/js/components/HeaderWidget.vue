@@ -306,8 +306,28 @@ export default {
         getOrder() {
             axios.get(`/api/order?currency=${this.currency}`).then(r => {
                 this.order = r.data.order;
-                console.log(this.order);
+                let p_length = this.order?this.order.products.length:0;
+                let badge = $(".price-badge");
+                if(p_length===0){
+                    badge.text("").addClass("d-none");
+                    try {
+                        if (app.$children[0].added) {
+                            app.$children[0].added = false;
+                        }
+                    } catch (e){}
+                } else {
+                    badge.text(p_length);
+                    try {
+                        let opened_p = app.$children[0].product.id;
+                        if (!this.order.products.filter(p => p.id === opened_p)[0]) {
+                            if (app.$children[0].added) {
+                                app.$children[0].added = false;
+                            }
+                        }
+                    }catch (e){
 
+                    }
+                }
             })
         },
         removeProduct(product) {
