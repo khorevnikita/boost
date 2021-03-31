@@ -80,7 +80,7 @@ class Order extends Model
                     $commonPrice = $commonPrice + round($optPrice, 2);
                 }
                 foreach ($selectedOptions->where("type", "percent") as $p_option) {
-                    $commonPrice = $commonPrice + $commonPrice * $p_option->original_price / 100;
+                    $commonPrice = $commonPrice + $product->price * $p_option->original_price / 100;
                 }
             }
         }

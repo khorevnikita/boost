@@ -202,8 +202,9 @@
                             <li v-for="option in product.selected_options">
                                 <p>{{ option.title }} <br>
                                     <span class="text-primary">{{ option.price }}
-                                    <span v-if="currency==='eur'">&euro;</span>
-                                    <span v-else>$</span>
+                                        <span v-if="option.type==='percent'">%</span>
+                                        <span v-else-if="currency==='eur'">&euro;</span>
+                                        <span v-else>$</span>
                                 </span>
                                 </p>
                             </li>
@@ -219,16 +220,16 @@
                         </p>
                     </li>
                 </ul>
-               <!-- <br>
-                <div class="form-group">
-                    <input type="text" class="form-control" v-model="promocode" placeholder="Promo code">
-                </div>
-                <div v-if="email_form" class="form-group">
-                    <input type="email" class="form-control" v-model="new_email" placeholder="Email">
-                </div>
+                <!-- <br>
+                 <div class="form-group">
+                     <input type="text" class="form-control" v-model="promocode" placeholder="Promo code">
+                 </div>
+                 <div v-if="email_form" class="form-group">
+                     <input type="email" class="form-control" v-model="new_email" placeholder="Email">
+                 </div>
 
-                <p style="position: absolute" class="text-primary">{{ error }}</p>
--->
+                 <p style="position: absolute" class="text-primary">{{ error }}</p>
+ -->
                 <div class="d-flex justify-content-between" style="align-items: center;margin-top:40px">
                     <p style="margin: 0">Total
                         <span class="text-primary">

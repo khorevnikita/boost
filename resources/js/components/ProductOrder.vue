@@ -146,7 +146,7 @@ export default {
 
             let p_options = this.selected_options.filter(o => o.type === "percent");
             for (var po of p_options) {
-                summ = summ + summ * po.price / 100
+                summ = summ + this.product.price * po.price / 100
             }
 
             return Math.round(summ * 100) / 100;
