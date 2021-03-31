@@ -263,6 +263,14 @@ class OrderController extends Controller
         ]);
     }
 
+    public function checkout($order_id){
+        $order = Order::find($order_id);
+        if(!$order){
+            return redirect("/");
+        }
+        return view("order",compact("order"));
+    }
+
     public function directPay($order_id)
     {
         $order = Order::findOrFail($order_id);

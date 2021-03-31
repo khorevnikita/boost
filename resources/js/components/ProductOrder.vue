@@ -21,19 +21,25 @@
                 <div class="card-body">
                     <p class="text-center">Add options</p>
                     <div class="form-check mt-3" v-for="option in options">
-                        <input :checked="selected_options.filter(so=>so.id===option.id)[0]"
-                               @click="toggleOption(option)"
-                               type="checkbox"
-                               class="form-check-input"
-                               :id="'opt'+option.id">
-                        <label class="form-check-label" :for="'opt'+option.id">
+                        <label class="form-check-label">
+                            <span class="checkbox">
+                                <img src="/images/icons/checkbox.svg" v-if="selected_options.filter(so=>so.id===option.id)[0]">
+                            </span>
+                            <input :checked="selected_options.filter(so=>so.id===option.id)[0]"
+                                   @click="toggleOption(option)"
+                                   type="checkbox"
+                                   class="form-check-input">
+                            <span>
+
                             {{ option.title }}
-                            <span v-if="parseInt(option.price) > 0">
+                            <span v-if="parseFloat(option.price) > 0">
                             +  {{ option.price }}
                             <span v-if="option.type=='abs'">
                                 {{ currency === 'usd' ? "$" : "€" }}
                             </span>
                             <span v-else>%</span>
+                                </span>
+
                         </span>
                         </label>
                     </div>
@@ -41,7 +47,8 @@
             </div>
             <div class="card card-options" v-if="calculator">
                 <div class="card-body">
-                    <manual-calculator v-on:change="calcChanged" :calculator="calculator" :product="product" v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
+                    <manual-calculator v-on:change="calcChanged" :calculator="calculator" :product="product"
+                                       v-if="calculator.steps && calculator.steps.length>0"></manual-calculator>
                     <auto-calculator v-on:change="calcChanged" :calculator="calculator" :product="product" v-else></auto-calculator>
                 </div>
             </div>
@@ -210,7 +217,8 @@ export default {
 .form-check {
     padding-right: 15px;
 }
-.requirements{
+
+.requirements {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -218,7 +226,7 @@ export default {
     border-color: #343434;
     border-radius: 20px;
     flex-flow: column;
-    padding: 0px 10px;
+    padding: 15px 10px;
 }
 
 </style>

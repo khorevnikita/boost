@@ -50,7 +50,7 @@ Route::group(['middleware' => ['currency']], function () {
 
 
     Route::get("order/{id}/cloud-pay", "OrderController@cloudPay");
-    Route::get("order/{id}/pay", "OrderController@directPay");
+    Route::get("order/{id}/pay", "OrderController@checkout");
     Route::get("order/success", "OrderController@success");
     Route::get("order/decline", "OrderController@decline");
     Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');

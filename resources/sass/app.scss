@@ -11,6 +11,7 @@
     src: url('/fonts/Montserrat-Regular.ttf'); /*URL to font*/
 
 }
+
 /*
 .sidebar {
     position: fixed;
@@ -264,9 +265,9 @@
     }
 
     p, a, li, span, label {
-        font-weight: 600;
+        font-weight: 40;
         font-size: 13px;
-        line-height: 16px;
+        line-height: 20px;
     }
 
     .main-banner {
@@ -301,7 +302,7 @@
 
             a {
                 padding: 25px;
-                width:fit-content;
+                width: fit-content;
 
                 @media (max-width: 767px) {
                     margin-left: auto;
@@ -312,7 +313,7 @@
                 }
             }
 
-            .cat-span{
+            .cat-span {
                 width: fit-content;
                 padding: 3px 10px;
                 margin-bottom: 20px;
@@ -398,6 +399,9 @@
             width: fit-content;
             margin: auto;
             border: 1px solid;
+            padding: 7px 15px;
+            margin-top: 5px;
+            margin-right: 10px;
             /*padding: 10px 15px;*/
         }
     }
@@ -432,6 +436,15 @@
             &:hover {
                 background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
             }
+        }
+    }
+
+    .order-group-item {
+        background-color: #1c1c1c;
+        border: 1px solid rgb(217 99 39);
+        color: #fff;
+        &.active{
+            background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
         }
     }
 
@@ -507,7 +520,7 @@
         }
     }
 
-    .form-control,.form-inline {
+    .form-control, .form-inline {
         background: $black;
         border-color: #6c757d;
 
@@ -517,6 +530,33 @@
 
         &::placeholder {
             color: $white;
+        }
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-start;
+        //flex-flow: wrap;
+        align-items: center;
+
+        .checkbox {
+            display: inline-flex;
+            justify-content: center;
+            border: 1px solid #343434;
+            box-sizing: border-box;
+            border-radius: 10px;
+            width: 30px;
+            height: 25px;
+            margin-right: 10px;
+
+            img {
+                width: 15px;
+            }
+        }
+
+        input {
+            display: none;
         }
     }
 
@@ -547,10 +587,11 @@
 
     .price-badge {
         position: absolute !important;
-        top: 0;
-        left: 0;
+        top: -5px;
+        left: -10px;
         border-radius: 20px;
         padding: 3px 5px;
+        width: 25px;
     }
 
     td {
@@ -579,7 +620,8 @@
     .vue-slider-rail {
         background: #343434;
     }
-    .vue-slider-mark-label{
+
+    .vue-slider-mark-label {
         display: none;
     }
 }

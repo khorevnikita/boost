@@ -29,14 +29,15 @@
 
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto ">
-               <!-- <li v-for="game in games" class="nav-item dropdown">
-                    <a class="nav-link text-white" :href="`/${game.rewrite}`">
-                        {{ game.title }}
-                    </a>
-                </li>-->
+                <!-- <li v-for="game in games" class="nav-item dropdown">
+                     <a class="nav-link text-white" :href="`/${game.rewrite}`">
+                         {{ game.title }}
+                     </a>
+                 </li>-->
                 <li>
                     <div class="dropdown text-center">
-                        <button class="btn btn-primary b-r-30 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary b-r-30 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
                             Choose your game
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -107,11 +108,17 @@
                     <input v-model="credentials.password" type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
                     <p class="text-primary position-absolute" v-if="auth_errors.password">{{ auth_errors.password[0] }}</p>
                 </div>
-                <div class="form-check">
-                    <a style="font-size: 14px" href="/password/reset" class="text-primary float-right">Forgot your password?</a>
-                    <input v-model="credentials.remember" type="checkbox" class="form-check-input" id="dropdownCheck">
-                    <label style="font-size: 14px" class="form-check-label" for="dropdownCheck">
-                        Remember me
+                <a style="font-size: 14px;margin: 3px 5px;" href="/password/reset" class="text-primary float-right">Forgot your password?</a>
+
+                <div class="form-check float-left">
+                    <label class="form-check-label">
+                            <span class="checkbox">
+                                <img src="/images/icons/checkbox.svg" v-if="credentials.remember">
+                            </span>
+                        <input v-model="credentials.remember"
+                               type="checkbox"
+                               class="form-check-input">
+                        <span>Remember me</span>
                     </label>
                 </div>
                 <div class="btn-group mt-3" role="group" aria-label="Basic example">
@@ -212,7 +219,7 @@
                         </p>
                     </li>
                 </ul>
-                <br>
+               <!-- <br>
                 <div class="form-group">
                     <input type="text" class="form-control" v-model="promocode" placeholder="Promo code">
                 </div>
@@ -221,7 +228,7 @@
                 </div>
 
                 <p style="position: absolute" class="text-primary">{{ error }}</p>
-
+-->
                 <div class="d-flex justify-content-between" style="align-items: center;margin-top:40px">
                     <p style="margin: 0">Total
                         <span class="text-primary">
@@ -230,7 +237,7 @@
                         <span v-else>$</span>
                     </span>
                     </p>
-                    <button type="button" class="btn btn-primary b-r-30" @click="form()">Pay</button>
+                    <button type="button" class="btn btn-primary b-r-30" @click="checkout()">Checkout</button>
                 </div>
 
 
@@ -306,15 +313,16 @@ export default {
         getOrder() {
             axios.get(`/api/order?currency=${this.currency}`).then(r => {
                 this.order = r.data.order;
-                let p_length = this.order?this.order.products.length:0;
+                let p_length = this.order ? this.order.products.length : 0;
                 let badge = $(".price-badge");
-                if(p_length===0){
+                if (p_length === 0) {
                     badge.text("").addClass("d-none");
                     try {
                         if (app.$children[0].added) {
                             app.$children[0].added = false;
                         }
-                    } catch (e){}
+                    } catch (e) {
+                    }
                 } else {
                     badge.text(p_length);
                     try {
@@ -324,7 +332,7 @@ export default {
                                 app.$children[0].added = false;
                             }
                         }
-                    }catch (e){
+                    } catch (e) {
 
                     }
                 }
@@ -335,7 +343,7 @@ export default {
                 this.getOrder();
             })
         },
-        form() {
+        /*form() {
             if (!this.cart_email) {
                 this.email_form = true;
                 return;
@@ -349,6 +357,9 @@ export default {
                     window.location.href = r.data.response.processingUrl;
                 }
             })
+        },*/
+        checkout() {
+            window.location.href = `/order/${this.order.id}/pay`;
         },
         login() {
             this.auth_errors = {};
@@ -442,6 +453,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 3;
 }
 
 .btn-group {
@@ -465,7 +477,8 @@ export default {
 .form-group {
     margin-bottom: 2rem;
 }
-#logout-form{
+
+#logout-form {
     position: absolute;
 }
 </style>

@@ -68,13 +68,14 @@ class Order extends Model
                 $selectedOptions = $product->getSelectedOptions($this);
                 foreach ($selectedOptions->where("type", "abs") as $abs_option) {
                     $optPrice = $abs_option->price;
+                    /*echo "base price $optPrice; curr: $currency; prCurr: $product->currency";
                     if ($currency !== ($product->currency?:"eur")) {
                         if ($currency == "usd") {
                             $optPrice = $optPrice * $rate;
                         } else {
                             $optPrice = $optPrice / $rate;
                         }
-                    }
+                    }*/
                     #echo "Opt price: $optPrice <br>";
                     $commonPrice = $commonPrice + round($optPrice, 2);
                 }

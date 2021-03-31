@@ -50,6 +50,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm(){
+        return redirect("/");
+    }
+
     public function login(Request $request)
     {
         $request->validate([
