@@ -83,6 +83,7 @@ $(document).ready(function () {
 $("#order-form").submit(function (e) {
     e.preventDefault();
     var data = {};
+    $(this).find(".text-danger").text("")
     for (var v of $(this).serializeArray()) {
         data[v['name']] = v['value']
     }

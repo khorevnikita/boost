@@ -270,6 +270,12 @@
         line-height: 20px;
     }
 
+    h4 {
+        span, a {
+            font-size: inherit;
+        }
+    }
+
     .main-banner {
         background-repeat: no-repeat;
         background-position: top center;
@@ -443,7 +449,8 @@
         background-color: #1c1c1c;
         border: 1px solid rgb(217 99 39);
         color: #fff;
-        &.active{
+
+        &.active {
             background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
         }
     }

@@ -37,16 +37,17 @@
         </div>
     </div>
     <div class="container">
-        <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
-        <div class="row" id="games">
-            @foreach($games as $game)
-                <div class="col d-flex align-items-center" style="padding: 0 5px">
-                    <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
-                        {{$game->title}}
-                    </a>
-                </div>
-            @endforeach
-
+        <div style="margin-top: -110px">
+            <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
+            <div class="row" id="games">
+                @foreach($games as $game)
+                    <div class="col d-flex align-items-center" style="padding: 0 5px">
+                        <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
+                            {{$game->title}}
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
         @foreach($games as $game)
             @if($game->topDeals()->count())

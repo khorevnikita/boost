@@ -133,15 +133,20 @@ class OrderController extends Controller
             if (!$pc) {
                 return response([
                     'status' => "error",
-                    'msg' => "Promo code does not exists",
+                    'errors' => [
+                        "promocode"=>["Promotional code does not exists"]
+                    ],
 
-                ]);
+                ],422);
             }
             if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
                 return response([
                     'status' => "error",
-                    'msg' => "Expired promotional code",
-                ]);
+                    'errors' => [
+                        "promocode"=>["Expired promotional code"]
+                    ],
+
+                ],422);
             }
         }
         $user = User::where("email", $request->email)->first();
@@ -163,7 +168,7 @@ class OrderController extends Controller
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
 
-            Auth::user($user);
+            Auth::user($user,true);
         }
 
         $order->user_id = $user->id;
@@ -189,15 +194,20 @@ class OrderController extends Controller
             if (!$pc) {
                 return response([
                     'status' => "error",
-                    'msg' => "Promo code does not exists",
+                    'errors' => [
+                        "promocode"=>["Promotional code does not exists"]
+                    ],
 
-                ]);
+                ],422);
             }
             if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
                 return response([
                     'status' => "error",
-                    'msg' => "Expired promotional code",
-                ]);
+                    'errors' => [
+                        "promocode"=>["Expired promotional code"]
+                    ],
+
+                ],422);
             }
         }
 

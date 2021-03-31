@@ -20,9 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get("order", "OrderController@show")->middleware("currency");
 Route::post("orders", "OrderController@store")->middleware("currency");
-Route::post("purchase", "OrderController@purchase")->middleware("currency");
 Route::put("orders", "OrderController@destroy")->middleware("currency");
-Route::post("orders/{id}/form", "OrderController@form")->middleware('currency');
+
 Route::post("orders/{id}/payed", "OrderController@payed");#->middleware('currency');
 Route::get("products", "ProductController@index")->middleware("currency");
 Route::post("products/{id}/vote", "ProductController@vote");

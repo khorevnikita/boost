@@ -48,7 +48,9 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@home');
 
+    Route::post("orders/{id}/form", "OrderController@form");#->middleware('currency');
 
+    Route::post("purchase", "OrderController@purchase");#->middleware("currency");
     Route::get("order/{id}/cloud-pay", "OrderController@cloudPay");
     Route::get("order/{id}/pay", "OrderController@checkout");
     Route::get("order/success", "OrderController@success");

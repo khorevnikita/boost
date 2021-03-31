@@ -180,7 +180,7 @@ export default {
         },
         formPurchase() {
             this.error = null;
-            axios.post("/api/purchase", {
+            axios.post("/purchase", {
                 range: this.range,
                 product_id: this.product.id,
                 options: this.selected_options.map(o => o.id),

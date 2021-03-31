@@ -74,7 +74,7 @@
                     type: "default"
                 };
 
-                axios.post("{{url("/api/orders/$order->id/form")}}", data).then(r => {
+                axios.post("{{url("/orders/$order->id/form")}}", data).then(r => {
                     if (r.data.status === 'success') {
                         window.location.href = r.data.data.url;
                         //window.open(r.data.data.url, '_blank');
