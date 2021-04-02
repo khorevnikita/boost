@@ -171,6 +171,12 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         }
     }
 
+    @media (max-width: 767px) {
+        #games {
+            flex-flow: column;
+        }
+    }
+
     .game-icon {
         position: absolute;
         left: 0;
@@ -472,4 +478,12 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         display: none;
     }
 
+    @media (max-width: 767px) {
+        footer{
+            .row>div{
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    }
 }

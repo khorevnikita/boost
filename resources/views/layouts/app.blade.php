@@ -92,11 +92,11 @@
 <footer>
     <div class="container py-3">
        <div class="row">
-           <div class="col-12 col-sm-2">
+           <div class="col-12 col-sm-2 d-flex align-items-center">
                <img src="/images/logo.png" style="width: 70px">
            </div>
-           <div class="col-12 col-sm-6">
-               <div class="row">
+           <div class="col-12 col-sm-6 d-flex align-items-center">
+               <div class="row " style="width: 100%">
                <div class="col">
                    <a class="text-white" href="{{url("agreement")}}">User agreement</a>
                </div>
@@ -108,8 +108,8 @@
                </div>
                </div>
            </div>
-           <div class="col-12 col-sm-4">
-               <a class="nav-link text-white" type="button" data-toggle="modal" data-target="#help-modal">
+           <div class="col-12 col-sm-4 d-flex align-items-center">
+               <a class="nav-link b-r-30 btn-primary nav-link text-center text-white" type="button" data-toggle="modal" data-target="#help-modal">
                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                        <path
@@ -149,7 +149,7 @@
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g id="arrow_forward_ios_24px">
                                         <path id="icon/navigation/arrow_forward_ios_24px"
-                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="black"
+                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="currentColor"
                                               fill-opacity="1"></path>
                                     </g>
                                 </svg>
@@ -164,7 +164,7 @@
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g id="arrow_forward_ios_24px">
                                         <path id="icon/navigation/arrow_forward_ios_24px"
-                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="black"
+                                              d="M6.16504 20.13L7.93504 21.9L17.835 12L7.93504 2.10001L6.16504 3.87001L14.295 12L6.16504 20.13H6.16504Z" fill="currentColor"
                                               fill-opacity="1"></path>
                                     </g>
                                 </svg>
