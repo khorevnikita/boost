@@ -78,7 +78,7 @@ export default {
                 this.slider_price = difference * this.calculator.step_price;
                 let productCurrency = this.product.currency;
                 if (productCurrency !== currency) {
-                    if (productCurrency === "usd") {
+                    if (currency === "eur") {
                         this.slider_price = this.slider_price / rate;
                     } else {
                         this.slider_price = this.slider_price * rate;

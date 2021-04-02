@@ -92,6 +92,7 @@ class CategoryController extends Controller
         ]);
         $category->title = $request->title;
         $category->description = $request->description;
+        $category->colors = ["from" => $request->color_from, "to" => $request->color_to];
         $category->save();
         return redirect("/admin/games/$category->game_id/edit");
     }

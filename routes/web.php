@@ -21,6 +21,7 @@ Route::group(['middleware' => ['admin', 'currency'], 'prefix' => "admin"], funct
     Route::get("/", "Admin\HomeController@index");
     Route::resource("games", "Admin\GameController");
     Route::post("games/{id}/banner", "Admin\GameController@banner");
+    Route::post("games/{id}/button-icon", "Admin\GameController@buttonIcon");
     Route::resource("categories", "Admin\CategoryController");
     Route::resource("products", "Admin\ProductController");
     Route::resource("users", "Admin\UserController");

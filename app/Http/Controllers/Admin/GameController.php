@@ -154,4 +154,26 @@ class GameController extends Controller
             'status' => "success"
         ]);
     }
+    public function buttonIcon($game_id, Request $request)
+    {
+        if (Gate::denies('update-content')) {
+            abort(403);
+        }
+
+        $game = Game::findOrFail($game_id);
+        if ($request->hasFile("file")) {
+            if ($game->banner) {
+                Storage::disk("public")->delete($game->banner);
+            }
+            $file = $request->file("file");
+            $path = "/games/$game->id/" . $file->getClientOriginalName();
+            Storage::disk('public')->put($path, file_get_contents($file), 'public');
+            $game->button_icon = $path;
+            $game->save();
+        }
+        return response([
+            'status' => "success"
+        ]);
+    }
+
 }

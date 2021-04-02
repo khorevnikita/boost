@@ -43,6 +43,9 @@
                 @foreach($games as $game)
                     <div class="col d-flex align-items-center" style="padding: 0 5px">
                         <a href="{{url($game->rewrite)}}" class="btn btn-block btn-main-game">
+                            @if($game->button_icon_url)
+                                <img class="game-icon" src="{{$game->button_icon_url}}"/>
+                            @endif
                             {{$game->title}}
                         </a>
                     </div>

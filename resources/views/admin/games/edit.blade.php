@@ -43,6 +43,17 @@
                                     :output-options="{width:1400,height:300}"
                                     :cropper-options="{aspectRatio: 16/9,autoCropArea: 1,viewMode: 1, movable: false, zoomable: false}"
                                 ></image-cropper>
+                                <button class="btn btn-outline-primary mt-3" id="pick-icon">Upload icon</button>
+                                <image-cropper
+                                    @uploaded="reload()"
+                                    trigger="#pick-icon"
+                                    :labels="{submit:'Save',cancel:'Cancel'}"
+                                    upload-url="/admin/games/{{$game->id}}/button-icon"
+                                    :cropper-options="{autoCropArea: 0,viewMode: 1, movable: true, zoomable: true}"
+                                ></image-cropper>
+                                    @if($game->button_icon)
+                                        <img style="margin-top: 5px;padding: 5px;    background: #444;" src="{{$game->button_icon_url}}" class="img-fluid">
+                                    @endif
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary">Save</button>

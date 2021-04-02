@@ -25,7 +25,13 @@
                                 <label for="description">Description</label>
                                 <input id="description" type="text" class="form-control" name="description" value="{{$category->description}}">
                             </div>
-                            <div class="form-group">
+                            <div class="form-inline">
+                                <input type="text" class="form-control" placeholder="Color from" name="color_from" value="{{$category->color_from}}">
+                                <input type="text" class="form-control ml-3" placeholder="Color to" name="color_to" value="{{$category->color_to}}">
+
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="form-group mt-3">
                                 <button class="btn btn-primary">Save</button>
                             </div>
                         </form>

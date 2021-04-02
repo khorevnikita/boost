@@ -79,10 +79,10 @@ export default {
             let productCurrency = this.product.currency ? this.product.currency : "eur";
             console.log(productCurrency, currency)
             if (productCurrency !== currency) {
-                if (productCurrency === "usd") {
-                    this.slider_price = this.slider_price * rate;
-                } else {
+                if (currency === "eur") {
                     this.slider_price = this.slider_price / rate;
+                } else {
+                    this.slider_price = this.slider_price * rate;
                 }
             }
             this.$emit("change", {slider_price: this.slider_price, range: {from: from_step.price, to: to_step.price}});

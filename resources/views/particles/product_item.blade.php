@@ -6,7 +6,7 @@
             </span>
             <div class="position-absolute d-flex flex-column">
                 @if($product->category)
-                    <span class="badge badge-secondary">{{$product->category->title}}</span>
+                    <span class="badge badge-secondary" style="background: linear-gradient(233.78deg, {{$product->category->color_from?:"#FF7A00"}} 10.37%, rgba(255, 255, 255, 0) 71.14%), {{$product->category->color_to?:"#A6A020"}};">{{$product->category->title}}</span>
                 @endif
                 @if($product->is_hot)
                     <span class="badge badge-danger">HOT</span>

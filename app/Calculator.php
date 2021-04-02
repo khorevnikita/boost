@@ -30,9 +30,9 @@ class Calculator extends Model
         if ($this->steps && $this->steps->count() > 0) {
             if ($productCurrency !== $currency) {
                 if ($currency == "eur") {
-                    $difference = $difference * $rate;
-                } else {
                     $difference = $difference / $rate;
+                } else {
+                    $difference = $difference * $rate;
                 }
             }
             return round($difference, 2);
@@ -55,9 +55,9 @@ class Calculator extends Model
             $priceDiff = $max_price - $min_price;
             if ($productCurrency !== $currency) {
                 if ($currency == "eur") {
-                    $priceDiff = $priceDiff * $rate;
-                } else {
                     $priceDiff = $priceDiff / $rate;
+                } else {
+                    $priceDiff = $priceDiff * $rate;
                 }
             }
             return round($priceDiff,2);

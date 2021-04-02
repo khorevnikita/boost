@@ -173,7 +173,8 @@
             <input type="hidden" name="_token" v-model="csrf">
         </form>
 
-        <form class="cart-dialog px-4 py-3" v-if="cart_dialog" action="/order/form" method="POST" v-bind:style="{'right':`${right}px`}">
+        <form style="    max-height: calc(100vh - 85px);    border-radius: 15px 0px 0px 15px;
+    overflow-y: scroll;" class="cart-dialog px-4 py-3 pretty-scroll" v-if="cart_dialog" action="/order/form" method="POST" v-bind:style="{'right':`${right}px`}">
             <input type="hidden" name="_token" v-model="csrf">
             <div v-if="!order"><p>The cart is empty</p></div>
             <div v-else>

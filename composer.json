@@ -9,7 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
-        "ashallendesign/laravel-exchange-rates": "^2.2",
+        "ext-json": "*",
+        "ashallendesign/laravel-exchange-rates": "^4.0",
         "ecommpay/paymentpage-sdk": "^1.2",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -19,8 +20,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "socialiteproviders/steam": "^3.0",
-        "tburry/pquery": "^1.1",
-        "ext-json": "*"
+        "tburry/pquery": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

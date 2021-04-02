@@ -19,7 +19,7 @@ class Game extends Model
 
     public function topDeals()
     {
-        $products = Product::whereIn("category_id", $this->categories()->pluck("id"))->orderBy("id", "desc")->where("on_main",1)->get();
+        $products = Product::whereIn("category_id", $this->categories()->pluck("id"))->orderBy("id", "desc")->where("on_main", 1)->get();
         return $products;
     }
 
@@ -31,6 +31,15 @@ class Game extends Model
         return Storage::disk("public")->url($this->banner);
     }
 
+    public function getButtonIconUrlAttribute()
+    {
+        if (!$this->button_icon) {
+            return null;
+        }
+        return Storage::disk("public")->url($this->button_icon);
+    }
+
+
     public function getActualBannerAttribute()
     {
         return $this->banners()->where("published", 1)->first();
@@ -38,6 +47,6 @@ class Game extends Model
 
     public function getMainProductsAttribute()
     {
-        return Product::whereIn("category_id",$this->categories()->pluck("id"))->where("on_main",1)->get();
+        return Product::whereIn("category_id", $this->categories()->pluck("id"))->where("on_main", 1)->get();
     }
 }
