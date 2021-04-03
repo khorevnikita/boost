@@ -146,7 +146,7 @@
                             <p style="margin: 0">Email</p>
                             <p style="margin: 0" class="text-primary" data-key="email">support@boostmytoon.com</p>
                         </div>
-                        <div style="    margin-left: auto;">
+                        <div class="d-none d-sm-block" style="    margin-left: auto;">
                             <button type="button" class="btn b-r-30 btn-primary js-copy" data-target="email">Copy</button>
                             <a target="_blank" href="mailto:support@boostmytoon.com" class="btn b-r-30 btn-primary">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +179,7 @@
                             <p style="margin: 0">Skype</p>
                             <p style="margin: 0" class="text-primary" data-key="skype">live:msgbooster</p>
                         </div>
-                        <div style="    margin-left: auto;">
+                        <div class="d-none d-sm-block" style="    margin-left: auto;">
                             <button type="button" class="btn b-r-30 btn-primary js-copy" data-target="skype">Copy</button>
                             <a target="_blank" href="skype:live:msgbooster" type="button" class="btn b-r-30 btn-primary">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -222,7 +222,7 @@
                             <p style="margin: 0">Discord</p>
                             <p style="margin: 0" class="text-primary" data-key="discord">boostmytoon#3894</p>
                         </div>
-                        <div style="    margin-left: auto;">
+                        <div class="d-none d-sm-block" style="    margin-left: auto;">
                             <button type="button" class="btn b-r-30 btn-primary js-copy" data-target="discord">Copy</button>
                             <a target="_blank" href="https://discordapp.com/users/boostmytoon#3894/" class="btn b-r-30 btn-primary">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
