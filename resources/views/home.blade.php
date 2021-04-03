@@ -6,7 +6,7 @@
             <div class="col" style="margin-top: 100px">
                 <div class="d-flex justify-content-between align-items-baseline">
                     <h1>My orders</h1>
-                    <h4>My bonus:
+                    {{--<h4>My bonus:
                         <span class="text-primary"> {{$user->bonus?:0}}
                     <svg width="24" height="24" viewBox="3 2 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <g id="euro_symbol_24px">
@@ -16,7 +16,7 @@
                         </g>
                     </svg>
                     </span>
-                    </h4>
+                    </h4>--}}
                 </div>
                 <div class="table-responsive mt-4">
                     <table class="table table-bordered">
@@ -26,7 +26,7 @@
                             <td>Products</td>
                             <td>Amount</td>
                             <td>Status</td>
-                            <td>Bonus</td>
+                           {{-- <td>Bonus</td>--}}
                             <td></td>
                         </tr>
                         </thead>
@@ -86,7 +86,7 @@
                                 <td>
                                     <span class="@if($order->status==='payed') text-success @elseif($order->status==='formed') @endif">{{ucfirst($order->status)}}</span>
                                 </td>
-                                <td>{{$order->bonus()}}</td>
+                                {{--<td>{{$order->bonus()}}</td>--}}
                                 <td>
                                     @if($order->status=="formed")
                                         <a href="{{url("/order/$order->id/pay")}}" class="btn btn-primary">Pay</a>

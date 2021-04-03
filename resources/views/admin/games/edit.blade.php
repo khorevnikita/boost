@@ -31,18 +31,19 @@
                                 <textarea id="description" class="form-control" name="description">{{$game->description}}</textarea>
                             </div>
                             <div class="form-group" id="app">
-                                @if($game->banner)
-                                    <img src="{{$game->banner_url}}" class="img-fluid">
-                                @endif
+
                                 <button class="btn btn-outline-primary mt-3" id="pick-avatar">Upload banner</button>
                                 <image-cropper
                                     @uploaded="reload()"
                                     trigger="#pick-avatar"
                                     :labels="{submit:'Save',cancel:'Cancel'}"
                                     upload-url="/admin/games/{{$game->id}}/banner"
-                                    :output-options="{width:1400,height:300}"
-                                    :cropper-options="{aspectRatio: 16/9,autoCropArea: 1,viewMode: 1, movable: false, zoomable: false}"
+                                    :cropper-options="{autoCropArea: 0,viewMode: 1, movable: true, zoomable: true}"
                                 ></image-cropper>
+                                @if($game->banner)
+                                    <img style="margin-top: 5px;padding: 5px;    background: #444;max-width: 300px" src="{{$game->banner_url}}" class="img-fluid">
+                                @endif
+                                <div style="clear:both"></div>
                                 <button class="btn btn-outline-primary mt-3" id="pick-icon">Upload icon</button>
                                 <image-cropper
                                     @uploaded="reload()"

@@ -127,7 +127,7 @@ $(".js-copy").click(function () {
     var copyText = $("[data-key='" + key + "']").text();
     console.log(copyText);
     navigator.clipboard.writeText(copyText).then(function () {
-        $(self).text("Copied to clickboard!");
+        $(self).text("Copied!");
     }, function (err) {
         console.error('Async: Could not copy text: ', err);
     });

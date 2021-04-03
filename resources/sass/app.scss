@@ -193,6 +193,7 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
             margin: 7px 5px;
             //border-bottom: 1px solid;
             //  border-color: #5f5f5f;
+            width: auto;
 
             &:hover {
                 color: #D96321;
@@ -479,8 +480,8 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
     }
 
     @media (max-width: 767px) {
-        footer{
-            .row>div{
+        footer {
+            .row > div {
                 justify-content: center;
                 margin-top: 10px;
             }
