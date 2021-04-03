@@ -479,6 +479,13 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         display: none;
     }
 
+    footer{
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        background: #1c1c1c;
+    }
+
     @media (max-width: 767px) {
         footer {
             .row > div {

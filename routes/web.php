@@ -47,6 +47,8 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback');
 
     Route::get('/', 'HomeController@index');
+    Route::get('/profile',"HomeController@profile");
+    Route::post('/profile',"HomeController@updateProfile");
     Route::get('/home', 'HomeController@home');
 
     Route::post("orders/{id}/form", "OrderController@form");#->middleware('currency');

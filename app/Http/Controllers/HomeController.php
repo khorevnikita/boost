@@ -120,7 +120,7 @@ class HomeController extends Controller
         }
         $recentlyViewed[] = $product->id;
         $recentlyViewed = array_values(array_unique($recentlyViewed));
-        $recentlyViewed= array_slice($recentlyViewed, -3);
+        $recentlyViewed = array_slice($recentlyViewed, -3);
         Cookie::queue("recently_viewed", json_encode($recentlyViewed), 60 * 24 * 7);
 
         $crosses = $product->crosses;
@@ -196,5 +196,30 @@ class HomeController extends Controller
         }
         Artisan::call("migrate:refresh");
         echo "sector clear";
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        if(!$user){
+            return redirect("/");
+        }
+
+        return view("profile",compact("user"));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        if(!$user){
+            return redirect("/");
+        }
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->phone = $request->phone;
+        $user->skype = $request->skype;
+        $user->discord = $request->discord;
+        $user->save();
+        return redirect("/home");
     }
 }
