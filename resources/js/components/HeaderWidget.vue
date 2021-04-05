@@ -125,7 +125,7 @@
                     <button type="button" @click="login()" class="btn btn-primary double-btn login-btn">
                         <span>Sign In</span>
                     </button>
-                    <button @click="type='register'" type="button" class="btn btn-outline-secondary text-white">Sign Up</button>
+                    <button @click="type='register'" type="button" class="btn btn-outline-secondary text-white" style="  width: 50%;  margin-left: -10px;">Sign Up</button>
                 </div>
             </form>
 
@@ -447,6 +447,8 @@ export default {
 .login-btn {
     width: 50%;
     height: 50px;
+    border-radius: 10px !important;
+    z-index: 2;
 }
 
 .login-btn span {
