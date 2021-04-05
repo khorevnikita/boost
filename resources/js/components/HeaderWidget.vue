@@ -79,7 +79,7 @@
                         Log in
                     </button>
                     <a role="button" href="/profile" v-if="user" class="b-r-30 btn-outline-secondary text-white btn d-none d-sm-inline nav-link">
-                        {{ user.surname }} {{ user.name }}
+                        Profile
                     </a>
                     <button @click="signout()" v-if="user" class="b-r-30 btn-primary text-white btn d-none d-sm-inline" style="margin-left: -10px;">
                         <img src="/images/icons/sign_out.png">
