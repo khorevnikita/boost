@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="container">
-        <div style="margin-top: -110px">
+        <div class="mt--110">
             <p class="mt-3"><span class="point-primary"></span>&nbsp;Choose your game</p>
             <div class="row" id="games">
                 @foreach($games as $game)

@@ -115,6 +115,9 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         height: 800px;
         background-size: cover;
         max-height: 100vh;
+        @media (max-width: 991px) {
+            height: 540px;
+        }
         @media (max-width: 768px) {
             height: 460px;
         }
@@ -131,7 +134,7 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
                 font-weight: 800;
                 font-size: 48px;
                 line-height: 59px;
-                @media (max-width: 767px) {
+                @media (max-width: 991px) {
                     text-align: center;
                     font-size: 24px;
                     line-height: 29.26px;
@@ -171,9 +174,14 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         }
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 991px) {
         #games {
-            flex-flow: column;
+         //   flex-flow: column;
+           // flex-wrap: wrap;
+            .col{
+                flex-basis: auto;
+                width: 50%;
+            }
         }
     }
 
@@ -282,10 +290,11 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
         /* Note: backdrop-filter has minimal browser support */
 
         border-radius: 20px;
-        padding: 10px 0px;
+      //  padding: 10px 0px;
         margin-top: 15px;
+        padding: 35px 0;
         @media (min-width: 768px) {
-            padding: 35px 0;
+           // padding: 35px 0;
             &:hover {
                 background: linear-gradient(237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
             }
@@ -481,7 +490,7 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
 
     @media (min-width: 768px) {
 
-        footer{
+        footer {
             position: fixed;
             width: 100%;
             bottom: 0;
@@ -495,6 +504,13 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
                 justify-content: center;
                 margin-top: 10px;
             }
+        }
+    }
+
+    @media (min-width: 992px) {
+
+        .mt--110 {
+            margin-top: -110px
         }
     }
 }
