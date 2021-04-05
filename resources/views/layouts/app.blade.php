@@ -52,7 +52,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}?2" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?33" rel="stylesheet">
 
     @if($seo && !isset($product))
         <title>@yield('page_title',$seo->title)</title>
