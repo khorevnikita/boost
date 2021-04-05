@@ -177,11 +177,11 @@
                         <img src="/images/icons/skype.svg">&nbsp;
                         <div style="margin-left: 15px">
                             <p style="margin: 0">Skype</p>
-                            <p style="margin: 0" class="text-primary" data-key="skype">live:msgbooster</p>
+                            <p style="margin: 0" class="text-primary" data-key="skype">live:boostmytoon</p>
                         </div>
                         <div class="d-none d-sm-block" style="    margin-left: auto;">
                             <button type="button" class="btn b-r-30 btn-primary js-copy" data-target="skype">Copy</button>
-                            <a target="_blank" href="skype:live:msgbooster" type="button" class="btn b-r-30 btn-primary">
+                            <a target="_blank" href="skype:live:boostmytoon?chat" type="button" class="btn b-r-30 btn-primary">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g id="arrow_forward_ios_24px">
                                         <path id="icon/navigation/arrow_forward_ios_24px"
