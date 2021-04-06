@@ -211,8 +211,8 @@
                             :labels="{submit:'Save',cancel:'Cancel'}"
                             :upload-form-data="{product_id:'{{$product->id}}',_token:'{{csrf_token()}}'}"
                             upload-url="/admin/images"
-                            :output-options="{width:1400,height:300}"
-                            :cropper-options="{aspectRatio: 1,autoCropArea: 1,viewMode: 1, movable: false, zoomable: false}"
+
+                            :cropper-options="{autoCropArea: 0,viewMode: 1, movable: true, zoomable: true}"
                         ></image-cropper>
                     </div>
                 </div>
