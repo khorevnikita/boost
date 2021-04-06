@@ -484,5 +484,6 @@ export default {
 
 #logout-form {
     position: absolute;
+    opacity: 0;
 }
 </style>
