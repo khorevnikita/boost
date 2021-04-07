@@ -194,7 +194,7 @@
 
                             </div>
                             <div class="col-2">
-                                <button @click="removeProduct(product)" type="button" class="btn btn-primary double-btn">
+                                <button @click="removeProduct(product)" type="button" class="btn btn-primary double-btn close-btn">
                                     <span>x</span>
                                 </button>
                             </div>
@@ -485,5 +485,10 @@ export default {
 #logout-form {
     position: absolute;
     opacity: 0;
+}
+.close-btn{
+
+    padding: 7px 15px !important;
+
 }
 </style>
