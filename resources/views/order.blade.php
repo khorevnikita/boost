@@ -17,7 +17,7 @@
                                        aria-controls="home">
                                         {{$product->title}}
                                         <span class="float-right">
-                                            {{$product->price}} {!! $currency=="usd"?"%":"&euro;" !!}
+                                            {{$product->price}} {!! $currency=="usd"?"$":"&euro;" !!}
                                             <button data-type="product" data-product="{{$product->id}}" type="button" class="btn btn-link text-white js-remove-item-from-order">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g id="clear_24px">
@@ -44,7 +44,7 @@
                                                         {{$option->title}}
                                                         <span class="float-right">{{$option->price}}
                                                             @if($option->type=="abs")
-                                                                {!! $currency=="usd"?"%":"&euro;" !!}
+                                                                {!! $currency=="usd"?"$":"&euro;" !!}
                                                             @else
                                                                 %
                                                             @endif
@@ -85,7 +85,7 @@
                                                     @endif
                                                     :
                                                     <strong class="text-primary">
-                                                        {{$product->calculator->calc($range,true)}} {!! $currency=="usd"?"%":"&euro;" !!}
+                                                        {{$product->calculator->calc($range,true)}} {!! $currency=="usd"?"$":"&euro;" !!}
                                                     </strong>
                                                 </p>
                                             @endif
@@ -111,7 +111,7 @@
 
                         <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
                         <h4 class="mt-3">Common price:
-                            <span class="text-primary">{{$order->amount}} {!! $currency=="usd"?"%":"&euro;" !!}</span>
+                            <span class="text-primary">{{$order->amount}} {!! $currency=="usd"?"$":"&euro;" !!}</span>
                         </h4>
                     </form>
                 @endif
