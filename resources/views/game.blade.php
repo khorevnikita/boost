@@ -11,7 +11,7 @@
     <div class="main-banner" style="background-image: url(/images/game_bg.png); height: 430px">
         <div class="bg-tone">
             <div class="container">
-                <div class="row">
+                <div class="row mt-40-sm">
                     <div class="col-md-6 d-flex align-items-center justify-content-center flex-column">
                         <h1>{{$game->title}}</h1>
                         <div class="text-white">

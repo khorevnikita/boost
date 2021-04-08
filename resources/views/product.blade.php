@@ -17,7 +17,7 @@
     <div class="main-banner" style="background-image: url(/images/game_bg.png);height: 430px">
         <div class="bg-tone">
             <div class="container">
-                <div class="row">
+                <div class="row mt-40-sm">
                     <div class="col-md-6 d-flex justify-content-center flex-column">
                         @if($product->category)<span class="b-r-30 bg-primary text-white cat-span">{{$product->category->title}}</span>@endif
                         <h1>{{$game->title}}</h1>
