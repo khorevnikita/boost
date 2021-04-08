@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-6 d-flex align-items-center justify-content-center flex-column">
                         <h1>{{$game->title}}</h1>
-                        <div>
+                        <div class="text-white">
                             {!! $game->description !!}
                         </div>
                     </div>
