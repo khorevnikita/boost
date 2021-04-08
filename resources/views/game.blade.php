@@ -30,9 +30,9 @@
         <div style="clear: both"></div>
 
 
-        <div class="text-center pt-5 pb-5">
+        {{--<div class="text-center pt-5 pb-5">
             <h4>{!! $game->description !!}</h4>
-        </div>
+        </div>--}}
 
 
         @if($recentlyViewedItems->count()>0)
