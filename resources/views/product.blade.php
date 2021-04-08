@@ -24,7 +24,7 @@
                         <a href="{{url($game->rewrite)}}" class="btn btn-primary b-r-30 mt-5">All {{$game->title}} deals</a>
                     </div>
                     <div class="d-none d-md-block col-md-6">
-                        <img style="max-width: 100%" src="{{($product->category&&$product->category->game->banner_url)?:"/images/game_target_img.png"}}">
+                        <img style="max-width: 100%" src="{{($product->category&&$product->category->game->banner_url)?$product->category->game->banner_url:"/images/game_target_img.png"}}">
                     </div>
                 </div>
             </div>
