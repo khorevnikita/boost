@@ -314,7 +314,7 @@ class OrderController extends Controller
         ];
         $key = config("services.payapp.key");
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://business.sandbox.payapp.digital/api/v1/payments",
+            CURLOPT_URL => "https://business.payver.eu/api/v1/payments",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
