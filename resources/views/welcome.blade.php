@@ -13,10 +13,10 @@
         <div class="bg-tone">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h1>Shadowlands has arrived.
-                            Check out our brilliant offers
-                            to become worlds leading player</h1>
+                    <div class="col-md-6 d-flex flex-column justify-content-center">
+                        <h1>
+                            Be invincible and enjoy the game every moment. Team with PRO'es, improve your skills.
+                        </h1>
                         <div style="  margin-top: 70px;" class="align-items-center d-flex">
                             <a target="_blank" href="https://www.trustpilot.com/review/boostmytoon.com" class="btn btn-primary b-r-30">Find out more</a>
                             <div class="pilot">
