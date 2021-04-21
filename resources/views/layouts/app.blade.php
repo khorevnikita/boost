@@ -14,6 +14,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}?33" rel="stylesheet">
 
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
     @if($seo && !isset($product))
         <title>@yield('page_title',$seo->title)</title>
         <meta name="description" content="@yield('page_description',$seo->description)">
@@ -21,7 +29,6 @@
         <meta name="Keywords" content="@yield('seo_keys',$seo->keys)">
     @endif
     @stack('seo')
-
     @if(isset($scripts) && $scripts)
         @foreach($scripts->where("place","header") as $script)
             {!! $script->value !!}
