@@ -42,6 +42,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css?1') }}" rel="stylesheet">
 
+    <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#799d93">
+    <meta name="theme-color" content="#ffffff">
+
     @if($seo)
         <title>@yield('page_title',$seo->title)</title>
         <meta name="description" content="@yield('page_description',$seo->description)">
