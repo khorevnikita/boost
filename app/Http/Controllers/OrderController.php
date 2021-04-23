@@ -395,6 +395,47 @@ class OrderController extends Controller
     public function callback(Request $request)
     {
         Log::info("order callback" . json_encode($request->all()));
+        /*
+
+        {
+
+  "token": "payment token",
+  "type": "payment type: payment | payout",
+  "status" : "payment status: pending | approved | declined ",
+  "extraReturnParam" : "extra params",
+  "orderNumber" : "merchant order number",
+  "walletToken": "payer's ReactivePay wallet unique identifier, only for reactivepay payments",
+  "recurringToken": "payer's previously initialized recurring token, for making recurrent payment repeatedly",
+  "sanitizedMask": "payer's sanitized card, if it was provided",
+  "amount": "payment amount in cents",
+  "currency": "payment currency",
+  "gatewayAmount": "exchanged amount in cents",
+  "gatewayCurrency": "exchanged currency"
+}
+
+         */
+
+        $order = Order::find($request->orderNumber);
+        if (!$order) {
+            Log::info("ORDER NOT FOUND");
+            abort(404);
+        }
+
+        if ($request->amount !== ($order->amount * 100)) {
+            Log::info("WARNIGN! ERROR OR PROMO");
+        }
+
+        if ($request->status == "declined") {
+            Log::info("ORDER DECLINED,".$order->id);
+            $order->status = "decline";
+            $order->save();
+        }
+        if ($request->status == "approved") {
+            Log::info("ORDER APPROVED,".$order->id);
+            $order->status = "payed";
+            $order->payed_at = Carbon::now();
+            $order->save();
+        }
         /*#Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
         if ($request->project_id != config("services.ecommpay.id")) {
             Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
@@ -445,6 +486,7 @@ class OrderController extends Controller
             Mail::to($order->user->email)->send(new InfoMail("Order $order->amount EUR declined by payment system"));
         }
 */
+        Log::info("CHECK PASSED,200");
         return response([
             'status' => "success",
         ]);
