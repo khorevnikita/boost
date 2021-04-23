@@ -52,11 +52,11 @@ class OrderController extends Controller
                     $calc = $product->calculator;
                     if ($calc->steps->count()) {
                         $from = $calc->steps->where("price", $range->from)->first();
-                        if($from){
+                        if ($from) {
                             $from = $from->title;
                         }
                         $to = $calc->steps->where("price", $range->to)->first();
-                        if($to){
+                        if ($to) {
                             $to = $to->title;
                         }
                     } else {
@@ -134,19 +134,19 @@ class OrderController extends Controller
                 return response([
                     'status' => "error",
                     'errors' => [
-                        "promocode"=>["Promotional code does not exists"]
+                        "promocode" => ["Promotional code does not exists"]
                     ],
 
-                ],422);
+                ], 422);
             }
             if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
                 return response([
                     'status' => "error",
                     'errors' => [
-                        "promocode"=>["Expired promotional code"]
+                        "promocode" => ["Expired promotional code"]
                     ],
 
-                ],422);
+                ], 422);
             }
         }
         $user = User::where("email", $request->email)->first();
@@ -168,7 +168,7 @@ class OrderController extends Controller
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
 
-            Auth::user($user,true);
+            Auth::user($user, true);
         }
 
         $order->user_id = $user->id;
@@ -195,19 +195,19 @@ class OrderController extends Controller
                 return response([
                     'status' => "error",
                     'errors' => [
-                        "promocode"=>["Promotional code does not exists"]
+                        "promocode" => ["Promotional code does not exists"]
                     ],
 
-                ],422);
+                ], 422);
             }
             if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
                 return response([
                     'status' => "error",
                     'errors' => [
-                        "promocode"=>["Expired promotional code"]
+                        "promocode" => ["Expired promotional code"]
                     ],
 
-                ],422);
+                ], 422);
             }
         }
 
@@ -273,12 +273,13 @@ class OrderController extends Controller
         ]);
     }
 
-    public function checkout($order_id){
+    public function checkout($order_id)
+    {
         $order = Order::find($order_id);
-        if(!$order){
+        if (!$order) {
             return redirect("/");
         }
-        return view("order",compact("order"));
+        return view("order", compact("order"));
     }
 
     public function directPay($order_id)
@@ -393,7 +394,8 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        #Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
+        Log::info("order callback" . json_encode($request->all()));
+        /*#Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
         if ($request->project_id != config("services.ecommpay.id")) {
             Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
 
@@ -442,7 +444,7 @@ class OrderController extends Controller
             #Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order $order->amount EUR declined by payment system"));
             Mail::to($order->user->email)->send(new InfoMail("Order $order->amount EUR declined by payment system"));
         }
-
+*/
         return response([
             'status' => "success",
         ]);
