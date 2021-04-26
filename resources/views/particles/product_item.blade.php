@@ -17,7 +17,7 @@
             </div>
             <img src="{{$product->banner}}" class="img-fluid">
         </div>
-        <div class="card-footer text-white text-center">
+        <div class="card-footer text-white text-center" style="    margin-top: -20px;">
             {{$product->title}}
         </div>
     </div>

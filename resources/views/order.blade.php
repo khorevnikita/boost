@@ -63,6 +63,9 @@
                                             @if(session("msg")??null)
                                                 <p class="text-danger" data-key="promocode">{{ session("msg") }}</p>
                                             @endif
+                                            @if($order->promocode)
+                                                <p class="text-success">Promocode activated</p>
+                                            @endif
                                         </div>
                                         <div class="col-6 col-sm-6">
                                             <button type="submit" class="btn btn-primary btn-block" style="    height: 52px">Activate</button>

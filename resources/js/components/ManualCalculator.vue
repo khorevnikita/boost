@@ -77,7 +77,6 @@ export default {
             this.range.to = to_step.title;
             this.slider_price = Math.abs(to_step.price - from_step.price);
             let productCurrency = this.product.currency ? this.product.currency : "eur";
-            console.log(productCurrency, currency)
             if (productCurrency !== currency) {
                 if (currency === "eur") {
                     this.slider_price = this.slider_price / rate;

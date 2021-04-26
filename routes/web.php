@@ -51,6 +51,7 @@ Route::group(['middleware' => ['currency']], function () {
     Route::post('/profile',"HomeController@updateProfile");
     Route::get('/home', 'HomeController@home');
 
+    Route::get("promocode","OrderController@findPromocode");
     Route::post("orders/{id}/promocode", "OrderController@setPromocode");#->middleware('currency');
     Route::post("orders/{id}/form", "OrderController@form");#->middleware('currency');
 
@@ -60,7 +61,6 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get("order/success", "OrderController@success");
     Route::get("order/decline", "OrderController@decline");
     Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');
-
     Route::resource("assessments", "AssessmentController");
 
     Route::get("details", "HomeController@details");

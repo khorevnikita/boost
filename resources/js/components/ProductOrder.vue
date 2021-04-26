@@ -16,7 +16,7 @@
                     Add to Cart {{ common_price }} {{ currency === 'usd' ? "$" : "€" }}
                 </span>
             </button>
-            <button @click="formPurchase" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
+            <button data-toggle="modal" data-target="#purchase-modal" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
             <div class="card card-options" v-if="options.length>0">
                 <div class="card-body">
                     <p class="text-center">Add options</p>
@@ -81,31 +81,100 @@
             </div>
         </div>
 
-        <!--<div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Quick purchase</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body" style="padding-bottom: 35px;">
-                        <div class="form-group">
-                            <input type="email" class="form-control" v-model="purchase.email" placeholder="E-mail">
+                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary double-btn close-btn float-right">
+                            <span>x</span>
+                        </button>
+                        <p class="text-center" id="exampleModalLabel">Quick purchase</p>
+                        <div style="clear:both"></div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <p class="d-flex justify-content-between">
+                                    <span>Choose payment method:</span>
+                                    <span>total:
+                                    <span class="text-primary" style="font-size: 22px">
+                                       {{ after_promo() }}
+                                       <span v-html="currency==='usd'?'$':'&euro;'"></span>
+                                    </span>
+                                </span>
+                                </p>
+                                <div style="clear:both"></div>
+                                <div class="row">
+                                    <div class="col-6 my-2">
+                                        <button class="btn btn-primary btn-block" style="padding: 20px;border-radius: 10px;">
+                                            <img src="/images/pay/visa_title.png">
+                                            <img src="/images/pay/visa_logo.png">
+                                        </button>
+                                    </div>
+                                    <!--
+                                    <div class="col-6 my-2">
+                                        <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                            <img src="/images/pay/stripe.png">
+                                        </button>
+                                    </div>
+                                    <div class="col-6 my-2">
+                                        <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                            <img src="/images/pay/paypal.png">
+                                        </button>
+                                    </div>
+                                    <div class="col-6 my-2">
+                                        <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                            <img src="/images/pay/amazon.png">
+                                        </button>
+                                    </div>
+                                    -->
+
+                                </div>
+                                <div class="card mt-3" style="    border: 1px solid;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6 col-sm-6">
+                                                <input type="text" class="form-control" v-model="promocode" placeholder="Enter promocode" style="    height: 52px">
+                                                <p v-if="promo_error" class="text-danger">{{ promo_error }}</p>
+                                                <p v-if="promo_success" class="text-success">{{ promo_success }}</p>
+                                            </div>
+                                            <div class="col-6 col-sm-6">
+                                                <button @click="setPromocode()" type="button" class="btn btn-primary btn-block" style="    height: 52px">Activate</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card mt-3" style="    border: 1px solid;">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input type="text" class="form-control" v-model="purchase.email" placeholder="E-mail">
+                                                <p v-if="error" class="text-danger">{{ error }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="row mt-3">
+                                    <div class="col-12 col-sm-6 mt-2">
+                                        <button @click="formPurchase()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
+                                    </div>
+                                    <div class="col-12 col-sm-6 d-flex mt-2">
+                                        <label class="form-check-label">
+                                        <span class="checkbox">
+                                            <img src="/images/icons/checkbox.svg">
+                                        </span>
+                                            <a href="/agreement" target="_blank">I agree to Term of Use</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" v-model="purchase.promocode" placeholder="Promo code">
-                        </div>
-                        <p style="position: absolute" class="text-primary">{{ error }}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="formPurchase()">Pay</button>
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
     </div>
 </template>
 
@@ -133,6 +202,9 @@ export default {
             currencyRate: parseFloat(this.rate),
             purchase: {},
             error: null,
+            promo_error: null,
+            promo_success: null,
+            promocode: null,
         }
     },
     computed: {
@@ -150,9 +222,34 @@ export default {
             }
 
             return Math.round(summ * 100) / 100;
-        }
+        },
+
     },
     methods: {
+        after_promo() {
+            console.log("after promo")
+            if (!this.purchase.promocode) {
+                return this.common_price;
+            }
+            let promocode = this.purchase.promocode;
+            console.log(promocode.currency, currency, rate, promocode.value);
+            if (promocode.currency === "usd") {
+                if (currency === "usd") {
+                    return this.common_price - promocode.value;
+                } else {
+                    return this.common_price - (promocode.value / rate);
+                }
+            } else if (promocode.currency === "eur") {
+                if (currency === "eur") {
+                    return this.common_price - promocode.value;
+                } else {
+                    return this.common_price - (promocode.value * rate);
+                }
+            } else if (promocode.currency === "%") {
+                return this.common_price * (1 - promocode.value / 100);
+            }
+            return this.common_price;
+        },
         calcChanged(e) {
             this.slider_price = e.slider_price;
             this.range = e.range;
@@ -166,7 +263,6 @@ export default {
             }
         },
         addToOrder() {
-
             axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id), rate: rate, currency: currency}).then(r => {
                 if (r.data.status === "success") {
                     if (!this.added) {
@@ -180,18 +276,6 @@ export default {
         },
         formPurchase() {
             this.error = null;
-            axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id), rate: rate, currency: currency}).then(r => {
-                if (r.data.status === "success") {
-                   /* if (!this.added) {
-                        let currentOrderProductsCount = parseInt($(".price-badge:first").text());
-                        $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
-                    }
-                    this.added = true;*/
-                    window.location.href=`/order/${r.data.order_id}/pay`
-
-                }
-            })
-            return;
             axios.post("/purchase", {
                 range: this.range,
                 product_id: this.product.id,
@@ -199,7 +283,7 @@ export default {
                 rate: rate,
                 currency: currency,
                 email: this.purchase.email,
-                promocode: this.purchase.promocode
+                promocode: this.purchase.promocode ? this.purchase.promocode.code : null,
             }).then(r => {
                 if (r.data.status === "error") {
                     this.error = r.data.msg;
@@ -208,6 +292,18 @@ export default {
                 }
             }).catch(err => {
                 this.error = Object.values(err.response.data.errors)[0][0];
+            })
+        },
+        setPromocode() {
+            this.promo_error = null;
+            this.promo_success = null;
+            axios.get(`/promocode?code=${this.promocode}`).then(r => {
+                if (r.data.status === "success") {
+                    this.purchase.promocode = r.data.promocode;
+                    this.promo_success = "Promocode activated"
+                } else {
+                    this.promo_error = r.data.msg;
+                }
             })
         }
     }
@@ -239,6 +335,33 @@ export default {
     border-radius: 20px;
     flex-flow: column;
     padding: 15px 10px;
+}
+
+.double-btn {
+    position: relative;
+    height: 30px;
+    width: 30px;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(
+        237.8deg, #FF3D00 9.27%, rgba(255, 114, 35, 0) 69.32%), #D96321;
+    border-radius: 10px;
+    padding: 0;
+    padding: 7px 14px !important;
+}
+
+.double-btn span {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    padding: 3px 10px;
+    background: linear-gradient(
+        195.24deg, rgba(255, 255, 255, 0.25) -37.92%, rgba(255, 255, 255, 0) 46.01%), rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-sizing: border-box;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
 }
 
 </style>

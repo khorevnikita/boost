@@ -124,9 +124,10 @@ class Order extends Model
     {
         $rate = Config::get("rate");
         $price = $this->amount;
+        #var_dump($promocode->currency,$this->currency);
         switch ($promocode->currency) {
             case "usd":
-                if ($this->currency == "usd") {
+                if (strtolower($this->currency) == "usd") {
                     $price = $this->amount - $promocode->value;
                 } else {
                     $price = $this->amount - ($promocode->value / $rate);
@@ -134,7 +135,7 @@ class Order extends Model
                 break;
 
             case "eur":
-                if ($this->currency == "eur") {
+                if (strtolower($this->currency) == "eur") {
                     $price = $this->amount - $promocode->value;
                 } else {
                     $price = $this->amount - ($promocode->value * $rate);

@@ -117,6 +117,27 @@ class OrderController extends Controller
         ]);
     }
 
+    public function findPromocode(Request $request)
+    {
+        $pc = Promocode::where("code", $request->code)->first();
+        if (!$pc) {
+            return response()->json([
+                'status' => "error",
+                "msg" => "Promocode does not exists"
+            ]);
+        }
+        if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
+            return response()->json([
+                'status' => "error",
+                "msg" => "Expired promotional code"
+            ]);
+        }
+        return response()->json([
+            'status' => "success",
+            "promocode" => $pc,
+        ]);
+    }
+
     public function setPromocode($id, Request $request)
     {
         $order = Order::findOrFail($id);
@@ -247,7 +268,7 @@ class OrderController extends Controller
         $order->amount = $order->commonPrice();
         $order->currency = strtoupper(Config::get("currency") ?: "eur");
         $order->save();
-
+       # var_dump($order->amount);
         if (isset($pc)) {
             $order->promocode_id = $pc->id;
         }
@@ -294,6 +315,7 @@ class OrderController extends Controller
         if ($order->promocode) {
             $finalPrice = $order->setPromocode($order->promocode);
         }
+       # var_dump($finalPrice);
         $curl = curl_init();
         # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
         $data = [
