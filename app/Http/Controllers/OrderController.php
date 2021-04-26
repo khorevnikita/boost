@@ -116,6 +116,22 @@ class OrderController extends Controller
         ]);
     }
 
+    public function setPromocode($id, Request $request)
+    {
+        $order = Order::findOrFail($id);
+        $request->validate([
+            'promocode' => "required|exists:promocodes,code"
+        ]);
+
+        $pc = Promocode::where("code", $request->promocode)->first();
+        if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
+            return back()->with("msg", "Expired promotional code");
+        }
+        $order->promocode_id = $pc->id;
+        $order->save();
+
+        return back();
+    }
 
     public function form($id, Request $request)
     {
@@ -128,27 +144,6 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        if ($request->promocode) {
-            $pc = Promocode::where("code", $request->promocode)->first();
-            if (!$pc) {
-                return response([
-                    'status' => "error",
-                    'errors' => [
-                        "promocode" => ["Promotional code does not exists"]
-                    ],
-
-                ], 422);
-            }
-            if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
-                return response([
-                    'status' => "error",
-                    'errors' => [
-                        "promocode" => ["Expired promotional code"]
-                    ],
-
-                ], 422);
-            }
-        }
         $user = User::where("email", $request->email)->first();
         $is_new = false;
         if (!$user) {
@@ -173,10 +168,7 @@ class OrderController extends Controller
 
         $order->user_id = $user->id;
         #$order->status = "formed";
-        if (isset($pc)) {
-            $order->promocode_id = $pc->id;
-        }
-        $order->save();
+
         $response = $this->pay($order);
         return response([
             'status' => "success",
@@ -426,12 +418,12 @@ class OrderController extends Controller
         }
 
         if ($request->status == "declined") {
-            Log::info("ORDER DECLINED,".$order->id);
+            Log::info("ORDER DECLINED," . $order->id);
             $order->status = "decline";
             $order->save();
         }
         if ($request->status == "approved") {
-            Log::info("ORDER APPROVED,".$order->id);
+            Log::info("ORDER APPROVED," . $order->id);
             $order->status = "payed";
             $order->payed_at = Carbon::now();
             $order->save();

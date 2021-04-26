@@ -7,113 +7,100 @@
                 @if(!$order)
                     <div class="alert alert-primary"> You have no active orders</div>
                 @else
-                    <h4>Order #{{$order->id}} ({{$order->created_at}})</h4>
                     <div class="row">
-                        <div class="col-6">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                @foreach($order->products as $k=>$product)
-                                    <a class="list-group-item list-group-item-action order-group-item @if(!$k) active @endif" id="list-home-list_{{$k}}" data-toggle="list"
-                                       href="#list-{{$k}}" role="tab"
-                                       aria-controls="home">
-                                        {{$product->title}}
-                                        <span class="float-right">
-                                            {{$product->price}} {!! $currency=="usd"?"$":"&euro;" !!}
-                                            <button data-type="product" data-product="{{$product->id}}" type="button" class="btn btn-link text-white js-remove-item-from-order">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <g id="clear_24px">
-                                                        <path id="icon/content/clear_24px"
-                                                              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-                                                              fill="currentColor" fill-opacity="1"/>
-                                                    </g>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </a>
-                                @endforeach
+                        <div class="col-12 col-sm-8 offset-sm-2">
+                            <h1 class="d-flex justify-content-between">
+                                <span style="font-size: inherit">Your payment</span>
+                                <span>total:
+                                    <span class="text-primary" style="font-size: 22px">
+                                        @if ($order->promocode)
+                                            {{$order->setPromocode($order->promocode)}}
+                                        @else
+                                            {{$order->amount}}
+                                        @endif
+                                        {!! $currency=="usd"?"$":"&euro;" !!}
+                                    </span>
+                                </span>
+                            </h1>
+                            <div style="clear:both"></div>
+                            <p>Choose payment method:</p>
+                            <div class="row">
+                                <div class="col-6 my-2">
+                                    <button class="btn btn-primary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <img src="/images/pay/visa_title.png">
+                                        <img src="/images/pay/visa_logo.png">
+                                    </button>
+                                </div>
+                                <div class="col-6 my-2">
+                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <img src="/images/pay/stripe.png">
+                                    </button>
+                                </div>
+                                <div class="col-6 my-2">
+                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <img src="/images/pay/paypal.png">
+                                    </button>
+                                </div>
+                                <div class="col-6 my-2">
+                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <img src="/images/pay/amazon.png">
+                                    </button>
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="tab-content" id="nav-tabContent">
-                                @foreach($order->products as $key=>$product)
-                                    <div class="tab-pane fade show  @if(!$key) active @endif" id="list-{{$key}}" role="tabpanel" aria-labelledby="list-home-list_{{$key}}">
-                                        @if(count($product->getSelectedOptions($order)))
-                                            <h4>Options:</h4>
-                                            <ol>
-                                                @foreach($product->getSelectedOptions($order) as $option)
-                                                    <li>
-                                                        {{$option->title}}
-                                                        <span class="float-right">{{$option->price}}
-                                                            @if($option->type=="abs")
-                                                                {!! $currency=="usd"?"$":"&euro;" !!}
-                                                            @else
-                                                                %
-                                                            @endif
-                                                        <button data-type="option" data-product="{{$product->id}}" data-option="{{$option->id}}" type="button"
-                                                                class="btn btn-link text-white js-remove-item-from-order">
-                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="clear_24px">
-<path id="icon/content/clear_24px" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"
-      fill-opacity="1"/>
-</g>
-</svg>
-                                                        </button>
-                                                    </span>
-                                                        <div style="clear: both"></div>
-                                                    </li>
-                                                @endforeach
-                                            </ol>
-                                        @endif
-                                        @if($product->pivot->range)
-                                            @php $range = json_decode($product->pivot->range) @endphp
-                                            @if($range)
-                                                <h4>{{$product->calculator->name}}</h4>
-                                                <p>
-                                                    @if($product->calculator->steps->count()>0)
-                                                        @php
-                                                            $from = $product->calculator->steps->where("price",$range->from)->first();
-                                                            $to = $product->calculator->steps->where("price",$range->to)->first();
-                                                        @endphp
-                                                        @if($from && $to)
-                                                            {{$from->title}} - {{$to->title}}
-                                                        @endif
-                                                    @else
-                                                        {{$product->calculator->min_title}}:
-                                                        <strong>{{$range->from}}</strong>
-                                                        -
-                                                        {{$product->calculator->max_title}}:
-                                                        <strong>{{$range->to}}</strong>
-                                                    @endif
-                                                    :
-                                                    <strong class="text-primary">
-                                                        {{$product->calculator->calc($range,true)}} {!! $currency=="usd"?"$":"&euro;" !!}
-                                                    </strong>
-                                                </p>
+                            <div class="card mt-3" style="    border: 1px solid;">
+                                <div class="card-body">
+                                    <form method="post" action="{{url("orders/$order->id/promocode")}}" class="row ">
+                                        @csrf
+                                        <div class="col-12 col-sm-6">
+                                            <input type="text" class="form-control" name="promocode" placeholder="Enter promocode"
+                                                   value="{{$order->promocode?$order->promocode->code:''}}" style="    height: 52px">
+
+
+                                            @error('promocode')
+                                            <p class="text-danger" data-key="promocode">{{ $message }}</p>
+                                            @enderror
+                                            @if(session("msg")??null)
+                                                <p class="text-danger" data-key="promocode">{{ session("msg") }}</p>
                                             @endif
-                                        @endif
-                                    </div>
-                                @endforeach
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <button type="submit" class="btn btn-primary btn-block" style="    height: 52px">Activate</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="card mt-3" style="    border: 1px solid;">
+                                <div class="card-body">
+                                    <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row ">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" name="email" placeholder=E-mail" value="{{$user->email??""}}">
+                                            <p class="text-danger" data-key="email"></p>
+                                        </div>
+                                        {{-- <div class="col-12 col-sm-6">
+                                             <button class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
+                                         </div>--}}
+                                    </form>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6">
+                                    <button onclick="$('#order-form').submit()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
+                                </div>
+                                <div class="col-12 col-sm-6 d-flex">
+                                    <label class="form-check-label">
+                                        <span class="checkbox">
+                                            <img src="/images/icons/checkbox.svg">
+                                        </span>
+                                        I agree to Term of Use
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <h4 class="mt-3">Contact form</h4>
-                    <form id="order-form" action="{{url("/orders/$order->id/form")}}">
-                        <div class="row">
-                            <div class="col form-group">
-                                <input class=" form-control" name="email" placeholder="E-mail" value="{{$user->email??""}}">
-                                <p class="text-danger" data-key="email"></p>
-                            </div>
-
-                            <div class="col form-group">
-                                <input class="form-control" name="promocode" placeholder="Promo code" value="">
-                                <p class="text-danger" data-key="promocode"></p>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary float-right mt-3">Pay</button>
-                        <h4 class="mt-3">Common price:
-                            <span class="text-primary">{{$order->amount}} {!! $currency=="usd"?"$":"&euro;" !!}</span>
-                        </h4>
-                    </form>
                 @endif
             </div>
         </div>

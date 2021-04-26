@@ -51,10 +51,11 @@ Route::group(['middleware' => ['currency']], function () {
     Route::post('/profile',"HomeController@updateProfile");
     Route::get('/home', 'HomeController@home');
 
+    Route::post("orders/{id}/promocode", "OrderController@setPromocode");#->middleware('currency');
     Route::post("orders/{id}/form", "OrderController@form");#->middleware('currency');
 
     Route::post("purchase", "OrderController@purchase");#->middleware("currency");
-    Route::get("order/{id}/cloud-pay", "OrderController@cloudPay");
+    #Route::get("order/{id}/cloud-pay", "OrderController@cloudPay");
     Route::get("order/{id}/pay", "OrderController@checkout");
     Route::get("order/success", "OrderController@success");
     Route::get("order/decline", "OrderController@decline");
