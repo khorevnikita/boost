@@ -47,10 +47,12 @@ export default {
         }
     },
     created() {
-        this.slider_value = [this.calculator ? this.calculator.min_value : 0, this.calculator ? this.calculator.max_value : 0]
+
         for (var s of this.calculator.sorted_steps) {
             this.calc_marks_array.push(s.title);
         }
+        this.slider_value = [this.calc_marks_array[0], this.calc_marks_array[1]]
+        //console.log(this.slider_value)
         this.calcValue(this.slider_value[0], this.slider_value[1]);
     },
     watch: {
@@ -65,6 +67,7 @@ export default {
         },
     },
     mounted() {
+        console.log("manual")
         if (!this.calculator.multiple) {
             document.querySelector(".vue-slider-dot").style.display = "none";
         }

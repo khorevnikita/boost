@@ -161,14 +161,15 @@
                                         <button @click="formPurchase()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
                                     </div>
                                     <div class="col-12 col-sm-6 d-flex mt-2">
-                                        <label class="form-check-label">
+                                        <label class="form-check-label" @click="agree = !agree">
                                         <span class="checkbox">
-                                            <img src="/images/icons/checkbox.svg">
+                                            <img src="/images/icons/checkbox.svg" v-if="agree">
                                         </span>
                                             <a href="/agreement" target="_blank">I agree to Term of Use</a>
                                         </label>
                                     </div>
                                 </div>
+                                <p v-if="agree_error" class="text-danger">{{ agree_error }}</p>
                             </div>
                         </div>
                     </div>
@@ -205,6 +206,8 @@ export default {
             promo_error: null,
             promo_success: null,
             promocode: null,
+            agree: true,
+            agree_error: null,
         }
     },
     computed: {
@@ -277,6 +280,11 @@ export default {
         },
         formPurchase() {
             this.error = null;
+            this.agree_error = null;
+            if(!this.agree){
+                this.agree_error = "You should agree with the Terms to continue";
+                return ;
+            }
             axios.post("/purchase", {
                 range: this.range,
                 product_id: this.product.id,
@@ -363,6 +371,11 @@ export default {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 10px;
+}
+.card-body{
+    background: #242424;
+    border: 1px solid #3e3e3e;
+    border-radius: 12px;
 }
 
 </style>

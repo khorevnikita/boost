@@ -77,7 +77,7 @@
 
                             <div class="card mt-3" style="    border: 1px solid;">
                                 <div class="card-body">
-                                    <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row ">
+                                    <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row">
                                         <div class="col-12">
                                             <input type="text" class="form-control" name="email" placeholder=E-mail" value="{{$user->email??""}}">
                                             <p class="text-danger" data-key="email"></p>
@@ -91,17 +91,18 @@
                             <div style="clear:both"></div>
                             <div class="row mt-3">
                                 <div class="col-12 col-sm-6 mt-2">
-                                    <button onclick="$('#order-form').submit()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
+                                    <button onclick="$('#agree').hasClass('d-none')?$('#agree-err').removeClass('d-none'):$('#order-form').submit()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
                                 </div>
                                 <div class="col-12 col-sm-6 d-flex mt-2">
                                     <label class="form-check-label">
-                                        <span class="checkbox">
-                                            <img src="/images/icons/checkbox.svg">
+                                        <span class="checkbox" onclick="$('#agree').toggleClass('d-none');$('#agree-err').addClass('d-none')">
+                                            <img src="/images/icons/checkbox.svg" id="agree">
                                         </span>
                                         <a href="{{url("agreement")}}" target="_blank">I agree to Term of Use</a>
                                     </label>
                                 </div>
                             </div>
+                            <p class="text-danger d-none" id="agree-err">You should agree with the Terms to continue</p>
                         </div>
                     </div>
                 @endif

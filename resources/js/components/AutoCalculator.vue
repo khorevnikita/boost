@@ -67,6 +67,7 @@ export default {
         this.calcValue(this.slider_value[0], this.slider_value[1])
     },
     mounted() {
+        //console.log("auto")
         if (!this.calculator.multiple) {
             document.querySelector(".vue-slider-dot").style.display="none";
         }
