@@ -112,7 +112,8 @@ class OrderController extends Controller
         return response([
             'status' => "success",
             'data' => $request->all(),
-            'hash' => $order->hash
+            'hash' => $order->hash,
+            "order_id" => $order->id,
         ]);
     }
 

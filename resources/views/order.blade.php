@@ -31,7 +31,7 @@
                                         <img src="/images/pay/visa_logo.png">
                                     </button>
                                 </div>
-                                <div class="col-6 my-2">
+                                {{--<div class="col-6 my-2">
                                     <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/stripe.png">
                                     </button>
@@ -45,14 +45,14 @@
                                     <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/amazon.png">
                                     </button>
-                                </div>
+                                </div>--}}
 
                             </div>
                             <div class="card mt-3" style="    border: 1px solid;">
                                 <div class="card-body">
                                     <form method="post" action="{{url("orders/$order->id/promocode")}}" class="row ">
                                         @csrf
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-6 col-sm-6">
                                             <input type="text" class="form-control" name="promocode" placeholder="Enter promocode"
                                                    value="{{$order->promocode?$order->promocode->code:''}}" style="    height: 52px">
 
@@ -64,7 +64,7 @@
                                                 <p class="text-danger" data-key="promocode">{{ session("msg") }}</p>
                                             @endif
                                         </div>
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-6 col-sm-6">
                                             <button type="submit" class="btn btn-primary btn-block" style="    height: 52px">Activate</button>
                                         </div>
                                     </form>
@@ -87,15 +87,15 @@
                             </div>
                             <div style="clear:both"></div>
                             <div class="row mt-3">
-                                <div class="col-12 col-sm-6">
+                                <div class="col-12 col-sm-6 mt-2">
                                     <button onclick="$('#order-form').submit()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
                                 </div>
-                                <div class="col-12 col-sm-6 d-flex">
+                                <div class="col-12 col-sm-6 d-flex mt-2">
                                     <label class="form-check-label">
                                         <span class="checkbox">
                                             <img src="/images/icons/checkbox.svg">
                                         </span>
-                                        I agree to Term of Use
+                                        <a href="{{url("agreement")}}" target="_blank">I agree to Term of Use</a>
                                     </label>
                                 </div>
                             </div>

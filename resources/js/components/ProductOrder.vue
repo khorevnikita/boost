@@ -16,7 +16,7 @@
                     Add to Cart {{ common_price }} {{ currency === 'usd' ? "$" : "€" }}
                 </span>
             </button>
-            <button data-toggle="modal" data-target="#purchase-modal" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
+            <button @click="formPurchase" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
             <div class="card card-options" v-if="options.length>0">
                 <div class="card-body">
                     <p class="text-center">Add options</p>
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!--<div class="modal fade" id="purchase-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -180,6 +180,18 @@ export default {
         },
         formPurchase() {
             this.error = null;
+            axios.post("/api/orders", {range: this.range, product_id: this.product.id, options: this.selected_options.map(o => o.id), rate: rate, currency: currency}).then(r => {
+                if (r.data.status === "success") {
+                   /* if (!this.added) {
+                        let currentOrderProductsCount = parseInt($(".price-badge:first").text());
+                        $(".price-badge").removeClass("d-none").text(currentOrderProductsCount + 1);
+                    }
+                    this.added = true;*/
+                    window.location.href=`/order/${r.data.order_id}/pay`
+
+                }
+            })
+            return;
             axios.post("/purchase", {
                 range: this.range,
                 product_id: this.product.id,
