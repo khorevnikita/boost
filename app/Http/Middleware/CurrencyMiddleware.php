@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Order;
+use App\Rate;
 use App\Script;
 use AshAllenDesign\LaravelExchangeRates\Classes\ExchangeRate;
 use Carbon\Carbon;
@@ -34,9 +35,16 @@ class CurrencyMiddleware
         }
         #dd(2);
         if (!$rate) {
-            $exchangeRates = new ExchangeRate();
-            $rate = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
-            Cookie::queue("rate", $rate, 60 * 12);
+            $model = Rate::orderBy("created_at", "desc")->first();
+            if (!$model) {
+                $exchangeRates = new ExchangeRate();
+                $r = $exchangeRates->convert(1, 'EUR', 'USD', Carbon::now());
+                $model = new Rate();
+                $model->rate = $r;
+                $model->save();
+            }
+            Cookie::queue("rate", $model->rate, 60 * 12);
+            $rate = $model->rate;
         }
 
         Config::set('currency', $currency);
@@ -52,7 +60,7 @@ class CurrencyMiddleware
         #$hash = ($_COOKIE);
         #dd($hash);
         $order = Order::findTheLast();
-       # dd($order);
+        # dd($order);
         if ($order) {
 
             $orderItemsCount = $order->products()->count();
