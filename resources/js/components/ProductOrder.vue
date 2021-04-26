@@ -227,28 +227,29 @@ export default {
     },
     methods: {
         after_promo() {
-            console.log("after promo")
+            //console.log("after promo")
             if (!this.purchase.promocode) {
                 return this.common_price;
             }
             let promocode = this.purchase.promocode;
-            console.log(promocode.currency, currency, rate, promocode.value);
+            // console.log(promocode.currency, currency, rate, promocode.value);
+            let price = this.common_price;
             if (promocode.currency === "usd") {
                 if (currency === "usd") {
-                    return this.common_price - promocode.value;
+                    price = this.common_price - promocode.value;
                 } else {
-                    return this.common_price - (promocode.value / rate);
+                    price = this.common_price - (promocode.value / rate);
                 }
             } else if (promocode.currency === "eur") {
                 if (currency === "eur") {
-                    return this.common_price - promocode.value;
+                    price = this.common_price - promocode.value;
                 } else {
-                    return this.common_price - (promocode.value * rate);
+                    price = this.common_price - (promocode.value * rate);
                 }
             } else if (promocode.currency === "%") {
-                return this.common_price * (1 - promocode.value / 100);
+                price = this.common_price * (1 - promocode.value / 100);
             }
-            return this.common_price;
+            return Math.round(price * 100) / 100;
         },
         calcChanged(e) {
             this.slider_price = e.slider_price;
