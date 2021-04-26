@@ -410,6 +410,7 @@ class OrderController extends Controller
     public function callback(Request $request)
     {
         Log::info("order callback" . json_encode($request->all()));
+        #Log::info("callback author: " . $request->);
         /*
 
         {
@@ -436,9 +437,9 @@ class OrderController extends Controller
             abort(404);
         }
 
-        if ($request->amount !== ($order->amount * 100)) {
+        /*if ($request->amount !== ($order->amount * 100)) {
             Log::info("WARNIGN! ERROR OR PROMO");
-        }
+        }*/
 
         if ($request->status == "declined") {
             Log::info("ORDER DECLINED," . $order->id);
@@ -451,56 +452,6 @@ class OrderController extends Controller
             $order->payed_at = Carbon::now();
             $order->save();
         }
-        /*#Mail::to("nkhoreff@yandex.ru")->send(new InfoMail(json_encode($request->all())));
-        if ($request->project_id != config("services.ecommpay.id")) {
-            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Callback api key is wrong"));
-
-            return response([
-                'status' => "error",
-                'code' => "403",
-                'msg' => "app_id is wrong"
-            ]);
-        }
-
-        $order = Order::find($request->payment['id']);
-        if (!$order) {
-            Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order not found: " . json_encode($request->all())));
-            return response([
-                'status' => "error",
-                'code' => "404",
-                'msg' => "order not found"
-            ]);
-        }
-
-        if ($order->amount * 100 != $request->payment['sum']['amount']) {
-            $order->status = "declined";
-            $order->save();
-            #Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order declined due to wrong amount"));
-            Mail::to($order->user->email)->send(new InfoMail("Order declined due to wrong amount"));
-            return response([
-                'status' => "error",
-                'code' => "500",
-                'msg' => "amount is wrong"
-            ]);
-        }
-        if ($request->payment['status'] == "success") {
-            $order->status = "payed";
-            $order->save();
-
-            # notify user
-            if ($order->user) {
-                Mail::to($order->user->email)->send(new InfoMail("An order of $order->amount EUR has been paid"));
-
-            }
-            # notify admin
-            #Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Заказ на сумму $order->amount EUR оплачен."));
-        } elseif ($request->payment['status'] == "decline") {
-            $order->status = "declined";
-            $order->save();
-            #Mail::to("nkhoreff@yandex.ru")->send(new InfoMail("Order $order->amount EUR declined by payment system"));
-            Mail::to($order->user->email)->send(new InfoMail("Order $order->amount EUR declined by payment system"));
-        }
-*/
         Log::info("CHECK PASSED,200");
         return response([
             'status' => "success",
