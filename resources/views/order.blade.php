@@ -48,7 +48,8 @@
                                 </div>--}}
 
                             </div>
-                            <div class="card mt-3" style="    border: 1px solid;">
+                            <a role="button" class="text-primary" onclick="$(`#promo-card`).removeClass('d-none')">Do you have promocode?</a>
+                            <div id="promo-card" class="card mt-3 d-none" style="border: 1px solid;">
                                 <div class="card-body">
                                     <form method="post" action="{{url("orders/$order->id/promocode")}}" class="row ">
                                         @csrf

@@ -129,7 +129,8 @@
                                     -->
 
                                 </div>
-                                <div class="card mt-3" style="    border: 1px solid;">
+                                <a @click="show_promo=true" role="button" class="text-primary">Do you have promocode?</a>
+                                <div v-if="show_promo" class="card mt-3" style="border: 1px solid;">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-6 col-sm-6">
@@ -208,6 +209,7 @@ export default {
             promocode: null,
             agree: true,
             agree_error: null,
+            show_promo:false,
         }
     },
     computed: {
