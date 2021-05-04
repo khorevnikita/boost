@@ -79,7 +79,8 @@
                                 <div class="card-body">
                                     <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row">
                                         <div class="col-12">
-                                            <input type="text" class="form-control" name="email" placeholder=E-mail" value="{{$user->email??""}}">
+                                            <input id="order-email" onchange="localStorage.setItem('email',document.querySelector(`#order-email`).value)" type="text"
+                                                   class="form-control" name="email" placeholder=E-mail" value="{{old('email')?($user->email??""):''}}">
                                             <p class="text-danger" data-key="email"></p>
                                         </div>
                                         {{-- <div class="col-12 col-sm-6">
@@ -91,7 +92,9 @@
                             <div style="clear:both"></div>
                             <div class="row mt-3">
                                 <div class="col-12 col-sm-6 mt-2">
-                                    <button onclick="$('#agree').hasClass('d-none')?$('#agree-err').removeClass('d-none'):$('#order-form').submit()" class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
+                                    <button onclick="$('#agree').hasClass('d-none')?$('#agree-err').removeClass('d-none'):$('#order-form').submit()"
+                                            class="btn btn-primary btn-block" style="    height: 52px">Pay Now
+                                    </button>
                                 </div>
                                 <div class="col-12 col-sm-6 d-flex mt-2">
                                     <label class="form-check-label">
@@ -109,4 +112,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem("email")){
+                document.querySelector(`#order-email`).value = localStorage.getItem("email")
+            }
+        })
+    </script>
 @endsection

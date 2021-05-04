@@ -147,12 +147,12 @@ class OrderController extends Controller
 
         $pc = Promocode::where("code", $request->promocode)->first();
         if ($pc->end_at && Carbon::parse($pc->end_at) < Carbon::now()) {
-            return back()->with("msg", "Expired promotional code");
+            return back()->withInput()->with("msg", "Expired promotional code");
         }
         $order->promocode_id = $pc->id;
         $order->save();
 
-        return back();
+        return back()->withInput();
     }
 
     public function form($id, Request $request)
