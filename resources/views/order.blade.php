@@ -48,7 +48,7 @@
                                 </div>--}}
 
                             </div>
-                            <a role="button" class="text-primary" onclick="$(`#promo-card`).removeClass('d-none')">Do you have promocode?</a>
+                            <a role="button" class="text-primary" onclick="$(`#promo-card`).toggleClass('d-none')">Do you have promocode?</a>
                             <div id="promo-card" class="card mt-3 d-none" style="border: 1px solid;">
                                 <div class="card-body">
                                     <form method="post" action="{{url("orders/$order->id/promocode")}}" class="row ">
@@ -83,7 +83,9 @@
                                             <input id="order-email" onchange="localStorage.setItem('email',document.querySelector(`#order-email`).value)" type="text"
                                                    class="form-control" name="email" placeholder=E-mail" value="{{old('email')?($user->email??""):''}}">
                                             <p class="text-danger" data-key="email"></p>
+                                            <p class="text-primary">We are going to send details and data for further authorisation to entered email.</p>
                                         </div>
+
                                         {{-- <div class="col-12 col-sm-6">
                                              <button class="btn btn-primary btn-block" style="    height: 52px">Pay Now</button>
                                          </div>--}}

@@ -16,7 +16,7 @@
                     Add to Cart {{ common_price }} {{ currency === 'usd' ? "$" : "€" }}
                 </span>
             </button>
-            <button data-toggle="modal" data-target="#purchase-modal" class="btn btn-outline-secondary text-white btn-block b-r-30">Quick purchase</button>
+            <button data-toggle="modal" data-target="#purchase-modal" class="btn btn-outline-secondary text-white btn-block b-r-30">Buy now</button>
             <div class="card card-options" v-if="options.length>0">
                 <div class="card-body">
                     <p class="text-center">Add options</p>
@@ -88,7 +88,7 @@
                         <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary double-btn close-btn float-right">
                             <span>x</span>
                         </button>
-                        <p class="text-center" id="exampleModalLabel">Quick purchase</p>
+                        <p class="text-center" id="exampleModalLabel">Buy now</p>
                         <div style="clear:both"></div>
 
                         <div class="row mt-3">
@@ -129,7 +129,7 @@
                                     -->
 
                                 </div>
-                                <a @click="show_promo=true" role="button" class="text-primary">Do you have promocode?</a>
+                                <a @click="show_promo=!show_promo" role="button" class="text-primary">Do you have promocode?</a>
                                 <div v-if="show_promo" class="card mt-3" style="border: 1px solid;">
                                     <div class="card-body">
                                         <div class="row">
@@ -154,6 +154,7 @@
                                                 <p v-if="error" class="text-danger">{{ error }}</p>
                                             </div>
                                         </div>
+                                        <p class="text-primary">We are going to send details and data for further authorisation to entered email.</p>
                                     </div>
                                 </div>
                                 <div style="clear:both"></div>
