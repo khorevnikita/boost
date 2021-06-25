@@ -22,7 +22,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    @if($seo && !isset($product))
+    @if($seo && request()->path()=="/")
         <title>@yield('page_title',$seo->title)</title>
         <meta name="description" content="@yield('page_description',$seo->description)">
         <meta property="og:image" content="@yield('page_og_image',Storage::disk("public")->url($seo->image))"/>
