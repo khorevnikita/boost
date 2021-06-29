@@ -198,7 +198,7 @@ class OrderController extends Controller
                 'status' => "success",
                 'sessionId' => $response['session_id'],
                 "key" => $response['key'],
-                'order_id'=>$order->id
+                #'order_id'=>$order->id
             ]);
         } else {
             $response = $this->pay($order);
@@ -351,6 +351,7 @@ class OrderController extends Controller
             'mode' => 'payment',
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
+            "client_reference_id" => $order->id,
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }

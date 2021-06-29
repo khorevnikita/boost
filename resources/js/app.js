@@ -93,7 +93,7 @@ $("#order-form").submit(function (e) {
         if (r.data.status === 'success') {
             if(r.data.sessionId && r.data.key){
                 var stripe = Stripe(r.data.key);
-                stripe.redirectToCheckout({ sessionId: r.data.sessionId,metadata:{order_id:r.data.order_id} });
+                stripe.redirectToCheckout({ sessionId: r.data.sessionId });
             } else if(r.data.response.processingUrl) {
                 window.location.href = r.data.response.processingUrl;
             }
