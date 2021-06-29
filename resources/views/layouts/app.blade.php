@@ -62,34 +62,35 @@
             <div class="col-12 col-sm-2 d-flex align-items-center">
                 <img src="/images/logo.png" style="width: 70px">
             </div>
-            <div class="col-12 col-sm-6 d-flex align-items-center" style="flex-flow: column;">
+            <div class="col-12 col-sm-6 d-flex align-items-center text-center">
                 <div class="row " style="width: 100%">
-                    <div class="col">
+                    <div class="col-12">
                         <a class="text-white" href="{{url("agreement")}}">User agreement</a>
                     </div>
-                    <div class="col">
+                    <div class="col-12">
                         <a class="text-white" href="{{url("details")}}">Company details</a>
                     </div>
-                    <div class="col">
+                    <div class="col-12">
                         <a class="text-white" href="{{url("faq")}}">How It Works</a>
                     </div>
                 </div>
                 <div class="row" style="width: 100%">
-                    <div class="col">
+                    {{--}}<div class="col">
                         <a class="text-white" href="{{url("about_us")}}">About us</a>
-                    </div>
-                    <div class="col">
+                    </div>--}}
+                    <div class="col-12">
                         <a class="text-white" href="{{url("terms")}}">Terms of Service</a>
                     </div>
-                    <div class="col">
+                    <div class="col-12">
                         <a class="text-white" href="{{url("refund")}}">Refund Policy</a>
                     </div>
-                </div>
-                <div class="row" style="width: 100%;">
-                    <div class="col">
+                    <div class="col-12">
                         <a class="text-white" href="{{url("privacy")}}">Privacy Policy</a>
                     </div>
                 </div>
+               {{-- <div class="row" style="width: 100%;">
+
+                </div>--}}
             </div>
             <div class="col-12 col-sm-4 d-flex align-items-center">
                 <a class="nav-link b-r-30 btn-primary nav-link text-center text-white" type="button" data-toggle="modal" data-target="#help-modal">
