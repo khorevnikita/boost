@@ -197,7 +197,8 @@ class OrderController extends Controller
             return response([
                 'status' => "success",
                 'sessionId' => $response['session_id'],
-                "key" => $response['key']
+                "key" => $response['key'],
+                'order_id'=>$response['order_id']
             ]);
         } else {
             $response = $this->pay($order);
@@ -527,8 +528,8 @@ class OrderController extends Controller
                 $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
                 #handlePaymentIntentSucceeded($paymentIntent);
                 Log::info(json_encode($paymentIntent));
-                #$session = $_SESSION;
-                Log::info(json_encode(request()->session()));
+                #git$session = $_SESSION;
+                #Log::info(json_encode(request()->session()));
                 break;
             /*case 'payment_method.attached':
                 $paymentMethod = $event->data->object; // contains a \Stripe\PaymentMethod
