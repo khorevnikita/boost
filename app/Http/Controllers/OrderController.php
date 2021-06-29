@@ -198,7 +198,7 @@ class OrderController extends Controller
                 'status' => "success",
                 'sessionId' => $response['session_id'],
                 "key" => $response['key'],
-                'order_id'=>$response['order_id']
+                'order_id'=>$order->id
             ]);
         } else {
             $response = $this->pay($order);
