@@ -102,6 +102,10 @@
                 </a>
             </div>
         </div>
+        <p style="font-size: 10px;margin-top: 10px;">@ Boostmytoon is not endorsed or in any way affiliated with Blizzard Entertainment, Bungie or Respawn Entertainment, and does not reflect the views or opinions of the
+            aforementioned entities or anyone officially involved in producing or managing franchises. All trademarks of the aforementioned entities in U.S.A and/or other
+            countries. All submitted art content remains copyright of its original copyright holder. Boostmytoon is not selling ingame items, only offers different services to make
+            players ingame skill better and gifting them ingame items. 71-75 Shelton Street, Greater London, London, United Kingdom, WC2H 9JQ. @</p>
     </div>
 </footer>
 
