@@ -527,6 +527,8 @@ class OrderController extends Controller
                 $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
                 #handlePaymentIntentSucceeded($paymentIntent);
                 Log::info(json_encode($paymentIntent));
+                $session = $_SESSION;
+                Log::info(json_encode($session));
                 break;
             /*case 'payment_method.attached':
                 $paymentMethod = $event->data->object; // contains a \Stripe\PaymentMethod
