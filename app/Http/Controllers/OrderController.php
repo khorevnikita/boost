@@ -352,10 +352,7 @@ class OrderController extends Controller
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
             "client_reference_id" => $order->id,
-            "customer"=>[
-                "user_id"=>$order->user_id,
-                "order_id"=>$order->id,
-            ]
+            "customer"=>$order->id
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
