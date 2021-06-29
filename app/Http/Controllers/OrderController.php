@@ -197,7 +197,7 @@ class OrderController extends Controller
             return response([
                 'status' => "success",
                 'sessionId' => $response['session_id'],
-                "key"=>$response['key']
+                "key" => $response['key']
             ]);
         } else {
             $response = $this->pay($order);
@@ -325,10 +325,10 @@ class OrderController extends Controller
         if ($order->promocode) {
             $finalPrice = $order->setPromocode($order->promocode);
         }
-        $key= config("services.stripe.key");
+        $key = config("services.stripe.key");
         Stripe::setApiKey($key);
         header('Content-Type: application/json');
-       # $YOUR_DOMAIN = 'http://boost.local';
+        # $YOUR_DOMAIN = 'http://boost.local';
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -346,7 +346,7 @@ class OrderController extends Controller
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
         ]);
-        return ["session_id"=>$checkout_session->id,"key"=>config("services.stripe.public")];
+        return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
 
     public function pay($order)
@@ -496,6 +496,44 @@ class OrderController extends Controller
         return response([
             'status' => "success",
         ]);
+    }
+
+    public function stripeCallback(Request $request)
+    {
+// Set your secret key. Remember to switch to your live secret key in production.
+// See your keys here: https://dashboard.stripe.com/apikeys
+        \Stripe\Stripe::setApiKey(config("services.stripe.key"));
+
+        $payload = @file_get_contents('php://input');
+        $event = null;
+
+        try {
+            $event = \Stripe\Event::constructFrom(
+                json_decode($payload, true)
+            );
+        } catch (UnexpectedValueException $e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        }
+
+// Handle the event
+        switch ($event->type) {
+            case 'payment_intent.succeeded':
+                $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
+                #handlePaymentIntentSucceeded($paymentIntent);
+                Log::info(json_encode($paymentIntent));
+                break;
+            /*case 'payment_method.attached':
+                $paymentMethod = $event->data->object; // contains a \Stripe\PaymentMethod
+                handlePaymentMethodAttached($paymentMethod);
+                break;*/
+            // ... handle other event types
+            default:
+                echo 'Received unknown event type ' . $event->type;
+        }
+
+        http_response_code(200);
     }
 
     public function cloudPay($id)
