@@ -337,6 +337,7 @@ class OrderController extends Controller
                     'unit_amount' => $finalPrice * 100,
                     'product_data' => [
                         'name' => "Order #$order->id",
+                        'order_id' => $order->id,
                         #'images' => ["https://i.imgur.com/EHyR2nP.png"],
                     ],
                 ],
@@ -345,6 +346,9 @@ class OrderController extends Controller
             'mode' => 'payment',
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
+            'metadata'=>[
+                'order_id'=>$order->id,
+            ]
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
@@ -500,8 +504,7 @@ class OrderController extends Controller
 
     public function stripeCallback(Request $request)
     {
-// Set your secret key. Remember to switch to your live secret key in production.
-// See your keys here: https://dashboard.stripe.com/apikeys
+
         \Stripe\Stripe::setApiKey(config("services.stripe.key"));
 
         $payload = @file_get_contents('php://input');
@@ -513,7 +516,7 @@ class OrderController extends Controller
             );
         } catch (UnexpectedValueException $e) {
             // Invalid payload
-            http_response_code(400);
+            abort(400);
             exit();
         }
 
@@ -532,6 +535,10 @@ class OrderController extends Controller
             default:
                 echo 'Received unknown event type ' . $event->type;
         }
+
+        $example = '{"id":"pi_1J7hPFL5qBX6q7NkjcVm4Fe6","object":"payment_intent","amount":3437,"amount_capturable":0,"amount_received":3437,"application":null,"application_fee_amount":null,"canceled_at":null,"cancellation_reason":null,"capture_method":"automatic","charges":{"object":"list","data":[{"id":"ch_1J7hPYL5qBX6q7NklDBrNH70","object":"charge","amount":3437,"amount_captured":3437,"amount_refunded":0,"application":null,"application_fee":null,"application_fee_amount":null,"balance_transaction":"txn_1J7hPZL5qBX6q7NkL63vIyvg","billing_details":{"address":{"city":null,"country":"RU","line1":null,"line2":null,"postal_code":null,"state":null},"email":"nkhoreff@yandex.ru","name":"asd asd","phone":null},"calculated_statement_descriptor":"BOOSTMYTOON.COM","captured":true,"created":1624974936,"currency":"eur","customer":"cus_JlDr39iLJH68Qc","description":null,"destination":null,"dispute":null,"disputed":false,"failure_code":null,"failure_message":null,"fraud_details":[],"invoice":null,"livemode":false,"metadata":[],"on_behalf_of":null,"order":null,"outcome":{"network_status":"approved_by_network","reason":null,"risk_level":"normal","risk_score":22,"seller_message":"Payment complete.","type":"authorized"},"paid":true,"payment_intent":"pi_1J7hPFL5qBX6q7NkjcVm4Fe6","payment_method":"pm_1J7hPXL5qBX6q7NkVjVRr5LC","payment_method_details":{"card":{"brand":"visa","checks":{"address_line1_check":null,"address_postal_code_check":null,"cvc_check":"pass"},"country":"US","exp_month":12,"exp_year":2022,"fingerprint":"hWmZlq3aymocqhIi","funding":"credit","installments":null,"last4":"4242","network":"visa","three_d_secure":null,"wallet":null},"type":"card"},"receipt_email":null,"receipt_number":null,"receipt_url":"https:\/\/pay.stripe.com\/receipts\/acct_1J3jDyL5qBX6q7Nk\/ch_1J7hPYL5qBX6q7NklDBrNH70\/rcpt_JlDrOnxtENoXVDCXcWGvZwzU0hwpmb5","refunded":false,"refunds":{"object":"list","data":[],"has_more":false,"total_count":0,"url":"\/v1\/charges\/ch_1J7hPYL5qBX6q7NklDBrNH70\/refunds"},"review":null,"shipping":null,"source":null,"source_transfer":null,"statement_descriptor":null,"statement_descriptor_suffix":null,"status":"succeeded","transfer_data":null,"transfer_group":null}],"has_more":false,"total_count":1,"url":"\/v1\/charges?payment_intent=pi_1J7hPFL5qBX6q7NkjcVm4Fe6"},"client_secret":"pi_1J7hPFL5qBX6q7NkjcVm4Fe6_secret_EHt30lZxMG9xBTuoATereSWSM","confirmation_method":"automatic","created":1624974917,"currency":"eur","customer":"cus_JlDr39iLJH68Qc","description":null,"invoice":null,"last_payment_error":null,"livemode":false,"metadata":[],"next_action":null,"on_behalf_of":null,"payment_method":"pm_1J7hPXL5qBX6q7NkVjVRr5LC","payment_method_options":{"card":{"installments":null,"network":null,"request_three_d_secure":"automatic"}},"payment_method_types":["card"],"receipt_email":null,"review":null,"setup_future_usage":null,"shipping":null,"source":null,"statement_descriptor":null,"statement_descriptor_suffix":null,"status":"succeeded","transfer_data":null,"transfer_group":null}';
+        #$exampleData = json_decode($example);
+        #dd($exampleData);
 
         http_response_code(200);
     }
