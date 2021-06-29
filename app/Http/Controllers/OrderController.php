@@ -337,7 +337,7 @@ class OrderController extends Controller
                     'unit_amount' => $finalPrice * 100,
                     'product_data' => [
                         'name' => "Order #$order->id",
-                        'order_id' => $order->id,
+                     #   'order_id' => $order->id,
                         #'images' => ["https://i.imgur.com/EHyR2nP.png"],
                     ],
                 ],
