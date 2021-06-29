@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -81,7 +82,7 @@ class PageController extends Controller
         $request->validate([
             'text' => "required"
         ]);
-        DB::table("pages")->where("id", $id)->update(['text' => $request->text]);
+        DB::table("pages")->where("id", $id)->update(['text' => $request->text,'updated_at'=>Carbon::now()]);
 
         if ($request->has("products")) {
             Product::where("on_main",1)->update(['on_main'=>0]);

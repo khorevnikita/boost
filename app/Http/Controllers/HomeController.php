@@ -68,6 +68,7 @@ class HomeController extends Controller
     {
         $game = Game::with("categories")->where("rewrite", $rewrite)->first();
         if (!$game) {
+            return $this->callPage($rewrite);
             abort(404);
         }
 
@@ -232,9 +233,22 @@ class HomeController extends Controller
                 "updated_at" => "2021-06-01"
             ],
         ];
+        $pages = DB::table("pages")
+            ->where("key","!=","main")->get();
         $games = Game::all();
         $products = Product::has("category")->get();
-        $content = View::make('sitemap', ['games' => $games, 'products' => $products, 'others' => $otherLinks]);
+        $content = View::make('sitemap', ['games' => $games, 'products' => $products, 'others' => $otherLinks,'pages'=>$pages]);
         return Response::make($content)->header('Content-Type', 'text/xml;charset=utf-8');
+    }
+
+    public function callPage($page)
+    {
+        $page = DB::table("pages")
+            ->where("key", $page)->first();
+        if (!$page) {
+            abort(404);
+        }
+        $games = Game::all();
+        return view("page", compact('page', 'games'));
     }
 }

@@ -16,10 +16,14 @@ class PageSeeder extends Seeder
             'faq' => "FAQ",
             'agreement' => "User agreement",
             'details' => "Company details",
+            "about_us"=>"About us",
+            "terms"=>"Terms of Service",
+            "privacy"=>"Privacy Policy",
+            "refund"=>"Refund Policy",
         ];
 
         foreach ($pages as $k => $page) {
-            \Illuminate\Support\Facades\DB::table('pages')->insert(['key' => $k, 'name' => $page]);
+            \Illuminate\Support\Facades\DB::table('pages')->updateOrInsert(['key' => $k, 'name' => $page]);
         }
     }
 }

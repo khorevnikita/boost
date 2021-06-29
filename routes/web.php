@@ -17,8 +17,8 @@ Route::get("sitemap.xml", array(
     "as" => "sitemap",
     "uses" => "HomeController@sitemap", // or any other controller you want to use
 ));
-Route::post("auth/login","Auth\LoginController@login");
-Route::post("auth/register","Auth\RegisterController@register");
+Route::post("auth/login", "Auth\LoginController@login");
+Route::post("auth/register", "Auth\RegisterController@register");
 
 Route::group(['middleware' => ['admin', 'currency'], 'prefix' => "admin"], function () {
     Route::get("/", "Admin\HomeController@index");
@@ -50,11 +50,11 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback');
 
     Route::get('/', 'HomeController@index');
-    Route::get('/profile',"HomeController@profile");
-    Route::post('/profile',"HomeController@updateProfile");
+    Route::get('/profile', "HomeController@profile");
+    Route::post('/profile', "HomeController@updateProfile");
     Route::get('/home', 'HomeController@home');
 
-    Route::get("promocode","OrderController@findPromocode");
+    Route::get("promocode", "OrderController@findPromocode");
     Route::post("orders/{id}/promocode", "OrderController@setPromocode");#->middleware('currency');
     Route::post("orders/{id}/form", "OrderController@form");#->middleware('currency');
 
@@ -66,9 +66,9 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get("confirm-email/{token}", 'Auth\ConfirmPasswordController@confirm');
     Route::resource("assessments", "AssessmentController");
 
-    Route::get("details", "HomeController@details");
-    Route::get("faq", "HomeController@faq");
-    Route::get("agreement", "HomeController@agreement");
+    #Route::get("details", "HomeController@details");
+    #Route::get("faq", "HomeController@faq");
+    #Route::get("agreement", "HomeController@agreement");
 
     Route::get("currency/{code}", function ($code) {
         Cookie::queue("currency", $code, 60 * 24 * 7 * 365);
@@ -80,5 +80,17 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get("{game_slug}", "HomeController@game");
     Route::get("{game_slug}/{product_slug}", "HomeController@product");
 
+    /*Route::get("{page}", function ($page) {
+        # dd($page);
+        $page = \Illuminate\Support\Facades\DB::table("pages")
+            ->where("key", $page)->first();
+        if (!$page) {
+            return app()->call("App\Http\Controllers\HomeController@game",[$page]);
+            return action("HomeController", 'game');
+            abort(404);
+        }
+        $games = \App\Game::all();
+        return view("page", compact('page', 'games'));
+    });*/
 });
 

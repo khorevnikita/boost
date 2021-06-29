@@ -43,7 +43,7 @@
                                 @endforeach
                             @endif
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Save product</button>
+                                <button type="submit" class="btn btn-dark">Save page</button>
                             </div>
                         </form>
                     </div>
