@@ -330,7 +330,11 @@ class OrderController extends Controller
         header('Content-Type: application/json');
         # $YOUR_DOMAIN = 'http://boost.local';
         $checkout_session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
+            'payment_method_types' => ['card', 'giropay'],
+            'metadata' => [
+                # "order_id=$order->id",
+                'order_id' => $order->id,
+            ],
             'line_items' => [[
                 'price_data' => [
                     'currency' => strtolower($order->currency),
@@ -346,10 +350,6 @@ class OrderController extends Controller
             'mode' => 'payment',
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
-            'metadata' => [
-                "order_id=$order->id",
-                'order_id' => $order->id,
-            ]
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
