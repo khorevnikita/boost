@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
@@ -201,17 +202,17 @@ class HomeController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return redirect("/");
         }
 
-        return view("profile",compact("user"));
+        return view("profile", compact("user"));
     }
 
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return redirect("/");
         }
         $user->name = $request->name;
@@ -221,5 +222,19 @@ class HomeController extends Controller
         $user->discord = $request->discord;
         $user->save();
         return redirect("/home");
+    }
+
+    public function sitemap()
+    {
+        $otherLinks = [
+            [
+                "url" => "/",
+                "updated_at" => "2021-06-01"
+            ],
+        ];
+        $games = Game::all();
+        $products = Product::has("category")->get();
+        $content = View::make('sitemap', ['games' => $games, 'products' => $products, 'others' => $otherLinks]);
+        return Response::make($content)->header('Content-Type', 'text/xml;charset=utf-8');
     }
 }

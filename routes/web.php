@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get("sitemap.xml", array(
+    "as" => "sitemap",
+    "uses" => "HomeController@sitemap", // or any other controller you want to use
+));
 Route::post("auth/login","Auth\LoginController@login");
 Route::post("auth/register","Auth\RegisterController@register");
 
@@ -78,3 +81,4 @@ Route::group(['middleware' => ['currency']], function () {
     Route::get("{game_slug}/{product_slug}", "HomeController@product");
 
 });
+
