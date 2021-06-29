@@ -337,7 +337,7 @@ class OrderController extends Controller
                     'unit_amount' => $finalPrice * 100,
                     'product_data' => [
                         'name' => "Order #$order->id",
-                     #   'order_id' => $order->id,
+                        #   'order_id' => $order->id,
                         #'images' => ["https://i.imgur.com/EHyR2nP.png"],
                     ],
                 ],
@@ -346,8 +346,9 @@ class OrderController extends Controller
             'mode' => 'payment',
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
-            'metadata'=>[
-                'order_id'=>$order->id,
+            'metadata' => [
+                "order_id=$order->id",
+                'order_id' => $order->id,
             ]
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
