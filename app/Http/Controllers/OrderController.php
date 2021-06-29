@@ -352,11 +352,11 @@ class OrderController extends Controller
             'cancel_url' => url("/order/decline"),
             "client_reference_id" => $order->id,
             #"customer"=>$order->id
-            "setup_intent_data"=>[
+           /* "setup_intent_data"=>[
                 'metadata' => [
                     'order_id' => $order->id,
                 ],
-            ]
+            ]*/
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
