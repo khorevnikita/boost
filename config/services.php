@@ -59,7 +59,12 @@ return [
     ],
     'payapp'=>[
         'key'=>env("PAYAPP_KEY")
-    ]
+    ],
+    'stripe'=>[
+        'public'=>env("STRIPE_PUBLIC"),
+        'key'=>env("STRIPE_KEY")
+    ],
+
 
 
 ];

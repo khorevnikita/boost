@@ -91,10 +91,16 @@ $("#order-form").submit(function (e) {
     data['rate'] = rate;
     axios.post($(this).attr("action"), data).then(r => {
         if (r.data.status === 'success') {
-            window.location.href = r.data.response.processingUrl;
+            if(r.data.sessionId && r.data.key){
+                var stripe = Stripe(r.data.key);
+                stripe.redirectToCheckout({ sessionId: r.data.sessionId });
+            } else if(r.data.response.processingUrl) {
+                window.location.href = r.data.response.processingUrl;
+            }
             //window.open(r.data.data.url, '_blank');
         }
     }).catch(err => {
+        console.log(err);
         let errors = err.response.data.errors;
         for (var key in errors) {
             var msg = errors[key][0];

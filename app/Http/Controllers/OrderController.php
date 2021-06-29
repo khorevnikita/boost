@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Stripe\Stripe;
 
 class OrderController extends Controller
 {
@@ -191,11 +192,20 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         #$order->status = "formed";
 
-        $response = $this->pay($order);
-        return response([
-            'status' => "success",
-            'response' => $response,
-        ]);
+        if ($request->operator === "stripe") {
+            $response = $this->stripe($order);
+            return response([
+                'status' => "success",
+                'sessionId' => $response['session_id'],
+                "key"=>$response['key']
+            ]);
+        } else {
+            $response = $this->pay($order);
+            return response([
+                'status' => "success",
+                'response' => $response,
+            ]);
+        }
     }
 
     public function purchase(Request $request)
@@ -268,7 +278,7 @@ class OrderController extends Controller
         $order->amount = $order->commonPrice();
         $order->currency = strtoupper(Config::get("currency") ?: "eur");
         $order->save();
-       # var_dump($order->amount);
+        # var_dump($order->amount);
         if (isset($pc)) {
             $order->promocode_id = $pc->id;
         }
@@ -309,13 +319,43 @@ class OrderController extends Controller
         return redirect($response->processingUrl);
     }
 
+    public function stripe($order)
+    {
+        $finalPrice = $order->amount;
+        if ($order->promocode) {
+            $finalPrice = $order->setPromocode($order->promocode);
+        }
+        $key= config("services.stripe.key");
+        Stripe::setApiKey($key);
+        header('Content-Type: application/json');
+       # $YOUR_DOMAIN = 'http://boost.local';
+        $checkout_session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => strtolower($order->currency),
+                    'unit_amount' => $finalPrice * 100,
+                    'product_data' => [
+                        'name' => "Order #$order->id",
+                        #'images' => ["https://i.imgur.com/EHyR2nP.png"],
+                    ],
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => url("/order/success"),
+            'cancel_url' => url("/order/decline"),
+        ]);
+        return ["session_id"=>$checkout_session->id,"key"=>config("services.stripe.public")];
+    }
+
     public function pay($order)
     {
         $finalPrice = $order->amount;
         if ($order->promocode) {
             $finalPrice = $order->setPromocode($order->promocode);
         }
-       # var_dump($finalPrice);
+        # var_dump($finalPrice);
         $curl = curl_init();
         # "{ \"product\" : \"Your Product\", \"amount\" : "10000", \"currency\" : \"CNY\", \"redirectSuccessUrl\" : \"https://your-site.com/success\", \"redirectFailUrl\" : \"https://your-site.com/fail\", \"extraReturnParam\" : \"your order id or other info\", \"orderNumber\" : \"your order number\", \"locale\" : \"zh\"\n}
         $data = [

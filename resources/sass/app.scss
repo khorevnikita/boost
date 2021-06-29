@@ -528,4 +528,9 @@ body::-webkit-scrollbar-thumb, .pretty-scroll::-webkit-scrollbar {
             margin-top: -110px
         }
     }
+
+    .hide-radio{
+        position: absolute;
+        opacity: 0;
+    }
 }

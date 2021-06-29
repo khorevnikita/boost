@@ -26,17 +26,17 @@
                             <p>Choose payment method:</p>
                             <div class="row">
                                 <div class="col-6 my-2">
-                                    <button class="btn btn-primary btn-block" style="padding: 20px;border-radius: 10px;">
+                                    <label for="payapp" class="btn btn-primary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/visa_title.png">
                                         <img src="/images/pay/visa_logo.png">
-                                    </button>
-                                </div>
-                                {{--<div class="col-6 my-2">
-                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
-                                        <img src="/images/pay/stripe.png">
-                                    </button>
+                                    </label>
                                 </div>
                                 <div class="col-6 my-2">
+                                    <label for="stripe" class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
+                                        <img src="/images/pay/stripe.png">
+                                    </label>
+                                </div>
+                                {{--<div class="col-6 my-2">
                                     <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/paypal.png">
                                     </button>
@@ -79,6 +79,8 @@
                             <div class="card mt-3" style="    border: 1px solid;">
                                 <div class="card-body">
                                     <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row">
+                                        <input id="stripe" class="hide-radio" type="radio" name="operator" value="stripe">
+                                        <input id="payapp" class="hide-radio" type="radio" name="operator" value="payapp" checked>
                                         <div class="col-12">
                                             <input id="order-email" onchange="localStorage.setItem('email',document.querySelector(`#order-email`).value)" type="text"
                                                    class="form-control" name="email" placeholder=E-mail" value="{{old('email')?($user->email??""):''}}">
@@ -118,9 +120,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            if(localStorage.getItem("email")){
+            if (localStorage.getItem("email")) {
                 document.querySelector(`#order-email`).value = localStorage.getItem("email")
             }
+
+            $(".btn-type").click(function () {
+                $(".btn-type").removeClass("btn-primary").addClass("btn-outline-secondary");
+                $(this).addClass("btn-primary").removeClass("btn-outline-secondary");
+            })
         })
     </script>
+    @push("scripts")
+        <script src="https://js.stripe.com/v3/"></script>
+    @endpush
 @endsection
