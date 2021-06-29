@@ -333,7 +333,6 @@ class OrderController extends Controller
         $checkout_session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card', 'giropay'],
             'metadata' => [
-                # "order_id=$order->id",
                 'order_id' => $order->id,
             ],
             'line_items' => [[
@@ -352,7 +351,12 @@ class OrderController extends Controller
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
             "client_reference_id" => $order->id,
-            "customer"=>$order->id
+            #"customer"=>$order->id
+            "setup_intent_data"=>[
+                'metadata' => [
+                    'order_id' => $order->id,
+                ],
+            ]
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
