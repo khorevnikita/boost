@@ -622,12 +622,15 @@ class OrderController extends Controller
         $data = $request->resource;
         $info = $data['purchase_units'][0];
         if ($data['status'] !== "APPROVED") {
+            Log::info("paypal not ok");
             return response('not ok', 200);
         }
+        Log::info("reference id: " . $info['reference_id']);
         $order = Order::find($info['reference_id']);
         if ($order) {
             $order->status = "payed";
             $order->save();
+            Log::info("payment done");
         }
         http_response_code(200);
     }
