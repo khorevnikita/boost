@@ -637,8 +637,17 @@ class OrderController extends Controller
         $order = Order::find($info['reference_id']);
         if ($order) {
             $order->status = "payed";
+            $payer = $data['payer'];
+            $email = $payer['email_address'] ?? '-';
+            $name = "-";
+            if (isset($payer['name'])) {
+                $nameInfo = $payer['name'];
+                $name = ($name['given_name'] ?? "") . " " . ($name['surname'] ?? "");
+            }
+            $order->comment = "Email: " . $email . "; Name: $name";
             $order->save();
             Log::info("payment done");
+
         }
         http_response_code(200);
     }
