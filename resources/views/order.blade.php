@@ -37,7 +37,7 @@
                                     </label>
                                 </div>
                                 <div class="col-6 my-2">
-                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                    <button class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/paypal.png">
                                     </button>
                                 </div>

@@ -96,8 +96,8 @@ $("#order-form").submit(function (e) {
                 stripe.redirectToCheckout({sessionId: r.data.sessionId});
             } else if (r.data.response.processingUrl) {
                 window.location.href = r.data.response.processingUrl;
-            } else if (r.data.response && r.data.response.links) {
-                window.location.href = r.data.response.links[0];
+            } else if (r.data.response && r.data.redirect_url) {
+                window.location.href = r.data.redirect_url;
             }
             //window.open(r.data.data.url, '_blank');
         }

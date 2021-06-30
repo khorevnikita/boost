@@ -291,7 +291,7 @@ class OrderController extends Controller
         if ($request->operator == "paypal") {
             $response = $this->paypal($order);
             return response()->json([
-                'status' => "check",
+                'status' => "success",
                 'redirect_url' => $response
             ]);
         }
