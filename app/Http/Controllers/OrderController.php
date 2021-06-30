@@ -285,17 +285,27 @@ class OrderController extends Controller
         }
         $order->save();
 
-        $response = $this->pay($order);
-        if (!isset($response->processingUrl)) {
-            return response()->json([
-                'status' => "error",
-                "msg" => $response->errors[0],
+        if($request->operator=="stripe"){
+            $response = $this->stripe($order);
+            return response([
+                'status' => "success",
+                'sessionId' => $response['session_id'],
+                "key" => $response['key'],
+                #'order_id'=>$order->id
+            ]);
+        } else {
+            $response = $this->pay($order);
+            if (!isset($response->processingUrl)) {
+                return response()->json([
+                    'status' => "error",
+                    "msg" => $response->errors[0],
+                ]);
+            }
+            return response([
+                'status' => "success",
+                'response' => $response,
             ]);
         }
-        return response([
-            'status' => "success",
-            'response' => $response,
-        ]);
     }
 
     public function checkout($order_id)

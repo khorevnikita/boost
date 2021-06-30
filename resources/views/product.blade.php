@@ -84,6 +84,7 @@
         @endif
     </div>
     @push("scripts")
+        <script src="https://js.stripe.com/v3/"></script>
         <script>
             $(".js-vote").click(function () {
                 axios.post("/assessments", {value: $(this).data("value"), product_id: '{{$product->id}}'}).then(r => {

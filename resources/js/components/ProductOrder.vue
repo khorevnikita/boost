@@ -105,18 +105,18 @@
                                 <div style="clear:both"></div>
                                 <div class="row">
                                     <div class="col-6 my-2">
-                                        <button class="btn btn-primary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <button @click="operator='payapp'" class="btn btn-block" v-bind:class="{'btn-primary':operator==='payapp','btn-outline-secondary':operator!=='payapp'}" style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/visa_title.png">
                                             <img src="/images/pay/visa_logo.png">
                                         </button>
                                     </div>
-                                    <!--
+
                                     <div class="col-6 my-2">
-                                        <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                        <button @click="operator='stripe'" class="btn btn-block" v-bind:class="{'btn-primary':operator==='stripe','btn-outline-secondary':operator!=='stripe'}" style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/stripe.png">
                                         </button>
                                     </div>
-                                    <div class="col-6 my-2">
+                                   <!-- <div class="col-6 my-2">
                                         <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/paypal.png">
                                         </button>
@@ -211,6 +211,7 @@ export default {
             agree: true,
             agree_error: null,
             show_promo:false,
+            operator:"payapp"
         }
     },
     computed: {
@@ -296,13 +297,18 @@ export default {
                 currency: currency,
                 email: this.purchase.email,
                 promocode: this.purchase.promocode ? this.purchase.promocode.code : null,
+                operator:this.operator,
             }).then(r => {
                 if (r.data.status === "error") {
                     this.error = r.data.msg;
-                } else if (r.data.response.processingUrl) {
+                } else if (r.data.response && r.data.response.processingUrl) {
                     window.location.href = r.data.response.processingUrl;
+                } else if(r.data.sessionId && r.data.key){
+                    var stripe = Stripe(r.data.key);
+                    stripe.redirectToCheckout({ sessionId: r.data.sessionId });
                 }
             }).catch(err => {
+                console.warn(err);
                 this.error = Object.values(err.response.data.errors)[0][0];
             })
         },
