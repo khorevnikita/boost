@@ -37,9 +37,9 @@
                                     </label>
                                 </div>
                                 <div class="col-6 my-2">
-                                    <button class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
+                                    <label for="paypal" class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/paypal.png">
-                                    </button>
+                                    </label>
                                 </div>
                                 {{--<div class="col-6 my-2">
                                   <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
@@ -79,8 +79,9 @@
                             <div class="card mt-3" style="    border: 1px solid;">
                                 <div class="card-body">
                                     <form id="order-form" action="{{url("/orders/$order->id/form")}}" class="row">
-                                        <input id="stripe" class="hide-radio" type="radio" name="operator" value="stripe">
-                                        <input id="payapp" class="hide-radio" type="radio" name="operator" value="payapp" checked>
+                                        <input id="stripe" class="hide-radio" type="radio" name="operator" value="stripe" checked>
+                                        <input id="payapp" class="hide-radio" type="radio" name="operator" value="payapp" >
+                                        <input id="paypal" class="hide-radio" type="radio" name="operator" value="paypal" >
                                         <div class="col-12">
                                             <input id="order-email" onchange="localStorage.setItem('email',document.querySelector(`#order-email`).value)" type="text"
                                                    class="form-control" name="email" placeholder=E-mail" value="{{old('email')?($user->email??""):''}}">
