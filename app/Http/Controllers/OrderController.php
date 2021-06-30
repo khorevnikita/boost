@@ -642,7 +642,7 @@ class OrderController extends Controller
             $name = "-";
             if (isset($payer['name'])) {
                 $nameInfo = $payer['name'];
-                $name = ($name['given_name'] ?? "") . " " . ($name['surname'] ?? "");
+                $name = ($nameInfo['given_name'] ?? "") . " " . ($nameInfo['surname'] ?? "");
             }
             $order->comment = "Email: " . $email . "; Name: $name";
             $order->save();
