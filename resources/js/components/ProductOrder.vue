@@ -112,14 +112,14 @@
                                     </div>-->
 
                                     <div class="col-6 my-2">
-                                        <button @click="operator='stripe'" class="btn btn-block"
+                                        <button @click="operator='stripe'" class="btn btn-block btn-type"
                                                 v-bind:class="{'btn-primary':operator==='stripe','btn-outline-secondary':operator!=='stripe'}"
                                                 style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/stripe.png">
                                         </button>
                                     </div>
                                     <div class="col-6 my-2">
-                                        <button @click="operator='paypal'" class="btn btn-block"
+                                        <button @click="operator='paypal'" class="btn btn-block btn-type"
                                                 v-bind:class="{'btn-primary':operator==='paypal','btn-outline-secondary':operator!=='paypal'}"
                                                 style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/paypal.png">

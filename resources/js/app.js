@@ -94,7 +94,7 @@ $("#order-form").submit(function (e) {
             if (r.data.sessionId && r.data.key) {
                 var stripe = Stripe(r.data.key);
                 stripe.redirectToCheckout({sessionId: r.data.sessionId});
-            } else if (r.data.response.processingUrl) {
+            } else if (r.data.response && r.data.response.processingUrl) {
                 window.location.href = r.data.response.processingUrl;
             } else if (r.data.redirect_url && r.data.redirect_url) {
                 window.location.href = r.data.redirect_url;

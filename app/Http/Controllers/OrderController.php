@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use Stripe\Stripe;
@@ -196,8 +197,13 @@ class OrderController extends Controller
 
         $order->user_id = $user->id;
         $order->save();
-
-        if ($request->operator === "stripe") {
+        if ($request->operator == "paypal") {
+            $response = $this->paypal($order);
+            return response()->json([
+                'status' => "success",
+                'redirect_url' => $response
+            ]);
+        } else if (!$request->operator || $request->operator === "stripe") {
             $response = $this->stripe($order);
             return response([
                 'status' => "success",
@@ -341,10 +347,12 @@ class OrderController extends Controller
 
     public function paypal($order)
     {
+        #dd($order->amount);
         $clientId = config("services.paypal.id");
         $clientSecret = config("services.paypal.key");
 
         $environment = new SandboxEnvironment($clientId, $clientSecret);
+        #$environment = new ProductionEnvironment($clientId, $clientSecret);
         $client = new PayPalHttpClient($environment);
         $request = new OrdersCreateRequest();
         $request->prefer('return=representation');
@@ -353,7 +361,7 @@ class OrderController extends Controller
             "purchase_units" => [[
                 "reference_id" => $order->id,
                 "amount" => [
-                    "value" => round($order->amount, 2),
+                    "value" => $order->amount,
                     "currency_code" => strtoupper($order->currency)
                 ]
             ]],

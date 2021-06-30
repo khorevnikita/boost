@@ -32,12 +32,12 @@
                                     </label>
                                 </div>--}}
                                 <div class="col-6 my-2">
-                                    <label for="stripe" class="btn btn-primary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
+                                    <label for="stripe" class="btn btn-primary btn-block btn-type">
                                         <img src="/images/pay/stripe.png">
                                     </label>
                                 </div>
                                 <div class="col-6 my-2">
-                                    <label for="paypal" class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
+                                    <label for="paypal" class="btn btn-outline-secondary btn-block btn-type">
                                         <img src="/images/pay/paypal.png">
                                     </label>
                                 </div>
