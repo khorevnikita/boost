@@ -96,7 +96,7 @@ $("#order-form").submit(function (e) {
                 stripe.redirectToCheckout({sessionId: r.data.sessionId});
             } else if (r.data.response.processingUrl) {
                 window.location.href = r.data.response.processingUrl;
-            } else if (r.data.response && r.data.redirect_url) {
+            } else if (r.data.redirect_url && r.data.redirect_url) {
                 window.location.href = r.data.redirect_url;
             }
             //window.open(r.data.data.url, '_blank');
