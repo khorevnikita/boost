@@ -104,24 +104,28 @@
                                 </p>
                                 <div style="clear:both"></div>
                                 <div class="row">
-                                    <div class="col-6 my-2">
+                                    <!--<div class="col-6 my-2">
                                         <button @click="operator='payapp'" class="btn btn-block" v-bind:class="{'btn-primary':operator==='payapp','btn-outline-secondary':operator!=='payapp'}" style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/visa_title.png">
                                             <img src="/images/pay/visa_logo.png">
                                         </button>
-                                    </div>
+                                    </div>-->
 
                                     <div class="col-6 my-2">
-                                        <button @click="operator='stripe'" class="btn btn-block" v-bind:class="{'btn-primary':operator==='stripe','btn-outline-secondary':operator!=='stripe'}" style="padding: 20px;border-radius: 10px;">
+                                        <button @click="operator='stripe'" class="btn btn-block"
+                                                v-bind:class="{'btn-primary':operator==='stripe','btn-outline-secondary':operator!=='stripe'}"
+                                                style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/stripe.png">
                                         </button>
                                     </div>
-                                   <!-- <div class="col-6 my-2">
-                                        <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                    <div class="col-6 my-2">
+                                        <button @click="operator='paypal'" class="btn btn-block"
+                                                v-bind:class="{'btn-primary':operator==='paypal','btn-outline-secondary':operator!=='paypal'}"
+                                                style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/paypal.png">
                                         </button>
                                     </div>
-                                    <div class="col-6 my-2">
+                                    <!--<div class="col-6 my-2">
                                         <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                             <img src="/images/pay/amazon.png">
                                         </button>
@@ -210,8 +214,8 @@ export default {
             promocode: null,
             agree: true,
             agree_error: null,
-            show_promo:false,
-            operator:"payapp"
+            show_promo: false,
+            operator: "stripe"
         }
     },
     computed: {
@@ -227,10 +231,8 @@ export default {
             for (var po of p_options) {
                 summ = summ + this.product.price * po.price / 100
             }
-
             return Math.round(summ * 100) / 100;
         },
-
     },
     methods: {
         after_promo() {
@@ -285,9 +287,9 @@ export default {
         formPurchase() {
             this.error = null;
             this.agree_error = null;
-            if(!this.agree){
+            if (!this.agree) {
                 this.agree_error = "You should agree with the Terms to continue";
-                return ;
+                return;
             }
             axios.post("/purchase", {
                 range: this.range,
@@ -297,15 +299,19 @@ export default {
                 currency: currency,
                 email: this.purchase.email,
                 promocode: this.purchase.promocode ? this.purchase.promocode.code : null,
-                operator:this.operator,
+                operator: this.operator,
             }).then(r => {
                 if (r.data.status === "error") {
                     this.error = r.data.msg;
-                } else if (r.data.response && r.data.response.processingUrl) {
-                    window.location.href = r.data.response.processingUrl;
-                } else if(r.data.sessionId && r.data.key){
-                    var stripe = Stripe(r.data.key);
-                    stripe.redirectToCheckout({ sessionId: r.data.sessionId });
+                } else if(r.data.status === "success") {
+                    if (r.data.response && r.data.response.processingUrl) {
+                        window.location.href = r.data.response.processingUrl;
+                    } else if (r.data.sessionId && r.data.key) {
+                        var stripe = Stripe(r.data.key);
+                        stripe.redirectToCheckout({sessionId: r.data.sessionId});
+                    } else if (r.data.response && r.data.response.links) {
+                        window.location.href = r.data.response.links[0].href;
+                    }
                 }
             }).catch(err => {
                 console.warn(err);
@@ -381,7 +387,8 @@ export default {
     backdrop-filter: blur(10px);
     border-radius: 10px;
 }
-.card-body{
+
+.card-body {
     background: #242424;
     border: 1px solid #3e3e3e;
     border-radius: 12px;

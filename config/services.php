@@ -57,14 +57,15 @@ return [
     'bitcoin' => [
         'hash' => env("BITCOIN_HASH")
     ],
-    'payapp'=>[
-        'key'=>env("PAYAPP_KEY")
+    'payapp' => [
+        'key' => env("PAYAPP_KEY")
     ],
-    'stripe'=>[
-        'public'=>env("STRIPE_PUBLIC"),
-        'key'=>env("STRIPE_KEY")
+    'stripe' => [
+        'public' => env("STRIPE_PUBLIC"),
+        'key' => env("STRIPE_KEY")
     ],
-
-
-
+    'paypal' => [
+        'id' => env("PAYPAL_ID"),
+        'secret' => env("PAYPAL_KEY"),
+    ]
 ];

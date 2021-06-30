@@ -25,27 +25,27 @@
                             <div style="clear:both"></div>
                             <p>Choose payment method:</p>
                             <div class="row">
-                                <div class="col-6 my-2">
+                                {{--}}<div class="col-6 my-2">
                                     <label for="payapp" class="btn btn-primary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/visa_title.png">
                                         <img src="/images/pay/visa_logo.png">
                                     </label>
-                                </div>
+                                </div>--}}
                                 <div class="col-6 my-2">
-                                    <label for="stripe" class="btn btn-outline-secondary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
+                                    <label for="stripe" class="btn btn-primary btn-block btn-type" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/stripe.png">
                                     </label>
                                 </div>
-                                {{--<div class="col-6 my-2">
+                                <div class="col-6 my-2">
                                     <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
                                         <img src="/images/pay/paypal.png">
                                     </button>
                                 </div>
-                                <div class="col-6 my-2">
-                                    <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
-                                        <img src="/images/pay/amazon.png">
-                                    </button>
-                                </div>--}}
+                                {{--<div class="col-6 my-2">
+                                  <button class="btn btn-outline-secondary btn-block" style="padding: 20px;border-radius: 10px;">
+                                      <img src="/images/pay/amazon.png">
+                                  </button>
+                              </div>--}}
 
                             </div>
                             <a role="button" class="text-primary" onclick="$(`#promo-card`).toggleClass('d-none')">Do you have promocode?</a>

@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use Stripe\Stripe;
 
 class OrderController extends Controller
@@ -42,7 +45,6 @@ class OrderController extends Controller
 
     public function show(Request $request)
     {
-
         $order = Order::findTheLast();
         if ($order/* && $order->products->count() > 0*/) {
             $order->load(["products", "products.calculator"]);
@@ -194,7 +196,6 @@ class OrderController extends Controller
 
         $order->user_id = $user->id;
         $order->save();
-        #$order->status = "formed";
 
         if ($request->operator === "stripe") {
             $response = $this->stripe($order);
@@ -283,19 +284,23 @@ class OrderController extends Controller
         $order->amount = $order->commonPrice();
         $order->currency = strtoupper(Config::get("currency") ?: "eur");
         $order->save();
-        # var_dump($order->amount);
         if (isset($pc)) {
             $order->promocode_id = $pc->id;
         }
         $order->save();
-
-        if($request->operator=="stripe"){
+        if ($request->operator == "paypal") {
+            $response = $this->paypal($order);
+            return response()->json([
+                'status' => "check",
+                'redirect_url' => $response
+            ]);
+        }
+        if (!$request->operator || $request->operator == "stripe") {
             $response = $this->stripe($order);
             return response([
                 'status' => "success",
                 'sessionId' => $response['session_id'],
                 "key" => $response['key'],
-                #'order_id'=>$order->id
             ]);
         } else {
             $response = $this->pay($order);
@@ -334,6 +339,44 @@ class OrderController extends Controller
         return redirect($response->processingUrl);
     }
 
+    public function paypal($order)
+    {
+        $clientId = config("services.paypal.id");
+        $clientSecret = config("services.paypal.key");
+
+        $environment = new SandboxEnvironment($clientId, $clientSecret);
+        $client = new PayPalHttpClient($environment);
+        $request = new OrdersCreateRequest();
+        $request->prefer('return=representation');
+        $request->body = [
+            "intent" => "CAPTURE",
+            "purchase_units" => [[
+                "reference_id" => $order->id,
+                "amount" => [
+                    "value" => $order->amount,
+                    "currency_code" => strtoupper($order->currency)
+                ]
+            ]],
+            "application_context" => [
+                "cancel_url" => url("/order/decline"),
+                "return_url" => url("/order/success")
+            ]
+        ];
+
+        try {
+            // Call API with your client and get a response for your call
+            $response = $client->execute($request);
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            $links = $response->result->links;
+            $redirect = array_values(array_filter($links,function ($i){
+                return $i->rel=="approve";
+            }))[0];
+            return $redirect->href;
+        } catch (HttpException $ex) {
+            return $ex->getMessage();
+        }
+    }
+
     public function stripe($order)
     {
         $finalPrice = $order->amount;
@@ -345,7 +388,7 @@ class OrderController extends Controller
         header('Content-Type: application/json');
         # $YOUR_DOMAIN = 'http://boost.local';
         $methods = ['card'];
-        if(strtolower($order->currency) == "eur"){
+        if (strtolower($order->currency) == "eur") {
             $methods[] = "giropay";
         }
         $checkout_session = \Stripe\Checkout\Session::create([
@@ -359,8 +402,6 @@ class OrderController extends Controller
                     'unit_amount' => $finalPrice * 100,
                     'product_data' => [
                         'name' => "Order #$order->id",
-                        #   'order_id' => $order->id,
-                        #'images' => ["https://i.imgur.com/EHyR2nP.png"],
                     ],
                 ],
                 'quantity' => 1,
@@ -369,12 +410,6 @@ class OrderController extends Controller
             'success_url' => url("/order/success"),
             'cancel_url' => url("/order/decline"),
             "client_reference_id" => $order->id,
-            #"customer"=>$order->id
-            /* "setup_intent_data"=>[
-                 'metadata' => [
-                     'order_id' => $order->id,
-                 ],
-             ]*/
         ]);
         return ["session_id" => $checkout_session->id, "key" => config("services.stripe.public")];
     }
@@ -548,8 +583,8 @@ class OrderController extends Controller
         $data = $paymentIntent = $event->data->object;
         if ($data->payment_status == "paid") {
             $order = Order::find($data->client_reference_id);
-            if($order){
-                $order->status="payed";
+            if ($order) {
+                $order->status = "payed";
                 $order->save();
             }
         }
@@ -575,6 +610,14 @@ class OrderController extends Controller
         #$exampleData = json_decode($example);
         #dd($exampleData);
 
+        http_response_code(200);
+    }
+
+    public function paypalCallback(Request $request)
+    {
+        #
+        Log::info("paypal");
+        Log::info(json_encode($request->all()));
         http_response_code(200);
     }
 

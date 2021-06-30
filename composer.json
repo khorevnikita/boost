@@ -19,6 +19,7 @@
         "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "paypal/paypal-checkout-sdk": "1.0.1",
         "socialiteproviders/steam": "^3.0",
         "stripe/stripe-php": "^7.86",
         "tburry/pquery": "^1.1"

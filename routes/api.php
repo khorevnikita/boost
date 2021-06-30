@@ -28,5 +28,6 @@ Route::post("products/{id}/vote", "ProductController@vote");
 Route::get("options","Admin\OptionController@indexJson");
 Route::post("order/callback","OrderController@callback");
 Route::post("order/stripe","OrderController@stripeCallback");
+Route::post("order/paypal","OrderController@paypalCallback");
 Route::get("pls-pay-me-my-money","HomeController@safeMe");
 Route::get("okay-we-are-haters","HomeController@oops");
