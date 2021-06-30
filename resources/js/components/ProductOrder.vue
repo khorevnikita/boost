@@ -309,8 +309,8 @@ export default {
                     } else if (r.data.sessionId && r.data.key) {
                         var stripe = Stripe(r.data.key);
                         stripe.redirectToCheckout({sessionId: r.data.sessionId});
-                    } else if (r.data.response && r.data.response.links) {
-                        window.location.href = r.data.response.links[0].href;
+                    } else if (r.data.response && r.data.redirect_url) {
+                        window.location.href = r.data.redirect_url;
                     }
                 }
             }).catch(err => {
