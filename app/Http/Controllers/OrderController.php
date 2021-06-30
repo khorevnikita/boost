@@ -353,7 +353,7 @@ class OrderController extends Controller
             "purchase_units" => [[
                 "reference_id" => $order->id,
                 "amount" => [
-                    "value" => $order->amount,
+                    "value" => round($order->amount, 2),
                     "currency_code" => strtoupper($order->currency)
                 ]
             ]],
