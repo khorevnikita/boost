@@ -167,6 +167,9 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        $order->amount = $order->commonPrice();
+        $order->currency = strtoupper(Config::get("currency") ?: "eur");
+        $order->save();
         $user = User::where("email", $request->email)->first();
         $is_new = false;
         if (!$user) {
@@ -341,8 +344,12 @@ class OrderController extends Controller
         Stripe::setApiKey($key);
         header('Content-Type: application/json');
         # $YOUR_DOMAIN = 'http://boost.local';
+        $methods = ['card'];
+        if(strtolower($order->currency) == "eur"){
+            $methods[] = "giropay";
+        }
         $checkout_session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card', 'giropay'],
+            'payment_method_types' => $methods,
             'metadata' => [
                 'order_id' => $order->id,
             ],
