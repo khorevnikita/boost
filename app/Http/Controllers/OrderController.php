@@ -186,10 +186,11 @@ class OrderController extends Controller
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
 
-            Auth::user($user, true);
+            Auth::login($user, true);
         }
 
         $order->user_id = $user->id;
+        $order->save();
         #$order->status = "formed";
 
         if ($request->operator === "stripe") {
@@ -255,7 +256,7 @@ class OrderController extends Controller
             # email here about registration
             Mail::to($user)->send(new RegisterMail($user, $password));
 
-            Auth::user($user);
+            Auth::login($user);
         }
         $order = new Order();
         $order->user_id = $user->id;
