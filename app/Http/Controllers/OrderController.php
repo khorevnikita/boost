@@ -644,7 +644,13 @@ class OrderController extends Controller
                 $nameInfo = $payer['name'];
                 $name = ($nameInfo['given_name'] ?? "") . " " . ($nameInfo['surname'] ?? "");
             }
-            $order->comment = "Email: " . $email . "; Name: $name";
+            try {
+                $addressString = implode(",", $data['payee']['shipping']['address']);
+            } catch (\Exception $e) {
+                $addressString = "";
+                Log::info($e->getMessage());
+            }
+            $order->comment = "Email: " . $email . "; Name: $name; Address: $addressString";
             $order->save();
             Log::info("payment done");
 
