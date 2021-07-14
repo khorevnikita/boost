@@ -351,8 +351,8 @@ class OrderController extends Controller
         $clientId = config("services.paypal.id");
         $clientSecret = config("services.paypal.key");
 
-        $environment = new SandboxEnvironment($clientId, $clientSecret);
-        #$environment = new ProductionEnvironment($clientId, $clientSecret);
+        #$environment = new SandboxEnvironment($clientId, $clientSecret);
+        $environment = new ProductionEnvironment($clientId, $clientSecret);
         $client = new PayPalHttpClient($environment);
         $request = new OrdersCreateRequest();
         $request->prefer('return=representation');
