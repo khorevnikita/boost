@@ -1,5 +1,5 @@
 <div>
-    <h4>Hello, {{$user->name}}!</h4>
+    <h4>Hello!</h4>
     <p>Thank you for registration on {{config("app.name")}}</p>
     <p>
         Your login: <strong>{{$user->email}}</strong>
