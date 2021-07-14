@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use ecommpay\Gate;
 use ecommpay\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -95,7 +96,7 @@ class OrderController extends Controller
             try {
                 Mail::to($user)->send(new RegisterMail($user, $password));
             } catch (\Exception $e){
-
+                Log::info($e->getMessage());
             }
         }
 

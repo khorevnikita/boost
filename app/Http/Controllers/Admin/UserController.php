@@ -7,6 +7,7 @@ use App\Mail\RegisterMail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -82,7 +83,7 @@ class UserController extends Controller
         try {
             Mail::to($user)->send(new RegisterMail($user, $password));
         } catch (\Exception $e){
-
+            Log::info($e->getMessage());
         }
         return redirect("admin/users/$user->id/edit");
     }

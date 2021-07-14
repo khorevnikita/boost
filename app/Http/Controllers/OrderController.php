@@ -193,7 +193,7 @@ class OrderController extends Controller
             try {
                 Mail::to($user)->send(new RegisterMail($user, $password));
             } catch (\Exception $e){
-
+                Log::info($e->getMessage());
             }
             Auth::login($user, true);
         }
@@ -270,7 +270,7 @@ class OrderController extends Controller
             try {
                 Mail::to($user)->send(new RegisterMail($user, $password));
             } catch (\Exception $e){
-
+                Log::info($e->getMessage());
             }
             Auth::login($user);
         }

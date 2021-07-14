@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -112,7 +113,7 @@ class LoginController extends Controller
             try {
                 Mail::to($user)->send(new RegisterMail($user, $password));
             } catch (\Exception $e){
-
+                Log::info($e->getMessage());
             }
         }
 
