@@ -92,7 +92,11 @@ class OrderController extends Controller
             $user->save();
             $is_new = true;
             # email here about registration
-            Mail::to($user)->send(new RegisterMail($user, $password));
+            try {
+                Mail::to($user)->send(new RegisterMail($user, $password));
+            } catch (\Exception $e){
+
+            }
         }
 
         $amount = $request->amount;

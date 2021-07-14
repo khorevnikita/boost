@@ -79,8 +79,11 @@ class UserController extends Controller
 
 
         # email here about registration
-        Mail::to($user)->send(new RegisterMail($user, $password));
+        try {
+            Mail::to($user)->send(new RegisterMail($user, $password));
+        } catch (\Exception $e){
 
+        }
         return redirect("admin/users/$user->id/edit");
     }
 

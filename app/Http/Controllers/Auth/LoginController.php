@@ -109,7 +109,11 @@ class LoginController extends Controller
             ]);
 
             # email here about registration
-            Mail::to($user)->send(new RegisterMail($user, $password));
+            try {
+                Mail::to($user)->send(new RegisterMail($user, $password));
+            } catch (\Exception $e){
+
+            }
         }
 
         Auth::login($user, true);
