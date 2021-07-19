@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}?33" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?35" rel="stylesheet">
 
     <link href="/images/favicon.ico" rel="icon" type="image/x-icon">
     <link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon">

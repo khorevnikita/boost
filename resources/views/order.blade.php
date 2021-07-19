@@ -7,7 +7,7 @@
                 @if(!$order)
                     <div class="alert alert-primary"> You have no active orders</div>
                 @else
-                    <div class="row">
+                    <div class="row" style="min-height: calc(100vh - 250px)">
                         <div class="col-12 col-sm-8 offset-sm-2">
                             <h1 class="d-flex justify-content-between">
                                 <span style="font-size: inherit">Your payment</span>
